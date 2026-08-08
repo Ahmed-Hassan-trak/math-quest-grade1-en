@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numbers 6 to 10 | Interactive Math Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7E4;
+    --sun:#FFC93C;
+    --sun-deep:#FF9F1C;
+    --sky:#2E86C1;
+    --sky-deep:#1B5E8C;
+    --leaf:#6BCB77;
+    --leaf-deep:#3F9950;
+    --coral:#FF6B6B;
+    --ink:#2C3E50;
+    --paper:#FFFFFF;
+    --line:#F1E4C0;
+    --shadow: 0 8px 0 rgba(0,0,0,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 8% 12%, #FFF1C4 0, transparent 45%),
+      radial-gradient(circle at 92% 85%, #E8F6E9 0, transparent 40%),
+      var(--cream);
+    font-family:'Quicksand', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3,.display{font-family:'Fredoka', sans-serif;}
+
+  .rail{position:sticky; top:0; z-index:50; background:var(--sky); box-shadow:0 4px 14px rgba(27,94,140,.25);}
+  .rail-inner{max-width:1000px; margin:0 auto; display:flex; align-items:center; gap:10px; padding:10px 16px; overflow-x:auto;}
+  .rail-title{color:#fff; font-family:'Fredoka'; font-weight:700; font-size:1.1rem; white-space:nowrap; padding-inline-end:10px; border-inline-end:2px solid rgba(255,255,255,.3); margin-inline-end:6px;}
+  .rail-btn{flex:0 0 auto; background:rgba(255,255,255,.15); color:#fff; border:2px solid rgba(255,255,255,.4); border-radius:999px; padding:7px 16px; font-family:'Quicksand'; font-weight:700; font-size:.85rem; cursor:pointer; white-space:nowrap; transition:.2s;}
+  .rail-btn:hover{background:rgba(255,255,255,.3);}
+  .rail-btn.done{background:var(--leaf); border-color:var(--leaf); color:#12351a;}
+  .rail-star{margin-inline-start:4px;}
+
+  .hero{max-width:1000px; margin:26px auto 10px; padding:0 16px;}
+  .hero-card{background:linear-gradient(135deg,var(--sky) 0%, var(--sky-deep) 100%); border-radius:28px; padding:34px 30px; color:#fff; position:relative; overflow:hidden; box-shadow:var(--shadow);}
+  .hero-eyebrow{display:inline-block; background:var(--sun); color:#5a3b00; font-family:'Fredoka'; font-weight:700; font-size:.9rem; padding:6px 16px; border-radius:999px; margin-bottom:14px;}
+  .hero h1{font-size:2.4rem; margin:0 0 8px; line-height:1.25;}
+  .hero p{font-size:1.05rem; opacity:.92; max-width:640px; margin:0; font-weight:600;}
+  .hero-float{position:absolute; font-size:2.6rem; opacity:.5; user-select:none; animation:bob 4s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .f1{top:14px; right:26px; animation-delay:.2s;}
+  .f2{bottom:10px; right:90px; animation-delay:1.1s; font-size:2rem;}
+  .f3{top:60px; right:150px; animation-delay:.6s; font-size:1.7rem;}
+
+  .wrap{max-width:1000px; margin:0 auto; padding:0 16px;}
+  section.card{background:var(--paper); border:3px solid var(--line); border-radius:26px; margin-top:26px; padding:26px 24px 30px; scroll-margin-top:80px; position:relative;}
+  .tag{display:inline-flex; align-items:center; gap:8px; background:var(--sun); color:#5a3b00; font-family:'Fredoka'; font-weight:700; padding:8px 18px; border-radius:14px; font-size:1.05rem; box-shadow:0 4px 0 rgba(0,0,0,.08); margin-bottom:16px;}
+  .tag.blue{background:var(--sky); color:#fff;}
+  .tag.green{background:var(--leaf); color:#173d1c;}
+  .tag.coral{background:var(--coral); color:#fff;}
+  .instruction{font-size:1.05rem; margin:0 0 18px; font-weight:700;}
+
+  .feedback{min-height:34px; font-weight:700; font-family:'Fredoka'; font-size:1.1rem; display:flex; align-items:center; gap:8px; margin-top:10px;}
+  .feedback.ok{color:var(--leaf-deep);}
+  .feedback.no{color:var(--coral);}
+  .check-btn{background:var(--sky); color:#fff; border:none; border-radius:14px; padding:12px 26px; font-family:'Fredoka'; font-weight:700; font-size:1rem; cursor:pointer; box-shadow:0 4px 0 var(--sky-deep); transition:.1s;}
+  .check-btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--sky-deep);}
+  .check-btn:hover{filter:brightness(1.06);}
+  .reset-btn{background:#fff; color:var(--ink); border:2px solid var(--line); border-radius:14px; padding:11px 20px; font-family:'Quicksand'; font-weight:700; font-size:.92rem; cursor:pointer;}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+
+  .mascot-bubble{display:flex; align-items:flex-start; gap:12px; margin-top:20px;}
+  .mascot-emoji{font-size:2.6rem;}
+  .bubble{background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:12px 16px; font-weight:700; position:relative; flex:1;}
+
+  .finale{text-align:center; background:linear-gradient(135deg,var(--leaf) 0%, var(--leaf-deep) 100%); color:#fff; border-color:transparent;}
+  .finale h2{font-size:2rem; margin:6px 0 10px;}
+
+  /* ---------- 1) Point and Learn ---------- */
+  .num-row{display:flex; align-items:center; gap:18px; flex-wrap:wrap; background:#FFFBF0; border:2px solid var(--line); border-radius:16px; padding:12px 16px; margin-bottom:12px; cursor:pointer; transition:.15s;}
+  .num-row:hover{border-color:var(--sun-deep);}
+  .num-row.seen{background:#F1FBF0; border-color:var(--leaf);}
+  .tenframe{display:grid; grid-template-columns:repeat(5,1fr); grid-template-rows:repeat(2,1fr); gap:6px; background:#fff; border:2px solid var(--line); border-radius:12px; padding:8px;}
+  .tdot{width:22px; height:22px; border-radius:50%; background:#fff; border:2px solid #D9C99A; cursor:pointer;}
+  .tdot.on{background:var(--coral); border-color:#c94040;}
+  .num-word{font-family:'Fredoka'; font-weight:700; font-size:1.3rem; color:var(--sky-deep); min-width:80px;}
+  .num-digit{width:52px; height:52px; border:3px solid var(--ink); border-radius:12px; display:flex; align-items:center; justify-content:center; font-family:'Fredoka'; font-weight:700; font-size:1.6rem; background:#fff;}
+  .num-hint{font-size:.92rem; color:#9a8b63; font-weight:700;}
+
+  /* ---------- Matching Pictures to Numbers ---------- */
+  .match-wrap{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:10px;}
+  @media (max-width:680px){.match-wrap{grid-template-columns:1fr;}}
+  .match-col-title{font-family:'Fredoka'; font-weight:700; color:var(--sky-deep); text-align:center; margin-bottom:10px; font-size:1.1rem;}
+  .pic-card{width:100%; padding:14px 10px; margin-bottom:10px; border-radius:16px; background:#fff; border:3px solid var(--sky); cursor:pointer; text-align:center; transition:.15s;}
+  .pic-card .emoji-cluster{font-size:1.5rem; line-height:1.5; letter-spacing:2px;}
+  .pic-card.selected{background:var(--sun); border-color:var(--sun-deep);}
+  .pic-card.matched{background:var(--leaf); border-color:var(--leaf-deep); cursor:default; opacity:.65;}
+  .pic-card.wrong-flash{background:var(--coral); border-color:#c94040;}
+  .match-num{width:100%; padding:14px; margin-bottom:10px; border-radius:14px; background:#fff; border:3px solid var(--sky); font-family:'Fredoka'; font-weight:700; font-size:1.5rem; color:var(--sky-deep); cursor:pointer; text-align:center; transition:.15s;}
+  .match-num.selected{background:var(--sun); border-color:var(--sun-deep); color:#5a3b00;}
+  .match-num.matched{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c; cursor:default; opacity:.65;}
+  .match-num.wrong-flash{background:var(--coral); border-color:#c94040; color:#fff;}
+
+  /* ---------- Counting Method ---------- */
+  .method-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:680px){.method-grid{grid-template-columns:1fr;}}
+  .method-card{background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:16px; text-align:center;}
+  .method-target{font-family:'Fredoka'; font-weight:700; font-size:1.15rem; color:var(--sky-deep); margin-bottom:10px;}
+  .method-answer{margin-top:10px; font-weight:700; font-family:'Fredoka'; color:var(--sun-deep);}
+
+  /* ---------- Try Time / Race ---------- */
+  .score-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .score-strip b{font-family:'Fredoka'; color:var(--sky-deep);}
+  .count-stage{background:linear-gradient(#BEE7F5 0%, #D8F3DC 70%); border:2px dashed #ffffffaa; border-radius:20px; padding:22px; text-align:center; margin-bottom:14px;}
+  .count-q{font-family:'Fredoka'; font-weight:700; font-size:1.2rem; margin-bottom:12px;}
+  .count-cluster{font-size:2rem; line-height:1.6; letter-spacing:6px;}
+  .choices{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;}
+  .choice{min-width:56px; height:56px; padding:0 8px; border-radius:16px; background:#fff; border:3px solid var(--sky); font-family:'Fredoka'; font-weight:700; font-size:1.5rem; color:var(--sky-deep); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.12s;}
+  .choice:hover{transform:translateY(-3px); background:#EAF6FF;}
+  .choice.right{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c;}
+  .choice.wrong{background:var(--coral); border-color:#c94040; color:#fff;}
+
+  /* ---------- Fast Counting Race ---------- */
+  .race-bar-track{background:#F1E4C0; border-radius:999px; height:14px; overflow:hidden; margin-bottom:16px;}
+  .race-bar-fill{background:linear-gradient(90deg,var(--sun),var(--sun-deep)); height:100%; width:100%; transition:width .3s linear;}
+
+  /* ---------- Memory Game ---------- */
+  .memory-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; max-width:600px; margin:0 auto;}
+  @media (max-width:600px){.memory-grid{grid-template-columns:repeat(3,1fr);}}
+  .mem-card{aspect-ratio:1/1; border-radius:14px; cursor:pointer; position:relative; perspective:600px;}
+  .mem-inner{width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .35s;}
+  .mem-card.flipped .mem-inner, .mem-card.matched .mem-inner{transform:rotateY(180deg);}
+  .mem-face{position:absolute; inset:0; border-radius:14px; display:flex; align-items:center; justify-content:center; backface-visibility:hidden; font-family:'Fredoka'; font-weight:700; font-size:1.2rem; padding:4px; text-align:center;}
+  .mem-back{background:var(--sky); color:#fff; font-size:1.6rem;}
+  .mem-front{background:#fff; border:3px solid var(--sun-deep); color:var(--sky-deep); transform:rotateY(180deg); flex-direction:column; gap:2px;}
+  .mem-front .mem-emoji{font-size:1.3rem; letter-spacing:1px;}
+  .mem-card.matched .mem-front{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c;}
+
+  /* ---------- Ordering Numbers ---------- */
+  .order-row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:16px;}
+  .order-tile{width:64px; height:64px; border-radius:16px; background:#fff; border:3px solid var(--sky); font-family:'Fredoka'; font-weight:700; font-size:1.6rem; color:var(--sky-deep); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.15s;}
+  .order-tile:hover{transform:translateY(-3px);}
+  .order-tile.placed{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c; cursor:default; opacity:.55;}
+  .order-tile.wrong-flash{background:var(--coral); border-color:#c94040; color:#fff;}
+  .order-slots{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+  .order-slot{width:64px; height:64px; border-radius:16px; background:#FFFBF0; border:3px dashed var(--line); font-family:'Fredoka'; font-weight:700; font-size:1.6rem; color:var(--sun-deep); display:flex; align-items:center; justify-content:center;}
+  .order-slot.filled{border-style:solid; border-color:var(--leaf-deep); background:var(--leaf); color:#173d1c;}
+
+  /* ---------- New Games ---------- */
+  /* 1. Magic Box */
+  .boxes-grid{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:16px 0;}
+  .box-card{width:90px; height:90px; background:var(--sun); border:3px solid var(--sun-deep); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:2.5rem; cursor:pointer; transition:.2s; box-shadow:var(--shadow);}
+  .box-card:hover{transform:scale(1.05);}
+  .box-card.opened{background:#FFFBF0; border-color:var(--sky); cursor:default;}
+
+  /* 2. Number Train */
+  .train-wrap{display:flex; justify-content:center; align-items:center; gap:10px; margin:20px 0; background:#EAF6FF; padding:18px; border-radius:20px; border:2px dashed var(--sky); overflow-x:auto;}
+  .train-car{width:60px; height:60px; background:var(--sun); border:3px solid var(--sun-deep); border-radius:14px; display:flex; align-items:center; justify-content:center; font-family:'Fredoka'; font-weight:700; font-size:1.5rem; color:#5a3b00; flex-shrink:0;}
+
+  /* 3. Scale Balance */
+  .scale-container{display:flex; justify-content:space-around; align-items:flex-end; background:#FFFBF0; border:2px solid var(--line); border-radius:20px; padding:20px; margin:15px 0;}
+  .scale-pan{width:120px; min-height:80px; border-bottom:4px solid var(--ink); border-radius:0 0 16px 16px; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:4px; padding:10px; background:#fff;}
+
+  /* 4. Search & Count */
+  .ispy-board{background:linear-gradient(#d4fc79 0%, #96e6a1 100%); border-radius:20px; padding:20px; min-height:180px; display:flex; flex-wrap:wrap; gap:14px; justify-content:center; align-items:center; position:relative;}
+  .ispy-item{font-size:2.2rem; cursor:pointer; user-select:none; transition:.2s; padding:5px;}
+  .ispy-item.found{transform:scale(0.8); opacity:0.4; pointer-events:none;}
+
+  /* 5. Number Line Hop */
+  .number-line{display:flex; justify-content:space-between; align-items:center; background:#fff; border:3px solid var(--sky); border-radius:20px; padding:20px; margin:20px 0; position:relative;}
+  .line-node{width:45px; height:45px; border-radius:50%; background:#FFFBF0; border:2px solid var(--sky-deep); display:flex; align-items:center; justify-content:center; font-family:'Fredoka'; font-weight:700; font-size:1.2rem; cursor:pointer;}
+  .line-node.active{background:var(--sun); border-color:var(--sun-deep); transform:scale(1.2);}
+</style>
+</head>
+<body>
+
+<div class="rail">
+  <div class="rail-inner">
+    <span class="rail-title">Unit 1: Numbers 6 to 10</span>
+    <button class="rail-btn" data-target="learn">Point & Learn <span class="rail-star" id="star-learn"></span></button>
+    <button class="rail-btn" data-target="ready">Get Ready <span class="rail-star" id="star-ready"></span></button>
+    <button class="rail-btn" data-target="method">Ten-Frame <span class="rail-star" id="star-method"></span></button>
+    <button class="rail-btn" data-target="try">Try Time <span class="rail-star" id="star-try"></span></button>
+    <button class="rail-btn" data-target="together">Practice <span class="rail-star" id="star-together"></span></button>
+    <button class="rail-btn" data-target="race">Count Race <span class="rail-star" id="star-race"></span></button>
+    <button class="rail-btn" data-target="memory">Memory Game <span class="rail-star" id="star-memory"></span></button>
+    <button class="rail-btn" data-target="order">Order Up <span class="rail-star" id="star-order"></span></button>
+    <button class="rail-btn" data-target="box">Magic Box <span class="rail-star" id="star-box"></span></button>
+    <button class="rail-btn" data-target="train">Number Train <span class="rail-star" id="star-train"></span></button>
+    <button class="rail-btn" data-target="balance">Scale Balance <span class="rail-star" id="star-balance"></span></button>
+    <button class="rail-btn" data-target="ispy">I-Spy Search <span class="rail-star" id="star-ispy"></span></button>
+    <button class="rail-btn" data-target="hop">Frog Hop <span class="rail-star" id="star-hop"></span></button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-card">
+    <span class="hero-float f1">🔟</span>
+    <span class="hero-float f2">🔴</span>
+    <span class="hero-float f3">⭐</span>
+    <span class="hero-eyebrow">Primary 1 · Unit 1</span>
+    <h1>Numbers 6 to 10 🔢</h1>
+    <p>Let's discover numbers: Six, Seven, Eight, Nine, and Ten! Count objects, match pictures, and play fun games!</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 1) Point and Learn ============ -->
+  <section class="card" id="learn">
+    <span class="tag">📖 Point & Learn</span>
+    <p class="instruction">Numbers 6 to 10. Click on each row to hear the number name and see the dots fill up!</p>
+    <div id="num-list"></div>
+    <div class="feedback" id="feedback-learn"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐶</span>
+      <div class="bubble">Notice this: Each new number is 1 more dot than the number before it! 🌟</div>
+    </div>
+  </section>
+
+  <!-- ============ 2) Get Ready ============ -->
+  <section class="card" id="ready">
+    <span class="tag coral">❗ Get Ready!</span>
+    <p class="instruction">Match each picture group to its correct number. Click a picture, then click its number.</p>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-title">🖼️ Pictures</div>
+        <div id="ready-pics"></div>
+      </div>
+      <div>
+        <div class="match-col-title">🔢 Numbers</div>
+        <div id="ready-nums"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildReady()">Try Again 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-ready"></div>
+  </section>
+
+  <!-- ============ 3) Ten-Frame Method ============ -->
+  <section class="card" id="method">
+    <span class="tag green">🎨 Build the Ten-Frame</span>
+    <p class="instruction">Click the circles inside the frame until the total dots match the target number.</p>
+    <div class="method-grid" id="method-grid"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkMethod()">Check Answers ✔️</button>
+      <button class="reset-btn" onclick="buildMethod()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-method"></div>
+  </section>
+
+  <!-- ============ 4) Try Time ============ -->
+  <section class="card" id="try">
+    <span class="tag blue">🕐 Try Time</span>
+    <p class="instruction">Look at the items, count them, and select the correct number. 5 rounds!</p>
+    <div class="score-strip">
+      <span>Round: <b id="try-round">1</b> / 5</span>
+      <span>Score: <b id="try-score">0</b> ⭐</span>
+    </div>
+    <div class="count-stage">
+      <div class="count-q" id="try-q">How many items do you see?</div>
+      <div class="count-cluster" id="try-cluster"></div>
+    </div>
+    <div class="choices" id="try-choices"></div>
+    <div class="feedback" id="feedback-try"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐔</span>
+      <div class="bubble">Can you do it? You've got this! 🐾</div>
+    </div>
+  </section>
+
+  <!-- ============ 5) Let's Practice Together ============ -->
+  <section class="card" id="together">
+    <span class="tag green">🤝 Practice Together</span>
+    <p class="instruction">Match each set of pictures with its matching number!</p>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-title">🖼️ Pictures</div>
+        <div id="together-pics"></div>
+      </div>
+      <div>
+        <div class="match-col-title">🔢 Numbers</div>
+        <div id="together-nums"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildTogether()">Try Again 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-together"></div>
+  </section>
+
+  <!-- ============ 6) Fast Count Race ============ -->
+  <section class="card" id="race">
+    <span class="tag coral">🏁 Fast Count Race</span>
+    <p class="instruction">Count quickly and pick the right number before time runs out! 8 questions.</p>
+    <div class="score-strip">
+      <span>Question: <b id="race-num">1</b> / 8</span>
+      <span>Score: <b id="race-score">0</b> ⭐</span>
+    </div>
+    <div class="race-bar-track"><div class="race-bar-fill" id="race-bar"></div></div>
+    <div class="count-stage">
+      <div class="count-q">How many items are here?</div>
+      <div class="count-cluster" id="race-cluster"></div>
+    </div>
+    <div class="choices" id="race-choices"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="startRace()">Start Race 🏁</button>
+    </div>
+    <div class="feedback" id="feedback-race"></div>
+  </section>
+
+  <!-- ============ 7) Memory Game ============ -->
+  <section class="card" id="memory">
+    <span class="tag blue">🧠 Memory Match</span>
+    <p class="instruction">Flip 2 cards at a time to pair each picture card with its matching number card!</p>
+    <div class="score-strip">
+      <span>Attempts: <b id="mem-tries">0</b></span>
+      <span>Pairs Found: <b id="mem-found">0</b> / 5</span>
+    </div>
+    <div class="memory-grid" id="memory-grid"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildMemory()">New Game 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-memory"></div>
+  </section>
+
+  <!-- ============ 8) Order the Numbers ============ -->
+  <section class="card" id="order">
+    <span class="tag green">🔢 Order the Numbers</span>
+    <p class="instruction">Click the numbers in correct order from smallest to largest (6 to 10).</p>
+    <div class="order-slots" id="order-slots"></div>
+    <div class="order-row" id="order-tiles" style="margin-top:18px;"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildOrder()">Try Again 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-order"></div>
+  </section>
+
+  <!-- ============ 9) Magic Box Game ============ -->
+  <section class="card" id="box">
+    <span class="tag coral">🎁 Open the Magic Box</span>
+    <p class="instruction">Pick a magic box, reveal the surprise items inside, and select the total number!</p>
+    <div class="boxes-grid" id="box-grid"></div>
+    <div class="count-stage" id="box-stage" style="display:none;">
+      <div class="count-q">How many items are inside the box?</div>
+      <div class="count-cluster" id="box-cluster"></div>
+      <div class="choices" id="box-choices"></div>
+    </div>
+    <div class="feedback" id="feedback-box"></div>
+  </section>
+
+  <!-- ============ 10) Missing Number Train ============ -->
+  <section class="card" id="train">
+    <span class="tag blue">🚂 Missing Number Train</span>
+    <p class="instruction">Find the missing number to complete the train sequence!</p>
+    <div class="train-wrap" id="train-cars"></div>
+    <div class="choices" id="train-choices"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildTrain()">New Train 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-train"></div>
+  </section>
+
+  <!-- ============ 11) Number Scale Balance ============ -->
+  <section class="card" id="balance">
+    <span class="tag green">⚖️ Scale Balance</span>
+    <p class="instruction">Choose the group that balances the scale to match the target number!</p>
+    <div class="scale-container">
+      <div style="text-align:center;">
+        <div style="font-family:'Fredoka'; font-weight:700; font-size:1.1rem;">Target</div>
+        <div class="scale-pan" id="scale-target" style="font-family:'Fredoka'; font-size:2.5rem; color:var(--sky-deep);">?</div>
+      </div>
+      <div style="font-size:2rem; align-self:center;">⚖️</div>
+      <div style="text-align:center;">
+        <div style="font-family:'Fredoka'; font-weight:700; font-size:1.1rem;">Your Pan</div>
+        <div class="scale-pan" id="scale-current"></div>
+      </div>
+    </div>
+    <div class="choices" id="balance-choices"></div>
+    <div class="feedback" id="feedback-balance"></div>
+  </section>
+
+  <!-- ============ 12) I-Spy Field Search ============ -->
+  <section class="card" id="ispy">
+    <span class="tag coral">🔍 I-Spy Field Search</span>
+    <p class="instruction" id="ispy-instruction">Explore the garden and click on the requested items!</p>
+    <div class="ispy-board" id="ispy-board"></div>
+    <div class="score-strip" style="margin-top:15px;">
+      <span>Found: <b id="ispy-found">0</b></span>
+      <span>Target: <b id="ispy-target">0</b></span>
+    </div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildIspy()">New Challenge 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-ispy"></div>
+  </section>
+
+  <!-- ============ 13) Frog Number Line Hop ============ -->
+  <section class="card" id="hop">
+    <span class="tag blue">🐸 Frog Hop Number Line</span>
+    <p class="instruction" id="hop-instruction">Help the frog hop one step forward to reach the next number!</p>
+    <div style="text-align:center; font-size:3rem; margin-bottom:-10px;" id="frog-display">🐸</div>
+    <div class="number-line" id="number-line"></div>
+    <div class="feedback" id="feedback-hop"></div>
+  </section>
+
+  <section class="card finale" id="finale" style="display:none;">
+    <h2>🎉 Awesome Job! You are a Number Champion!</h2>
+    <p>You completed all activities! You can now count, match, and order numbers 6 to 10 effortlessly 🌟</p>
+  </section>
+
+</div>
+
+<script>
+  /* ---------- Utilities ---------- */
+  const done = {};
+  function markDone(key){
+    if(done[key]) return;
+    done[key] = true;
+    const star = document.getElementById("star-" + key);
+    if(star) star.textContent = "⭐";
+    const btn = document.querySelector('.rail-btn[data-target="'+key+'"]');
+    if(btn) btn.classList.add("done");
+    const keys = ["learn","ready","method","try","together","race","memory","order","box","train","balance","ispy","hop"];
+    if(keys.every(k => done[k])){
+      const f = document.getElementById("finale");
+      f.style.display = "block";
+      f.scrollIntoView({behavior:"smooth"});
+    }
+  }
+  document.querySelectorAll(".rail-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      const target = document.getElementById(b.dataset.target);
+      if(target) target.scrollIntoView({behavior:"smooth"});
+    });
+  });
+  function say(id, msg, ok){
+    const el = document.getElementById("feedback-" + id);
+    if(el){
+      el.textContent = msg;
+      el.className = "feedback " + (ok ? "ok" : "no");
+    }
+  }
+  function shuffle(a){ return a.slice().sort(() => Math.random() - 0.5); }
+
+  /* Picture Sets */
+  const PIC_SETS = {
+    ready: [
+      {emoji:"🧢", n:6},
+      {emoji:"🌸", n:10},
+      {emoji:"🐜", n:7}
+    ],
+    together: [
+      {emoji:"🐸", n:6},
+      {emoji:"🐱", n:8},
+      {emoji:"🍔", n:9},
+      {emoji:"🎈", n:10},
+      {emoji:"🍅", n:8},
+      {emoji:"🦀", n:7}
+    ]
+  };
+  function cluster(emoji, n){ return Array(n).fill(emoji).join(" "); }
+
+  /* ---------- 1) Point & Learn ---------- */
+  const NUMS = [
+    {n:6, word:"Six"},
+    {n:7, word:"Seven"},
+    {n:8, word:"Eight"},
+    {n:9, word:"Nine"},
+    {n:10, word:"Ten"}
+  ];
+  function buildTenFrame(host, count){
+    host.innerHTML = "";
+    for(let i=0;i<10;i++){
+      const d = document.createElement("span");
+      d.className = "tdot";
+      host.appendChild(d);
+    }
+    return host;
+  }
+  function buildNumList(){
+    const list = document.getElementById("num-list");
+    list.innerHTML = "";
+    NUMS.forEach(({n, word}) => {
+      const row = document.createElement("div");
+      row.className = "num-row";
+      const frame = document.createElement("div");
+      frame.className = "tenframe";
+      buildTenFrame(frame, n);
+      const wordEl = document.createElement("div");
+      wordEl.className = "num-word";
+      wordEl.textContent = word;
+      const digitEl = document.createElement("div");
+      digitEl.className = "num-digit";
+      digitEl.textContent = "?";
+      const hint = document.createElement("div");
+      hint.className = "num-hint";
+      hint.textContent = "Click to reveal 👆";
+      row.appendChild(frame);
+      row.appendChild(wordEl);
+      row.appendChild(digitEl);
+      row.appendChild(hint);
+      row.onclick = () => {
+        [...frame.children].forEach((d, idx) => {
+          d.classList.toggle("on", idx < n);
+        });
+        digitEl.textContent = n;
+        hint.textContent = "This is number " + n + " (" + word + ")";
+        row.classList.add("seen");
+        if(document.querySelectorAll("#num-list .num-row.seen").length === NUMS.length){
+          say("learn", "Great job! You explored numbers 6 through 10 🎉", true);
+          markDone("learn");
+        }
+      };
+      list.appendChild(row);
+    });
+  }
+
+  /* ---------- 2 & 5) Match Pictures & Numbers ---------- */
+  function buildMatchSet(key, dataSet){
+    const picsHost = document.getElementById(key + "-pics");
+    const numsHost = document.getElementById(key + "-nums");
+    picsHost.innerHTML = ""; numsHost.innerHTML = "";
+    let selectedPic = null, matched = 0;
+    const pics = dataSet;
+    const nums = shuffle(dataSet.map(d => d.n));
+    pics.forEach(({emoji, n}) => {
+      const card = document.createElement("div");
+      card.className = "pic-card";
+      card.innerHTML = '<div class="emoji-cluster">' + cluster(emoji, n) + '</div>';
+      card.dataset.n = n;
+      card.onclick = () => {
+        if(card.classList.contains("matched")) return;
+        picsHost.querySelectorAll(".pic-card").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        selectedPic = card;
+      };
+      picsHost.appendChild(card);
+    });
+    nums.forEach(n => {
+      const btn = document.createElement("button");
+      btn.className = "match-num"; btn.textContent = n; btn.dataset.n = n;
+      btn.onclick = () => {
+        if(btn.classList.contains("matched")) return;
+        if(!selectedPic){ say(key, "Select a picture card first 👈", false); return; }
+        if(+selectedPic.dataset.n === n){
+          selectedPic.classList.remove("selected");
+          selectedPic.classList.add("matched");
+          btn.classList.add("matched");
+          matched++;
+          say(key, "Correct! This group has " + n + " items ✅", true);
+          selectedPic = null;
+          if(matched === pics.length){
+            say(key, "Excellent! All pictures are matched correctly 🎉", true);
+            markDone(key);
+          }
+        } else {
+          btn.classList.add("wrong-flash");
+          say(key, "Not quite right. Count again carefully 💡", false);
+          setTimeout(() => btn.classList.remove("wrong-flash"), 600);
+        }
+      };
+      numsHost.appendChild(btn);
+    });
+    const fb = document.getElementById("feedback-" + key);
+    fb.textContent = ""; fb.className = "feedback";
+  }
+  function buildReady(){ buildMatchSet("ready", PIC_SETS.ready); }
+  function buildTogether(){ buildMatchSet("together", PIC_SETS.together); }
+
+  /* ---------- 3) Ten-Frame Method ---------- */
+  const METHOD = [7, 9];
+  function buildMethod(){
+    const host = document.getElementById("method-grid");
+    host.innerHTML = "";
+    METHOD.forEach((target, i) => {
+      const card = document.createElement("div");
+      card.className = "method-card";
+      card.innerHTML =
+        '<div class="method-target">Fill ' + target + ' dots</div>' +
+        '<div class="tenframe" id="method-frame-'+i+'"></div>' +
+        '<div class="method-answer" id="method-answer-'+i+'">?</div>';
+      host.appendChild(card);
+      const frame = document.getElementById("method-frame-" + i);
+      buildTenFrame(frame, 0);
+      [...frame.children].forEach((dot) => {
+        dot.onclick = () => {
+          dot.classList.toggle("on");
+          const on = frame.querySelectorAll(".tdot.on").length;
+          const ans = document.getElementById("method-answer-" + i);
+          ans.textContent = on === target ? ("Count = " + on + " ✅") : ("Current Count = " + on);
+          ans.style.color = on === target ? "var(--leaf-deep)" : "var(--sun-deep)";
+        };
+      });
+    });
+    const fb = document.getElementById("feedback-method");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+  function checkMethod(){
+    let allOk = true;
+    METHOD.forEach((target, i) => {
+      const frame = document.getElementById("method-frame-" + i);
+      const on = frame.querySelectorAll(".tdot.on").length;
+      if(on !== target) allOk = false;
+    });
+    if(allOk){
+      say("method", "Super! You filled the ten-frames accurately ⭐", true);
+      markDone("method");
+    } else {
+      say("method", "Make sure the colored dots match the target number 🎨", false);
+    }
+  }
+
+  /* ---------- 4) Try Time ---------- */
+  const TRY_EMOJIS = ["🐟","🐝","🍎","🌟","🚗","🐰"];
+  let tryRound = 0, tryScore = 0;
+  const TRY_ROUNDS = 5;
+  function tryNewRound(){
+    if(tryRound >= TRY_ROUNDS){
+      say("try", "Round finished! Final Score: " + tryScore + " / " + TRY_ROUNDS + " ⭐", tryScore >= 3);
+      document.getElementById("try-choices").innerHTML = "";
+      document.getElementById("try-q").textContent = "🎉 Well Done!";
+      document.getElementById("try-cluster").textContent = "";
+      if(tryScore >= 3) markDone("try");
+      return;
+    }
+    tryRound++;
+    document.getElementById("try-round").textContent = tryRound;
+    const n = 6 + Math.floor(Math.random() * 5);
+    const emoji = TRY_EMOJIS[Math.floor(Math.random()*TRY_EMOJIS.length)];
+    document.getElementById("try-q").textContent = "How many items do you see?";
+    document.getElementById("try-cluster").textContent = cluster(emoji, n);
+    const ch = document.getElementById("try-choices");
+    ch.innerHTML = ""; ch.dataset.locked = "0";
+    let opts = new Set([n]);
+    while(opts.size < 4) opts.add(6 + Math.floor(Math.random()*5));
+    shuffle([...opts]).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "choice"; btn.textContent = opt;
+      btn.onclick = () => {
+        if(ch.dataset.locked === "1") return;
+        ch.dataset.locked = "1";
+        if(opt === n){
+          btn.classList.add("right"); tryScore++;
+          say("try", "Bingo! There are " + n + " items ✅", true);
+        } else {
+          btn.classList.add("wrong");
+          say("try", "The correct answer is " + n + " 💡", false);
+        }
+        document.getElementById("try-score").textContent = tryScore;
+        setTimeout(tryNewRound, 1300);
+      };
+      ch.appendChild(btn);
+    });
+  }
+  function startTry(){ tryRound = 0; tryScore = 0; document.getElementById("try-score").textContent = "0"; tryNewRound(); }
+
+  /* ---------- 6) Fast Count Race ---------- */
+  const RACE_EMOJIS = ["🍓","🐬","⚽","🌻","🐦","🍪"];
+  let raceQ = 0, raceScore = 0, raceTimer = null, raceTimeLeft = 0;
+  const RACE_QS = 8, RACE_TIME = 5000;
+  function raceNext(){
+    if(raceQ >= RACE_QS){
+      clearInterval(raceTimer);
+      say("race", "Race finished! Final Score: " + raceScore + " / " + RACE_QS + " 🏁", raceScore >= 5);
+      document.getElementById("race-choices").innerHTML = "";
+      document.getElementById("race-cluster").textContent = "";
+      if(raceScore >= 5) markDone("race");
+      return;
+    }
+    raceQ++;
+    document.getElementById("race-num").textContent = raceQ;
+    const n = 6 + Math.floor(Math.random() * 5);
+    const emoji = RACE_EMOJIS[Math.floor(Math.random()*RACE_EMOJIS.length)];
+    document.getElementById("race-cluster").textContent = cluster(emoji, n);
+    const ch = document.getElementById("race-choices");
+    ch.innerHTML = ""; ch.dataset.locked = "0";
+    let opts = new Set([n]);
+    while(opts.size < 4) opts.add(6 + Math.floor(Math.random()*5));
+    shuffle([...opts]).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "choice"; btn.textContent = opt;
+      btn.onclick = () => {
+        if(ch.dataset.locked === "1") return;
+        ch.dataset.locked = "1";
+        clearInterval(raceTimer);
+        if(opt === n){
+          btn.classList.add("right"); raceScore++;
+          say("race", "Lightning fast and correct! ⚡✅", true);
+        } else {
+          btn.classList.add("wrong");
+          say("race", "The correct answer was " + n + " 💡", false);
+        }
+        document.getElementById("race-score").textContent = raceScore;
+        setTimeout(raceNext, 900);
+      };
+      ch.appendChild(btn);
+    });
+    raceTimeLeft = RACE_TIME;
+    const bar = document.getElementById("race-bar");
+    bar.style.width = "100%";
+    const tickMs = 100;
+    raceTimer = setInterval(() => {
+      raceTimeLeft -= tickMs;
+      bar.style.width = Math.max(0, (raceTimeLeft / RACE_TIME) * 100) + "%";
+      if(raceTimeLeft <= 0){
+        clearInterval(raceTimer);
+        if(ch.dataset.locked !== "1"){
+          ch.dataset.locked = "1";
+          say("race", "Time's up! The answer was " + n + " ⏰", false);
+          setTimeout(raceNext, 900);
+        }
+      }
+    }, tickMs);
+  }
+  function startRace(){
+    raceQ = 0; raceScore = 0;
+    document.getElementById("race-score").textContent = "0";
+    raceNext();
+  }
+
+  /* ---------- 7) Memory Game ---------- */
+  const MEM_EMOJIS = {6:"🐸", 7:"🦀", 8:"🐱", 9:"🍔", 10:"🎈"};
+  let memFlipped = [], memFound = 0, memTries = 0, memLock = false;
+  function buildMemory(){
+    memFlipped = []; memFound = 0; memTries = 0; memLock = false;
+    document.getElementById("mem-tries").textContent = "0";
+    document.getElementById("mem-found").textContent = "0";
+    const nums = [6,7,8,9,10];
+    let cards = [];
+    nums.forEach(n => {
+      cards.push({type:"num", n});
+      cards.push({type:"qty", n});
+    });
+    cards = shuffle(cards);
+    const grid = document.getElementById("memory-grid");
+    grid.innerHTML = "";
+    cards.forEach(c => {
+      const card = document.createElement("div");
+      card.className = "mem-card";
+      card.dataset.n = c.n;
+      const front = c.type === "num"
+        ? '<div class="mem-front">'+c.n+'</div>'
+        : '<div class="mem-front"><span class="mem-emoji">' + cluster(MEM_EMOJIS[c.n], c.n) + '</span></div>';
+      card.innerHTML = '<div class="mem-inner"><div class="mem-face mem-back">❓</div>' + front + '</div>';
+      card.onclick = () => {
+        if(memLock || card.classList.contains("flipped") || card.classList.contains("matched")) return;
+        card.classList.add("flipped");
+        memFlipped.push(card);
+        if(memFlipped.length === 2){
+          memTries++;
+          document.getElementById("mem-tries").textContent = memTries;
+          memLock = true;
+          const [c1,c2] = memFlipped;
+          const n1 = +c1.dataset.n, n2 = +c2.dataset.n;
+          if(n1 === n2 && c1 !== c2){
+            setTimeout(() => {
+              c1.classList.add("matched"); c2.classList.add("matched");
+              memFound++;
+              document.getElementById("mem-found").textContent = memFound;
+              say("memory", "Match found! Number " + n1 + " ✅", true);
+              memFlipped = []; memLock = false;
+              if(memFound === 5){
+                say("memory", "Great memory skills! You matched all pairs 🧠🎉", true);
+                markDone("memory");
+              }
+            }, 500);
+          } else {
+            setTimeout(() => {
+              c1.classList.remove("flipped"); c2.classList.remove("flipped");
+              say("memory", "Not a match. Try again! 💡", false);
+              memFlipped = []; memLock = false;
+            }, 800);
+          }
+        }
+      };
+      grid.appendChild(card);
+    });
+    const fb = document.getElementById("feedback-memory");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ---------- 8) Order Numbers ---------- */
+  function buildOrder(){
+    const ORDER = [6,7,8,9,10];
+    const slotsHost = document.getElementById("order-slots");
+    const tilesHost = document.getElementById("order-tiles");
+    slotsHost.innerHTML = ""; tilesHost.innerHTML = "";
+    let nextIndex = 0;
+    ORDER.forEach(() => {
+      const slot = document.createElement("div");
+      slot.className = "order-slot";
+      slotsHost.appendChild(slot);
+    });
+    shuffle(ORDER).forEach(n => {
+      const tile = document.createElement("button");
+      tile.className = "order-tile";
+      tile.textContent = n;
+      tile.onclick = () => {
+        if(tile.classList.contains("placed")) return;
+        if(n === ORDER[nextIndex]){
+          tile.classList.add("placed");
+          const slot = slotsHost.children[nextIndex];
+          slot.textContent = n;
+          slot.classList.add("filled");
+          nextIndex++;
+          say("order", "Great! " + n + " goes right here ✅", true);
+          if(nextIndex === ORDER.length){
+            say("order", "Fantastic! Numbers ordered from 6 to 10 🎉", true);
+            markDone("order");
+          }
+        } else {
+          tile.classList.add("wrong-flash");
+          say("order", "Think ordering smallest to largest 💡", false);
+          setTimeout(() => tile.classList.remove("wrong-flash"), 500);
+        }
+      };
+      tilesHost.appendChild(tile);
+    });
+    const fb = document.getElementById("feedback-order");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ---------- 9) Magic Box Game ---------- */
+  let boxTarget = 0;
+  function buildBox(){
+    const grid = document.getElementById("box-grid");
+    const stage = document.getElementById("box-stage");
+    grid.innerHTML = ""; stage.style.display = "none";
+    for(let i=0; i<4; i++){
+      const box = document.createElement("div");
+      box.className = "box-card";
+      box.textContent = "🎁";
+      box.onclick = () => {
+        if(box.classList.contains("opened")) return;
+        document.querySelectorAll(".box-card").forEach(b => b.classList.remove("opened"));
+        box.classList.add("opened");
+        box.textContent = "📦";
+        boxTarget = 6 + Math.floor(Math.random() * 5);
+        document.getElementById("box-cluster").textContent = cluster("🎁", boxTarget);
+        stage.style.display = "block";
+        const ch = document.getElementById("box-choices");
+        ch.innerHTML = "";
+        let opts = new Set([boxTarget]);
+        while(opts.size < 4) opts.add(6 + Math.floor(Math.random()*5));
+        shuffle([...opts]).forEach(opt => {
+          const btn = document.createElement("button");
+          btn.className = "choice"; btn.textContent = opt;
+          btn.onclick = () => {
+            if(opt === boxTarget){
+              btn.classList.add("right");
+              say("box", "Correct count! ⭐", true);
+              markDone("box");
+            } else {
+              btn.classList.add("wrong");
+              say("box", "Count the items again 💡", false);
+            }
+          };
+          ch.appendChild(btn);
+        });
+      };
+      grid.appendChild(box);
+    }
+  }
+
+  /* ---------- 10) Missing Number Train ---------- */
+  function buildTrain(){
+    const host = document.getElementById("train-cars");
+    const choicesHost = document.getElementById("train-choices");
+    host.innerHTML = ""; choicesHost.innerHTML = "";
+    const sequence = [6, 7, 8, 9, 10];
+    const missingIdx = Math.floor(Math.random() * sequence.length);
+    const targetNum = sequence[missingIdx];
+
+    sequence.forEach((num, idx) => {
+      const car = document.createElement("div");
+      car.className = "train-car";
+      if (idx === missingIdx) {
+        car.textContent = "?";
+        car.style.background = "#fff";
+        car.style.borderStyle = "dashed";
+        car.id = "missing-car";
+      } else {
+        car.textContent = num;
+      }
+      host.appendChild(car);
+    });
+
+    let opts = new Set([targetNum]);
+    while(opts.size < 4) opts.add(6 + Math.floor(Math.random() * 5));
+
+    shuffle([...opts]).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "choice"; btn.textContent = opt;
+      btn.onclick = () => {
+        if (opt === targetNum) {
+          document.getElementById("missing-car").textContent = opt;
+          document.getElementById("missing-car").style.background = "var(--leaf)";
+          document.getElementById("missing-car").style.borderColor = "var(--leaf-deep)";
+          say("train", "Choo Choo! You filled the missing car! 🚂🎉", true);
+          markDone("train");
+        } else {
+          btn.classList.add("wrong");
+          say("train", "Check the number sequence again 💡", false);
+        }
+      };
+      choicesHost.appendChild(btn);
+    });
+    const fb = document.getElementById("feedback-train");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ---------- 11) Scale Balance ---------- */
+  let balanceTarget = 0;
+  function buildBalance(){
+    balanceTarget = 6 + Math.floor(Math.random() * 5);
+    document.getElementById("scale-target").textContent = balanceTarget;
+    document.getElementById("scale-current").textContent = "";
+    const ch = document.getElementById("balance-choices");
+    ch.innerHTML = "";
+    let opts = new Set([balanceTarget]);
+    while(opts.size < 4) opts.add(6 + Math.floor(Math.random()*5));
+    
+    shuffle([...opts]).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "choice"; btn.textContent = opt;
+      btn.onclick = () => {
+        document.getElementById("scale-current").textContent = cluster("🟡", opt);
+        if(opt === balanceTarget){
+          say("balance", "Perfect balance! Correct choice ⚖️✅", true);
+          markDone("balance");
+        } else {
+          say("balance", "Scale is unbalanced! Find the exact quantity 💡", false);
+        }
+      };
+      ch.appendChild(btn);
+    });
+  }
+
+  /* ---------- 12) I-Spy Field Search ---------- */
+  let ispyFound = 0, ispyTarget = 0;
+  function buildIspy(){
+    ispyFound = 0;
+    ispyTarget = 6 + Math.floor(Math.random() * 5);
+    document.getElementById("ispy-target").textContent = ispyTarget;
+    document.getElementById("ispy-found").textContent = 0;
+    document.getElementById("ispy-instruction").textContent = "Explore the garden and click on " + ispyTarget + " butterflies!";
+    const board = document.getElementById("ispy-board");
+    board.innerHTML = "";
+    let totalItems = ispyTarget + Math.floor(Math.random() * 4);
+    let items = Array(ispyTarget).fill("🦋").concat(Array(totalItems - ispyTarget).fill("🌸"));
+    shuffle(items).forEach(type => {
+      const el = document.createElement("span");
+      el.className = "ispy-item"; el.textContent = type;
+      el.onclick = () => {
+        if(type === "🦋" && !el.classList.contains("found")){
+          el.classList.add("found");
+          ispyFound++;
+          document.getElementById("ispy-found").textContent = ispyFound;
+          if(ispyFound === ispyTarget){
+            say("ispy", "Awesome! You spotted all required butterflies 🦋🎉", true);
+            markDone("ispy");
+          }
+        }
+      };
+      board.appendChild(el);
+    });
+  }
+
+  /* ---------- 13) Frog Number Line Hop ---------- */
+  let hopCurrent = 6;
+  function buildHop(){
+    const line = document.getElementById("number-line");
+    line.innerHTML = "";
+    hopCurrent = 6;
+    document.getElementById("hop-instruction").textContent = "Help the frog hop forward to number " + (hopCurrent + 1) + "!";
+    for(let i=6; i<=10; i++){
+      const node = document.createElement("div");
+      node.className = "line-node" + (i === hopCurrent ? " active" : "");
+      node.textContent = i;
+      node.onclick = () => {
+        if(i === hopCurrent + 1){
+          hopCurrent = i;
+          document.querySelectorAll(".line-node").forEach(n => n.classList.remove("active"));
+          node.classList.add("active");
+          if(hopCurrent < 10){
+            document.getElementById("hop-instruction").textContent = "Great hop! Now hop to " + (hopCurrent + 1) + "!";
+            say("hop", "Nice jump! Keep hopping 🐸", true);
+          } else {
+            document.getElementById("hop-instruction").textContent = "You reached the end! 🎉";
+            say("hop", "Hooray! You landed on number 10 ⭐", true);
+            markDone("hop");
+          }
+        } else if(i <= hopCurrent){
+          say("hop", "Hop forward! 💡", false);
+        } else {
+          say("hop", "Too far! Hop to the very next number 💡", false);
+        }
+      };
+      line.appendChild(node);
+    }
+  }
+
+  /* ---------- Initialization ---------- */
+  buildNumList();
+  buildReady();
+  buildMethod();
+  startTry();
+  buildTogether();
+  buildMemory();
+  buildOrder();
+  buildBox();
+  buildTrain();
+  buildBalance();
+  buildIspy();
+  buildHop();
+</script>
+</body>
+</html>

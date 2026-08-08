@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What are the Number Bonds of 6? | Interactive Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7E4;
+    --sun:#FFC93C;
+    --sun-deep:#FF9F1C;
+    --sky:#2E86C1;
+    --sky-deep:#1B5E8C;
+    --leaf:#6BCB77;
+    --leaf-deep:#3F9950;
+    --coral:#FF6B6B;
+    --ink:#3A3226;
+    --paper:#FFFFFF;
+    --line:#F1E4C0;
+    --shadow: 0 8px 0 rgba(0,0,0,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 8% 12%, #FFF1C4 0, transparent 45%),
+      radial-gradient(circle at 92% 85%, #E8F6E9 0, transparent 40%),
+      var(--cream);
+    font-family:'Quicksand', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3,.display{font-family:'Fredoka', sans-serif;}
+
+  .rail{position:sticky; top:0; z-index:50; background:var(--sky); box-shadow:0 4px 14px rgba(27,94,140,.25);}
+  .rail-inner{max-width:1000px; margin:0 auto; display:flex; align-items:center; gap:10px; padding:10px 16px; overflow-x:auto;}
+  .rail-title{color:#fff; font-family:'Fredoka'; font-weight:700; font-size:1.05rem; white-space:nowrap; padding-inline-end:10px; border-inline-end:2px solid rgba(255,255,255,.3); margin-inline-end:6px;}
+  .rail-btn{flex:0 0 auto; background:rgba(255,255,255,.15); color:#fff; border:2px solid rgba(255,255,255,.4); border-radius:999px; padding:7px 16px; font-family:'Quicksand'; font-weight:700; font-size:.85rem; cursor:pointer; white-space:nowrap; transition:.2s;}
+  .rail-btn:hover{background:rgba(255,255,255,.3);}
+  .rail-btn.done{background:var(--leaf); border-color:var(--leaf); color:#12351a;}
+  .rail-star{margin-inline-start:4px;}
+
+  .hero{max-width:1000px; margin:26px auto 10px; padding:0 16px;}
+  .hero-card{background:linear-gradient(135deg,var(--sky) 0%, var(--sky-deep) 100%); border-radius:28px; padding:34px 30px; color:#fff; position:relative; overflow:hidden; box-shadow:var(--shadow);}
+  .hero-eyebrow{display:inline-block; background:var(--sun); color:#5a3b00; font-family:'Fredoka'; font-weight:700; font-size:.85rem; padding:6px 16px; border-radius:999px; margin-bottom:14px;}
+  .hero h1{font-size:2.3rem; margin:0 0 8px; line-height:1.25;}
+  .hero p{font-size:1.05rem; opacity:.92; max-width:640px; margin:0;}
+  .hero-float{position:absolute; font-size:2.6rem; opacity:.5; user-select:none; animation:bob 4s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .f1{top:14px; right:26px; animation-delay:.2s;}
+  .f2{bottom:10px; right:90px; animation-delay:1.1s; font-size:2rem;}
+  .f3{top:60px; right:150px; animation-delay:.6s; font-size:1.7rem;}
+
+  .wrap{max-width:1000px; margin:0 auto; padding:0 16px;}
+  section.card{background:var(--paper); border:3px solid var(--line); border-radius:26px; margin-top:26px; padding:26px 24px 30px; scroll-margin-top:80px; position:relative;}
+  .tag{display:inline-flex; align-items:center; gap:8px; background:var(--sun); color:#5a3b00; font-family:'Fredoka'; font-weight:700; padding:8px 18px; border-radius:14px; font-size:1.05rem; box-shadow:0 4px 0 rgba(0,0,0,.08); margin-bottom:16px;}
+  .tag.blue{background:var(--sky); color:#fff;}
+  .tag.green{background:var(--leaf); color:#173d1c;}
+  .tag.coral{background:var(--coral); color:#fff;}
+  .instruction{font-size:1.05rem; margin:0 0 18px; font-weight:600;}
+
+  .feedback{min-height:34px; font-weight:700; font-family:'Fredoka'; font-size:1.05rem; display:flex; align-items:center; gap:8px; margin-top:6px;}
+  .feedback.ok{color:var(--leaf-deep);}
+  .feedback.no{color:var(--coral);}
+  .check-btn{background:var(--sky); color:#fff; border:none; border-radius:14px; padding:12px 26px; font-family:'Fredoka'; font-weight:700; font-size:1rem; cursor:pointer; box-shadow:0 4px 0 var(--sky-deep); transition:.1s;}
+  .check-btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--sky-deep);}
+  .check-btn:hover{filter:brightness(1.06);}
+  .reset-btn{background:#fff; color:var(--ink); border:2px solid var(--line); border-radius:14px; padding:11px 20px; font-family:'Quicksand'; font-weight:700; font-size:.92rem; cursor:pointer;}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+
+  .mascot-bubble{display:flex; align-items:flex-start; gap:12px; margin-top:20px;}
+  .mascot-emoji{font-size:2.6rem;}
+  .bubble{background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:12px 16px; font-weight:600; position:relative; flex:1;}
+
+  .finale{text-align:center; background:linear-gradient(135deg,var(--leaf) 0%, var(--leaf-deep) 100%); color:#fff; border-color:transparent;}
+  .finale h2{font-size:2rem; margin:6px 0 10px;}
+
+  .score-strip{display:flex; align-items:center; justify-space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .score-strip b{font-family:'Fredoka'; color:var(--sky-deep);}
+
+  .choices{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;}
+  .choice{min-width:56px; height:56px; padding:0 8px; border-radius:16px; background:#fff; border:3px solid var(--sky); font-family:'Fredoka'; font-weight:700; font-size:1.4rem; color:var(--sky-deep); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.12s;}
+  .choice:hover{transform:translateY(-3px); background:#EAF6FF;}
+  .choice.right{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c;}
+  .choice.wrong{background:var(--coral); border-color:#c94040; color:#fff;}
+
+  /* ---------- 1) Point & Learn: Pair components of 6 ---------- */
+  .pair-row{display:flex; align-items:center; gap:16px; flex-wrap:wrap; background:#FFFBF0; border:2px solid var(--line); border-radius:16px; padding:12px 16px; margin-bottom:10px; cursor:pointer; transition:.15s;}
+  .pair-row:hover{border-color:var(--sun-deep);}
+  .pair-row.seen{background:#F1FBF0; border-color:var(--leaf);}
+  .pair-dots{display:flex; gap:5px;}
+  .bdot{width:22px; height:22px; border-radius:50%; background:#fff; border:2px solid #D9C99A; transition:.15s;}
+  .bdot.red{background:var(--coral); border-color:#c94040;}
+  .bdot.blue{background:var(--sky); border-color:var(--sky-deep);}
+  .pair-eq{font-family:'Fredoka'; font-weight:700; font-size:1.1rem; color:var(--sky-deep); min-width:210px;}
+  .pair-hint{font-size:.85rem; color:#9a8b63; font-weight:600;}
+
+  /* ---------- Number Bond Tree ---------- */
+  .tree-grid{display:flex; gap:30px; justify-content:center; flex-wrap:wrap; margin-bottom:6px;}
+  .bond-wrap{text-align:center;}
+  .bond-tree{position:relative; width:240px; height:170px; margin:0 auto;}
+  .bond-lines line{stroke:var(--ink); stroke-width:4; stroke-linecap:round;}
+  .bond-lines{position:absolute; inset:0; width:100%; height:100%;}
+  .bond-top{position:absolute; top:0; left:88px; width:64px; height:64px; background:#fff; border:3px solid var(--ink); border-radius:14px; display:flex; align-items:center; justify-content:center; font-family:'Fredoka'; font-weight:700; font-size:1.6rem; z-index:2;}
+  .bond-children{position:absolute; top:106px; left:0; width:100%; display:flex; justify-content:space-between; padding:0 8px;}
+  .bond-child{width:64px; height:64px; background:#fff; border:3px solid var(--sky); border-radius:14px; display:flex; align-items:center; justify-content:center; font-family:'Fredoka'; font-weight:700; font-size:1.6rem; color:var(--sky-deep); z-index:2;}
+  .bond-child.missing{border-color:var(--sun-deep); border-style:dashed; color:var(--sun-deep); background:#FFFBF0;}
+  .bond-child.correct{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c; border-style:solid;}
+
+  /* ---------- Solving Method: Coloring Circles ---------- */
+  .method-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:680px){.method-grid{grid-template-columns:1fr;}}
+  .method-card{background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:16px; text-align:center;}
+  .method-target{font-family:'Fredoka'; font-weight:700; font-size:1.05rem; color:var(--sky-deep); margin-bottom:6px;}
+  .method-answer{margin-top:10px; font-weight:700; font-family:'Fredoka'; min-height:28px;}
+  .dot-row{display:flex; justify-content:center; gap:5px; margin:14px 0;}
+  .cdot{width:34px; height:34px; border-radius:50%; background:#fff; border:3px solid #D9C99A; display:inline-block; cursor:pointer; transition:.15s;}
+  .cdot:hover{border-color:var(--sun-deep);}
+  .cdot.on{background:var(--coral); border-color:#c94040;}
+
+  /* ---------- Memory Game: Pairs that make 6 ---------- */
+  .memory-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:520px; margin:0 auto;}
+  @media (max-width:560px){.memory-grid{grid-template-columns:repeat(2,1fr);}}
+  .mem-card{aspect-ratio:1/1; border-radius:14px; cursor:pointer; position:relative; perspective:600px;}
+  .mem-inner{width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .35s;}
+  .mem-card.flipped .mem-inner, .mem-card.matched .mem-inner{transform:rotateY(180deg);}
+  .mem-face{position:absolute; inset:0; border-radius:14px; display:flex; align-items:center; justify-content:center; backface-visibility:hidden; font-family:'Fredoka'; font-weight:700; font-size:1.6rem;}
+  .mem-back{background:var(--sky); color:#fff; font-size:1.6rem;}
+  .mem-front{background:#fff; border:3px solid var(--sun-deep); color:var(--sky-deep); transform:rotateY(180deg);}
+  .mem-card.matched .mem-front{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c;}
+
+  /* ---------- Number Factory ---------- */
+  .boxes-grid{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:16px 0;}
+  .box-card{width:88px; height:88px; background:var(--sun); border:3px solid var(--sun-deep); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:1.7rem; cursor:pointer; transition:.2s; box-shadow:var(--shadow); text-align:center; line-height:1.1;}
+  .box-card:hover{transform:scale(1.05);}
+  .box-card.opened{background:#FFFBF0; border-color:var(--sky); cursor:default; font-size:1.2rem;}
+
+  /* ---------- Balance Scale ---------- */
+  .scale-container{display:flex; justify-content:space-around; align-items:flex-end; background:#FFFBF0; border:2px solid var(--line); border-radius:20px; padding:20px; margin:15px 0;}
+  .scale-pan{width:130px; min-height:80px; border-bottom:4px solid var(--ink); border-radius:0 0 16px 16px; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:4px; padding:10px; background:#fff; font-size:1.3rem;}
+
+  /* ---------- Fingers Making 6 ---------- */
+  .hand-wrap{text-align:center; background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:16px; margin-bottom:14px;}
+  .hand{display:flex; justify-content:center; gap:7px; margin:10px 0;}
+  .finger{width:24px; height:70px; border-radius:12px 12px 6px 6px; background:#fff; border:3px solid #D9C99A; transition:.15s;}
+  .finger.up{background:var(--sky); border-color:var(--sky-deep);}
+  .hand-label{font-family:'Fredoka'; font-weight:700; color:var(--sky-deep); margin-bottom:6px; font-size:1rem;}
+
+  /* ---------- Number 6 Family ---------- */
+  .family-grid{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:16px 0;}
+  .family-card{width:62px; height:62px; border-radius:14px; background:#fff; border:3px solid var(--sky); display:flex; align-items:center; justify-content:center; font-family:'Fredoka'; font-weight:700; font-size:1.4rem; color:var(--sky-deep); cursor:pointer; transition:.15s;}
+  .family-card.selected{background:var(--sun); border-color:var(--sun-deep); color:#5a3b00;}
+  .family-card.matched{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c; cursor:default; opacity:.7;}
+  .family-card.wrong-flash{background:var(--coral); border-color:#c94040; color:#fff;}
+
+  /* ---------- Roll the Dice ---------- */
+  .dice-face{width:110px; height:110px; margin:6px auto 16px; background:#fff; border:4px solid var(--ink); border-radius:20px; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); gap:6px; padding:12px;}
+  .dice-dot{width:100%; height:100%; border-radius:50%; background:transparent;}
+  .dice-dot.on{background:var(--coral);}
+
+  /* ---------- Block Tower ---------- */
+  .blocks-tower{display:flex; flex-direction:column-reverse; align-items:center; gap:7px; margin:16px 0;}
+  .block{width:130px; height:38px; border-radius:8px; background:var(--sky); border:3px solid var(--sky-deep); cursor:pointer; transition:.15s; box-shadow:0 3px 0 rgba(0,0,0,.1);}
+  .block.red{background:var(--coral); border-color:#c94040;}
+  .tower-eq{text-align:center; font-family:'Fredoka'; font-weight:700; font-size:1.2rem; color:var(--sky-deep); min-height:30px;}
+
+  /* ---------- Number 6 Ladder ---------- */
+  .ladder-wrap{display:flex; gap:26px; align-items:stretch; margin:16px 0; flex-wrap:wrap; justify-content:center;}
+  .ladder-track{position:relative; width:60px; height:260px; background:linear-gradient(#EAF6FF,#fff); border:3px solid var(--sky); border-radius:16px; overflow:hidden; flex:0 0 auto;}
+  .ladder-rung{position:absolute; left:0; right:0; height:3px; background:var(--line);}
+  .climber{position:absolute; left:50%; transform:translateX(-50%); font-size:1.8rem; transition:bottom .5s;}
+  .ladder-question{flex:1; min-width:240px;}
+
+  /* ---------- Story of 6 ---------- */
+  .story-card{background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:16px; margin-bottom:14px;}
+  .story-cluster{font-size:1.8rem; letter-spacing:4px; text-align:center; margin:10px 0;}
+  .story-text{font-weight:600; margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<div class="rail">
+  <div class="rail-inner">
+    <span class="rail-title">7-1 What are the Number Bonds of 6?</span>
+    <button class="rail-btn" data-target="learn">Point & Learn <span class="rail-star" id="star-learn"></span></button>
+    <button class="rail-btn" data-target="ready">Get Ready <span class="rail-star" id="star-ready"></span></button>
+    <button class="rail-btn" data-target="method">Solving Method <span class="rail-star" id="star-method"></span></button>
+    <button class="rail-btn" data-target="try">Your Turn <span class="rail-star" id="star-try"></span></button>
+    <button class="rail-btn" data-target="together">Let's Practice <span class="rail-star" id="star-together"></span></button>
+    <button class="rail-btn" data-target="match">Match Pairs <span class="rail-star" id="star-match"></span></button>
+    <button class="rail-btn" data-target="factory">Number Factory <span class="rail-star" id="star-factory"></span></button>
+    <button class="rail-btn" data-target="balance">Balance Scale <span class="rail-star" id="star-balance"></span></button>
+    <button class="rail-btn" data-target="race">Speed Challenge <span class="rail-star" id="star-race"></span></button>
+    <button class="rail-btn" data-target="fingers">Finger Bonds <span class="rail-star" id="star-fingers"></span></button>
+    <button class="rail-btn" data-target="family">Number 6 Family <span class="rail-star" id="star-family"></span></button>
+    <button class="rail-btn" data-target="dice">Roll the Dice <span class="rail-star" id="star-dice"></span></button>
+    <button class="rail-btn" data-target="blocks">Block Tower <span class="rail-star" id="star-blocks"></span></button>
+    <button class="rail-btn" data-target="ladder">Climb the Ladder <span class="rail-star" id="star-ladder"></span></button>
+    <button class="rail-btn" data-target="story">Story Problems <span class="rail-star" id="star-story"></span></button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-card">
+    <span class="hero-float f1">🧩</span>
+    <span class="hero-float f2">🔴</span>
+    <span class="hero-float f3">🔵</span>
+    <span class="hero-eyebrow">Chapter 1 · Numbers up to 10</span>
+    <h1>What are the Number Bonds of 6? 🧩</h1>
+    <p>Every number is made up of two smaller numbers! Let's discover all the ways to make 6 and play fun games to practice.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 1) Point & Learn ============ -->
+  <section class="card" id="learn">
+    <span class="tag">📖 Point & Learn</span>
+    <p class="instruction">Which two numbers make 6? Click on each row to watch the circles change colors and see the number pairs that make 6.</p>
+    <div id="pair-list"></div>
+    <div class="feedback" id="feedback-learn"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐶</span>
+      <div class="bubble">Notice with me: Every time we take away one red circle, we add one blue circle! 🌟</div>
+    </div>
+  </section>
+
+  <!-- ============ 2) Get Ready ============ -->
+  <section class="card" id="ready">
+    <span class="tag coral">❗ Get Ready, Friends!</span>
+    <p class="instruction">Which two numbers make 6? Click on the correct number to fill in the missing box.</p>
+    <div class="tree-grid" id="ready-trees"></div>
+    <div class="feedback" id="feedback-ready"></div>
+  </section>
+
+  <!-- ============ 3) Solving Method ============ -->
+  <section class="card" id="method">
+    <span class="tag green">🎨 Solving Method</span>
+    <p class="instruction">Draw 6 circles, color the given number, then count the uncolored circles to find the missing number.</p>
+    <div class="method-grid" id="method-grid"></div>
+    <div class="feedback" id="feedback-method"></div>
+  </section>
+
+  <!-- ============ 4) Your Turn ============ -->
+  <section class="card" id="try">
+    <span class="tag blue">🕐 Your Turn to Try</span>
+    <p class="instruction">Which two numbers make 6? Write the missing number in the box. You have 4 questions.</p>
+    <div class="score-strip">
+      <span>Correct Answers: <b id="try-score">0</b> / 4 ⭐</span>
+    </div>
+    <div class="tree-grid" id="try-trees"></div>
+    <div class="feedback" id="feedback-try"></div>
+  </section>
+
+  <!-- ============ 5) Let's Practice Together ============ -->
+  <section class="card" id="together">
+    <span class="tag green">🤝 Let's Practice Together</span>
+    <p class="instruction">Draw 6 circles, think step by step, and find the answer together.</p>
+    <div class="score-strip">
+      <span>Correct Answers: <b id="together-score">0</b> / 4 ⭐</span>
+    </div>
+    <div class="tree-grid" id="together-trees"></div>
+    <div class="feedback" id="feedback-together"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐔</span>
+      <div class="bubble">Let's practice together: Draw 6 circles and think step by step! 🐾</div>
+    </div>
+  </section>
+
+  <!-- ============ 6) Match Pairs ============ -->
+  <section class="card" id="match">
+    <span class="tag coral">🧠 Match Pairs</span>
+    <p class="instruction">Flip two cards at a time and find pairs of numbers that add up to 6.</p>
+    <div class="score-strip">
+      <span>Attempts: <b id="match-tries">0</b></span>
+      <span>Pairs Found: <b id="match-found">0</b> / 4</span>
+    </div>
+    <div class="memory-grid" id="match-grid"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildMatch()">New Game 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-match"></div>
+  </section>
+
+  <!-- ============ 7) Number Factory ============ -->
+  <section class="card" id="factory">
+    <span class="tag blue">🏭 Number 6 Factory</span>
+    <p class="instruction">Open each box, count the balls inside, and choose the number needed to reach 6.</p>
+    <div class="boxes-grid" id="factory-grid"></div>
+    <div id="factory-stage" style="display:none; text-align:center; margin-top:10px;">
+      <p class="method-target" id="factory-q"></p>
+      <div class="choices" id="factory-choices"></div>
+    </div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildFactory()">New Factory 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-factory"></div>
+  </section>
+
+  <!-- ============ 8) Balance Scale ============ -->
+  <section class="card" id="balance">
+    <span class="tag green">⚖️ Balance Scale</span>
+    <p class="instruction">Choose the right number of balls for the other side to balance the scale at 6.</p>
+    <div class="scale-container">
+      <div style="text-align:center;">
+        <div style="font-family:'Fredoka'; font-weight:700; font-size:1.1rem;">Given Side</div>
+        <div class="scale-pan" id="scale-left"></div>
+      </div>
+      <div style="font-size:2rem; align-self:center;">⚖️</div>
+      <div style="text-align:center;">
+        <div style="font-family:'Fredoka'; font-weight:700; font-size:1.1rem;">Your Choice</div>
+        <div class="scale-pan" id="scale-right"></div>
+      </div>
+    </div>
+    <div class="choices" id="balance-choices"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildBalance()">New Round 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-balance"></div>
+  </section>
+
+  <!-- ============ 9) Speed Challenge ============ -->
+  <section class="card" id="race">
+    <span class="tag coral">🏁 Speed Challenge</span>
+    <p class="instruction">Answer 8 consecutive questions about the number bonds of 6 as quickly as you can!</p>
+    <div class="score-strip">
+      <span>Question: <b id="race-round">-</b> / 8</span>
+      <span>Score: <b id="race-score">0</b> ⭐</span>
+    </div>
+    <div id="race-tree-holder" class="tree-grid"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="startRace()">Start Challenge 🏁</button>
+    </div>
+    <div class="feedback" id="feedback-race"></div>
+  </section>
+
+  <!-- ============ 10) Finger Bonds ============ -->
+  <section class="card" id="fingers">
+    <span class="tag">✋ Finger Bonds</span>
+    <p class="instruction">Look at the fingers raised on one hand, then select how many fingers are needed on the other hand to make 6.</p>
+    <div id="fingers-cards"></div>
+    <div class="feedback" id="feedback-fingers"></div>
+  </section>
+
+  <!-- ============ 11) Number 6 Family ============ -->
+  <section class="card" id="family">
+    <span class="tag coral">👨‍👩‍👧 Number 6 Family</span>
+    <p class="instruction">Click two numbers that add up to 6 to join them as "one family". Keep going until all families are complete!</p>
+    <div class="family-grid" id="family-grid"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildFamily()">New Game 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-family"></div>
+  </section>
+
+  <!-- ============ 12) Roll the Dice ============ -->
+  <section class="card" id="dice">
+    <span class="tag green">🎲 Roll the Dice</span>
+    <p class="instruction">Click "Start" to roll the die, then pick the missing number to make a total of 6.</p>
+    <div class="score-strip">
+      <span>Correct Rounds: <b id="dice-progress">0 / 5</b> ⭐</span>
+    </div>
+    <div class="dice-face" id="dice-face"></div>
+    <p class="method-target" id="dice-q" style="text-align:center;"></p>
+    <div class="choices" id="dice-choices"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="buildDice()">Start 🎲</button>
+    </div>
+    <div class="feedback" id="feedback-dice"></div>
+  </section>
+
+  <!-- ============ 13) Block Tower ============ -->
+  <section class="card" id="blocks">
+    <span class="tag blue">🧱 Block Tower</span>
+    <p class="instruction" id="tower-instruction">Color the required number of blocks in red, and the remaining blocks will stay blue.</p>
+    <div class="blocks-tower" id="blocks-tower"></div>
+    <div class="tower-eq" id="tower-eq"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildTower()">New Tower 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-blocks"></div>
+  </section>
+
+  <!-- ============ 14) Climb the Ladder ============ -->
+  <section class="card" id="ladder">
+    <span class="tag coral">🧗 Climb the Ladder</span>
+    <p class="instruction">Answer correctly to climb up a rung, and try to reach the top of the ladder!</p>
+    <div class="ladder-wrap">
+      <div class="ladder-track" id="ladder-track"></div>
+      <div class="ladder-question" id="ladder-question"></div>
+    </div>
+    <div class="feedback" id="feedback-ladder"></div>
+  </section>
+
+  <!-- ============ 15) Story Problems ============ -->
+  <section class="card" id="story">
+    <span class="tag green">📖 Story Problems</span>
+    <p class="instruction">Read each story carefully, think about the number bonds of 6, and find the correct answer.</p>
+    <div id="story-list"></div>
+    <div class="feedback" id="feedback-story"></div>
+  </section>
+
+  <section class="card finale" id="finale" style="display:none;">
+    <h2>🎉 Well Done! You are a Number Bonds Champion!</h2>
+    <p>You completed all the activities successfully! 🌟 Now you know all the ways to make the number 6!</p>
+  </section>
+
+</div>
+
+<script>
+  /* ---------- General Tools ---------- */
+  const done = {};
+  function markDone(key){
+    if(done[key]) return;
+    done[key] = true;
+    const star = document.getElementById("star-" + key);
+    if(star) star.textContent = "⭐";
+    const btn = document.querySelector('.rail-btn[data-target="'+key+'"]');
+    if(btn) btn.classList.add("done");
+    const keys = ["learn","ready","method","try","together","match","factory","balance","race","fingers","family","dice","blocks","ladder","story"];
+    if(keys.every(k => done[k])){
+      const f = document.getElementById("finale");
+      f.style.display = "block";
+      f.scrollIntoView({behavior:"smooth"});
+    }
+  }
+  document.querySelectorAll(".rail-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      const target = document.getElementById(b.dataset.target);
+      if(target) target.scrollIntoView({behavior:"smooth"});
+    });
+  });
+  function say(id, msg, ok){
+    const el = document.getElementById("feedback-" + id);
+    if(el){
+      el.textContent = msg;
+      el.className = "feedback " + (ok ? "ok" : "no");
+    }
+  }
+  function shuffle(a){ return a.slice().sort(() => Math.random() - 0.5); }
+
+  function genChoices(correct, max, count){
+    max = max===undefined?6:max; count = count===undefined?4:count;
+    let opts = new Set([correct]);
+    while(opts.size < count && opts.size <= max) opts.add(Math.floor(Math.random() * (max+1)));
+    return shuffle([...opts]);
+  }
+
+  function renderChoicesRow(container, correct, onPick, singleAttempt){
+    container.innerHTML = "";
+    delete container.dataset.locked;
+    genChoices(correct).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "choice"; btn.textContent = opt;
+      btn.onclick = () => {
+        if(container.dataset.locked) return;
+        const isCorrect = opt === correct;
+        if(isCorrect || singleAttempt) container.dataset.locked = "1";
+        btn.classList.add(isCorrect ? "right" : "wrong");
+        if(!isCorrect && singleAttempt){
+          [...container.children].forEach(b => { if(b.textContent == correct) b.classList.add("right"); });
+        }
+        onPick(isCorrect, opt, btn, container);
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  /* ---------- Reusable Bond Tree Card ---------- */
+  function createTreeCard(target, knownSide, knownVal, opts){
+    opts = opts || {};
+    const missing = target - knownVal;
+    const wrap = document.createElement("div");
+    wrap.className = "bond-wrap";
+    wrap.innerHTML =
+      '<div class="bond-tree">' +
+        '<svg class="bond-lines" viewBox="0 0 240 170">' +
+          '<line x1="120" y1="60" x2="55" y2="112"/>' +
+          '<line x1="120" y1="60" x2="185" y2="112"/>' +
+        '</svg>' +
+        '<div class="bond-top">' + target + '</div>' +
+        '<div class="bond-children">' +
+          '<div class="bond-child ' + (knownSide==="left"?"":"missing") + '" data-role="left">' + (knownSide==="left"?knownVal:"?") + '</div>' +
+          '<div class="bond-child ' + (knownSide==="right"?"":"missing") + '" data-role="right">' + (knownSide==="right"?knownVal:"?") + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="choices"></div>';
+    const missingBox = wrap.querySelector(".bond-child.missing");
+    const choicesDiv = wrap.querySelector(".choices");
+    renderChoicesRow(choicesDiv, missing, (ok) => {
+      if(ok){
+        missingBox.textContent = missing;
+        missingBox.classList.remove("missing");
+        missingBox.classList.add("correct");
+        if(opts.onCorrect) opts.onCorrect();
+      } else {
+        if(opts.onWrong) opts.onWrong();
+      }
+    }, opts.singleAttempt);
+    return wrap;
+  }
+
+  function buildSpecSection(containerId, doneKey, specs, scoreElId){
+    const host = document.getElementById(containerId);
+    host.innerHTML = "";
+    let correctCount = 0;
+    if(scoreElId) document.getElementById(scoreElId).textContent = 0;
+    specs.forEach(([side, val]) => {
+      const card = createTreeCard(6, side, val, {
+        onCorrect: () => {
+          correctCount++;
+          if(scoreElId) document.getElementById(scoreElId).textContent = correctCount;
+          if(correctCount === specs.length){
+            say(doneKey, "Awesome! You completed all questions successfully 🎉", true);
+            markDone(doneKey);
+          } else {
+            say(doneKey, "Correct! Great job 🌟", true);
+          }
+        },
+        onWrong: () => { say(doneKey, "Not quite, try again 💡", false); }
+      });
+      host.appendChild(card);
+    });
+  }
+
+  /* ---------- 1) Point & Learn ---------- */
+  const PAIRS = [[0,6],[1,5],[2,4],[3,3],[4,2],[5,1],[6,0]];
+  function buildLearn(){
+    const list = document.getElementById("pair-list");
+    list.innerHTML = "";
+    PAIRS.forEach(([a,b]) => {
+      const row = document.createElement("div");
+      row.className = "pair-row";
+      const dotsWrap = document.createElement("div"); dotsWrap.className = "pair-dots";
+      for(let i=0;i<6;i++){ const d = document.createElement("span"); d.className = "bdot"; dotsWrap.appendChild(d); }
+      const eq = document.createElement("div"); eq.className = "pair-eq"; eq.textContent = "? and ? make 6";
+      const hint = document.createElement("div"); hint.className = "pair-hint"; hint.textContent = "Click to reveal 👆";
+      row.appendChild(dotsWrap); row.appendChild(eq); row.appendChild(hint);
+      row.onclick = () => {
+        [...dotsWrap.children].forEach((d, idx) => {
+          d.classList.remove("red","blue");
+          d.classList.add(idx < a ? "red" : "blue");
+        });
+        eq.textContent = a + " and " + b + " make 6";
+        hint.textContent = "Awesome! These two numbers make 6 🌟";
+        row.classList.add("seen");
+        if(document.querySelectorAll("#pair-list .pair-row.seen").length === PAIRS.length){
+          say("learn", "Excellent! You learned all ways to make 6 🎉", true);
+          markDone("learn");
+        }
+      };
+      list.appendChild(row);
+    });
+  }
+
+  /* ---------- 2) Get Ready ---------- */
+  function buildReady(){
+    buildSpecSection("ready-trees", "ready", [["right",5], ["left",2]]);
+  }
+
+  /* ---------- 3) Solving Method ---------- */
+  const methodDoneSet = new Set();
+  function buildMethod(){
+    methodDoneSet.clear();
+    const grid = document.getElementById("method-grid");
+    grid.innerHTML = "";
+    [1,4].forEach((known, idx) => {
+      const remaining = 6 - known;
+      const card = document.createElement("div");
+      card.className = "method-card";
+      card.innerHTML =
+        '<div class="method-target">Color ' + known + ' circles, then find how many are left 🎨</div>' +
+        '<div class="dot-row" id="method-dots-' + idx + '"></div>' +
+        '<div class="choices" id="method-choices-' + idx + '" style="display:none;"></div>' +
+        '<div class="method-answer" id="method-answer-' + idx + '"></div>';
+      grid.appendChild(card);
+      const dotsHost = card.querySelector("#method-dots-" + idx);
+      const choicesHost = card.querySelector("#method-choices-" + idx);
+      const answerEl = card.querySelector("#method-answer-" + idx);
+      for(let i=0;i<6;i++){
+        const dot = document.createElement("span");
+        dot.className = "cdot";
+        dot.onclick = () => {
+          const coloredNow = [...dotsHost.children].filter(d => d.classList.contains("on")).length;
+          if(dot.classList.contains("on")){
+            dot.classList.remove("on");
+          } else if(coloredNow < known){
+            dot.classList.add("on");
+          }
+          const newCount = [...dotsHost.children].filter(d => d.classList.contains("on")).length;
+          if(newCount === known){
+            choicesHost.style.display = "flex";
+            if(!choicesHost.dataset.built){
+              choicesHost.dataset.built = "1";
+              renderChoicesRow(choicesHost, remaining, (ok) => {
+                if(ok){
+                  answerEl.textContent = "Correct! Remaining = " + remaining + " ✅";
+                  answerEl.style.color = "var(--leaf-deep)";
+                  methodDoneSet.add(idx);
+                  if(methodDoneSet.size === 2){
+                    say("method", "Great! You completely mastered this method 🎉", true);
+                    markDone("method");
+                  }
+                } else {
+                  answerEl.textContent = "Try again 💡";
+                  answerEl.style.color = "var(--coral)";
+                }
+              });
+            }
+          } else {
+            choicesHost.style.display = "none";
+          }
+        };
+        dotsHost.appendChild(dot);
+      }
+    });
+  }
+
+  /* ---------- 4 & 5) Your Turn / Practice Together ---------- */
+  function buildTry(){
+    buildSpecSection("try-trees", "try", [["right",4], ["right",3], ["left",2], ["left",1]], "try-score");
+  }
+  function buildTogether(){
+    buildSpecSection("together-trees", "together", [["right",1], ["right",0], ["left",3], ["left",4]], "together-score");
+  }
+
+  /* ---------- 6) Match Pairs ---------- */
+  function buildMatch(){
+    const grid = document.getElementById("match-grid");
+    grid.innerHTML = "";
+    const values = [0,6,1,5,2,4,3,3];
+    const order = shuffle(values);
+    let flipped = [], tries = 0, found = 0;
+    document.getElementById("match-tries").textContent = 0;
+    document.getElementById("match-found").textContent = 0;
+    order.forEach(v => {
+      const card = document.createElement("div");
+      card.className = "mem-card";
+      card.innerHTML =
+        '<div class="mem-inner">' +
+          '<div class="mem-face mem-back">🧩</div>' +
+          '<div class="mem-face mem-front">' + v + '</div>' +
+        '</div>';
+      card.onclick = () => {
+        if(card.classList.contains("flipped") || card.classList.contains("matched") || flipped.length === 2) return;
+        card.classList.add("flipped");
+        flipped.push({card, v});
+        if(flipped.length === 2){
+          tries++;
+          document.getElementById("match-tries").textContent = tries;
+          const [c1, c2] = flipped;
+          if(c1.v + c2.v === 6){
+            c1.card.classList.add("matched");
+            c2.card.classList.add("matched");
+            found++;
+            document.getElementById("match-found").textContent = found;
+            flipped = [];
+            if(found === 4){
+              say("match", "Excellent! You matched all pairs of 6 🎉", true);
+              markDone("match");
+            }
+          } else {
+            setTimeout(() => {
+              c1.card.classList.remove("flipped");
+              c2.card.classList.remove("flipped");
+              flipped = [];
+            }, 700);
+          }
+        }
+      };
+      grid.appendChild(card);
+    });
+  }
+
+  /* ---------- 7) Number Factory ---------- */
+  function buildFactory(){
+    const grid = document.getElementById("factory-grid");
+    grid.innerHTML = "";
+    const stage = document.getElementById("factory-stage");
+    stage.style.display = "none";
+    let solved = 0;
+    const vals = shuffle([0,1,2,3,4,5,6]);
+    vals.forEach(v => {
+      const box = document.createElement("div");
+      box.className = "box-card";
+      box.textContent = "📦";
+      box.onclick = () => {
+        if(box.classList.contains("opened")) return;
+        box.classList.add("opened");
+        box.textContent = v === 0 ? "Empty" : "🟡".repeat(v);
+        stage.style.display = "block";
+        document.getElementById("factory-q").textContent = "There are " + v + " balls in the box. How many more do we need to make 6?";
+        renderChoicesRow(document.getElementById("factory-choices"), 6 - v, (ok) => {
+          if(ok){
+            box.style.borderColor = "var(--leaf-deep)";
+            box.style.background = "#F1FBF0";
+            solved++;
+            say("factory", "Correct! " + v + " and " + (6-v) + " make 6 🎉", true);
+            if(solved === vals.length){ markDone("factory"); }
+          } else {
+            say("factory", "Not quite, try another number 💡", false);
+          }
+        });
+      };
+      grid.appendChild(box);
+    });
+  }
+
+  /* ---------- 8) Balance Scale ---------- */
+  let balanceSuccess = 0;
+  function buildBalance(){
+    const left = Math.floor(Math.random() * 7);
+    document.getElementById("scale-left").innerHTML = left === 0 ? '<span style="opacity:.5">Empty</span>' : "🟡".repeat(left);
+    document.getElementById("scale-right").innerHTML = '<span style="opacity:.5">Empty</span>';
+    const need = 6 - left;
+    renderChoicesRow(document.getElementById("balance-choices"), need, (ok, opt) => {
+      document.getElementById("scale-right").innerHTML = opt === 0 ? '<span style="opacity:.5">Empty</span>' : "🟡".repeat(opt);
+      if(ok){
+        balanceSuccess++;
+        say("balance", "Perfect balance! " + left + " and " + opt + " make 6 ⚖️✅", true);
+        if(balanceSuccess >= 3){ markDone("balance"); }
+      } else {
+        say("balance", "The scale is unbalanced. Try another number 💡", false);
+      }
+    });
+  }
+
+  /* ---------- 9) Speed Challenge ---------- */
+  let raceRound = 0, raceScore = 0, raceSpecs = [];
+  function startRace(){
+    raceRound = 0; raceScore = 0; raceSpecs = [];
+    for(let i=0;i<8;i++){
+      raceSpecs.push([Math.random() < 0.5 ? "left" : "right", Math.floor(Math.random() * 7)]);
+    }
+    document.getElementById("race-score").textContent = 0;
+    document.getElementById("race-round").textContent = 1;
+    say("race", "", true);
+    showRaceRound();
+  }
+  function showRaceRound(){
+    const host = document.getElementById("race-tree-holder");
+    host.innerHTML = "";
+    if(raceRound >= 8){
+      say("race", "Challenge complete! Your score: " + raceScore + " out of 8 🏁", true);
+      markDone("race");
+      return;
+    }
+    const [side, val] = raceSpecs[raceRound];
+    const card = createTreeCard(6, side, val, {
+      singleAttempt: true,
+      onCorrect: () => { raceScore++; document.getElementById("race-score").textContent = raceScore; nextRaceRound(true); },
+      onWrong: () => { nextRaceRound(false); }
+    });
+    host.appendChild(card);
+  }
+  function nextRaceRound(ok){
+    say("race", ok ? "Correct answer! ⭐" : "That wasn't correct. On to the next question! 💡", ok);
+    setTimeout(() => {
+      raceRound++;
+      if(raceRound < 8) document.getElementById("race-round").textContent = raceRound + 1;
+      showRaceRound();
+    }, 1000);
+  }
+
+  /* ---------- 10) Finger Bonds ---------- */
+  function buildFingers(){
+    const host = document.getElementById("fingers-cards");
+    host.innerHTML = "";
+    let correctCount = 0;
+    const knowns = [4,2,1,5];
+    knowns.forEach(n => {
+      const card = document.createElement("div");
+      card.className = "hand-wrap";
+      let fingersHtml = "";
+      for(let i=0;i<5;i++){ fingersHtml += '<div class="finger' + (i<n ? " up" : "") + '"></div>'; }
+      card.innerHTML =
+        '<div class="hand">' + fingersHtml + '</div>' +
+        '<div class="hand-label">This hand has ' + n + ' fingers up. How many fingers are needed on the other hand to make 6?</div>' +
+        '<div class="choices"></div>';
+      host.appendChild(card);
+      renderChoicesRow(card.querySelector(".choices"), 6-n, (ok) => {
+        if(ok){
+          correctCount++;
+          say("fingers", "Correct! " + n + " and " + (6-n) + " make 6 🌟", true);
+          if(correctCount === knowns.length){ markDone("fingers"); }
+        } else {
+          say("fingers", "Try again 💡", false);
+        }
+      });
+    });
+  }
+
+  /* ---------- 11) Number 6 Family ---------- */
+  function buildFamily(){
+    const grid = document.getElementById("family-grid");
+    grid.innerHTML = "";
+    const values = [0,6,1,5,2,4,3,3];
+    const order = shuffle(values);
+    let selected = [], matchedCount = 0;
+    order.forEach(v => {
+      const card = document.createElement("div");
+      card.className = "family-card";
+      card.textContent = v;
+      card.dataset.v = v;
+      card.onclick = () => {
+        if(card.classList.contains("matched") || card.classList.contains("selected") || selected.length === 2) return;
+        card.classList.add("selected");
+        selected.push(card);
+        if(selected.length === 2){
+          const sum = Number(selected[0].dataset.v) + Number(selected[1].dataset.v);
+          if(sum === 6){
+            selected.forEach(c => { c.classList.remove("selected"); c.classList.add("matched"); });
+            matchedCount++;
+            say("family", "Awesome! You made a family for 6 🎉", true);
+            selected = [];
+            if(matchedCount === 4){ markDone("family"); }
+          } else {
+            selected.forEach(c => c.classList.add("wrong-flash"));
+            say("family", "These two numbers don't make 6. Try another pair 💡", false);
+            const toReset = selected;
+            selected = [];
+            setTimeout(() => { toReset.forEach(c => c.classList.remove("selected","wrong-flash")); }, 700);
+          }
+        }
+      };
+      grid.appendChild(card);
+    });
+  }
+
+  /* ---------- 12) Roll the Dice ---------- */
+  const DICE_DOTS = {1:[5],2:[1,9],3:[1,5,9],4:[1,3,7,9],5:[1,3,5,7,9],6:[1,3,4,6,7,9]};
+  let diceSuccess = 0, diceCurrent = 1;
+  function renderDiceFace(n){
+    const face = document.getElementById("dice-face");
+    face.innerHTML = "";
+    for(let i=1;i<=9;i++){
+      const dot = document.createElement("div");
+      dot.className = "dice-dot" + (DICE_DOTS[n].includes(i) ? " on" : "");
+      face.appendChild(dot);
+    }
+  }
+  function buildDice(){
+    diceSuccess = 0;
+    document.getElementById("dice-progress").textContent = "0 / 5";
+    rollDice();
+  }
+  function rollDice(){
+    diceCurrent = 1 + Math.floor(Math.random()*6);
+    renderDiceFace(diceCurrent);
+    document.getElementById("dice-q").textContent = "The die shows " + diceCurrent + ". What number completes it to make 6?";
+    renderChoicesRow(document.getElementById("dice-choices"), 6-diceCurrent, (ok) => {
+      if(ok){
+        diceSuccess++;
+        document.getElementById("dice-progress").textContent = diceSuccess + " / 5";
+        say("dice", "Correct! " + diceCurrent + " and " + (6-diceCurrent) + " make 6 🎲", true);
+        if(diceSuccess >= 5){ markDone("dice"); } else { setTimeout(rollDice, 900); }
+      } else {
+        say("dice", "Try again 💡", false);
+      }
+    });
+  }
+  renderDiceFace(1);
+
+  /* ---------- 13) Block Tower ---------- */
+  let towerTarget = 0, towerSuccessCount = 0;
+  function buildTower(){
+    towerTarget = 1 + Math.floor(Math.random()*5);
+    document.getElementById("tower-instruction").textContent = "Color " + towerTarget + " blocks red. The rest will stay blue 🧱";
+    const tower = document.getElementById("blocks-tower");
+    tower.innerHTML = "";
+    for(let i=0;i<6;i++){
+      const block = document.createElement("div");
+      block.className = "block";
+      block.onclick = () => {
+        const redCount = [...tower.children].filter(b => b.classList.contains("red")).length;
+        if(block.classList.contains("red")){
+          block.classList.remove("red");
+        } else if(redCount < towerTarget){
+          block.classList.add("red");
+        }
+        checkTower();
+      };
+      tower.appendChild(block);
+    }
+    document.getElementById("tower-eq").textContent = "";
+  }
+  function checkTower(){
+    const tower = document.getElementById("blocks-tower");
+    const redCount = [...tower.children].filter(b => b.classList.contains("red")).length;
+    const blueCount = 6 - redCount;
+    document.getElementById("tower-eq").textContent = redCount + " + " + blueCount + " = 6";
+    if(redCount === towerTarget){
+      say("blocks", "Correct! " + redCount + " and " + blueCount + " make 6 🧱🎉", true);
+      towerSuccessCount++;
+      if(towerSuccessCount >= 3){ markDone("blocks"); }
+    }
+  }
+
+  /* ---------- 14) Climb the Ladder ---------- */
+  const LADDER_TOTAL = 6;
+  let ladderStep = 0;
+  function buildLadder(){
+    ladderStep = 0;
+    const track = document.getElementById("ladder-track");
+    track.innerHTML = '<span class="climber" id="climber" style="bottom:4%;">🧗</span>';
+    for(let i=1;i<LADDER_TOTAL;i++){
+      const rung = document.createElement("div");
+      rung.className = "ladder-rung";
+      rung.style.bottom = (i * (100/LADDER_TOTAL)) + "%";
+      track.appendChild(rung);
+    }
+    nextLadderQuestion();
+  }
+  function nextLadderQuestion(){
+    if(ladderStep >= LADDER_TOTAL){
+      say("ladder", "You reached the top! You're a Number Bonds Champion 🏔️🎉", true);
+      markDone("ladder");
+      return;
+    }
+    const host = document.getElementById("ladder-question");
+    host.innerHTML = "";
+    const side = Math.random() < 0.5 ? "left" : "right";
+    const val = Math.floor(Math.random()*7);
+    const card = createTreeCard(6, side, val, {
+      onCorrect: () => {
+        ladderStep++;
+        const pct = 4 + (ladderStep/LADDER_TOTAL)*92;
+        document.getElementById("climber").style.bottom = pct + "%";
+        say("ladder", "Climbed up a step! 🧗", true);
+        setTimeout(nextLadderQuestion, 700);
+      },
+      onWrong: () => { say("ladder", "Try again, think carefully 💡", false); }
+    });
+    host.appendChild(card);
+  }
+
+  /* ---------- 15) Story Problems ---------- */
+  const STORIES = [
+    {emoji:"🎈", text:"Sarah has 6 balloons. 4 of them are red and the rest are blue. How many blue balloons are there?", known:4},
+    {emoji:"🍎", text:"There are 6 apples in a basket. 2 are yellow and the rest are red. How many red apples are there?", known:2},
+    {emoji:"🐦", text:"There were 6 birds on a tree branch. 1 bird flew away. How many birds stayed on the tree?", known:1},
+    {emoji:"⭐", text:"Ahmed drew 6 stars. He colored 3 yellow and the rest blue. How many stars are blue?", known:3}
+  ];
+  function buildStories(){
+    const host = document.getElementById("story-list");
+    host.innerHTML = "";
+    let doneCount = 0;
+    STORIES.forEach(st => {
+      const missing = 6 - st.known;
+      const card = document.createElement("div");
+      card.className = "story-card";
+      card.innerHTML =
+        '<div class="story-text">' + st.text + '</div>' +
+        '<div class="story-cluster">' + st.emoji.repeat(st.known) + " " + "❓".repeat(missing) + '</div>' +
+        '<div class="choices"></div>';
+      host.appendChild(card);
+      renderChoicesRow(card.querySelector(".choices"), missing, (ok) => {
+        if(ok){
+          doneCount++;
+          say("story", "Correct answer! 🌟", true);
+          if(doneCount === STORIES.length){ markDone("story"); }
+        } else {
+          say("story", "Think about the story again 💡", false);
+        }
+      });
+    });
+  }
+
+  /* ---------- Initialization ---------- */
+  buildLearn();
+  buildReady();
+  buildMethod();
+  buildTry();
+  buildTogether();
+  buildMatch();
+  buildFactory();
+  buildBalance();
+  buildFingers();
+  buildFamily();
+  buildTower();
+  buildLadder();
+  buildStories();
+</script>
+</body>
+</html>

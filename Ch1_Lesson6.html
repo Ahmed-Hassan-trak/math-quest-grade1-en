@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1-6: Let's Count! (6 to 10) | Japanese Math Method</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF7E4;
+    --sun: #FFC93C;
+    --sun-deep: #FF9F1C;
+    --sky: #2E86C1;
+    --sky-deep: #1B5E8C;
+    --leaf: #6BCB77;
+    --leaf-deep: #3F9950;
+    --coral: #FF6B6B;
+    --ink: #2C3E50;
+    --paper: #FFFFFF;
+    --line: #F1E4C0;
+    --shadow: 0 8px 0 rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background:
+      radial-gradient(circle at 8% 12%, #FFF1C4 0, transparent 45%),
+      radial-gradient(circle at 92% 85%, #E8F6E9 0, transparent 40%),
+      var(--cream);
+    font-family: 'Quicksand', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  h1, h2, h3, .display { font-family: 'Fredoka', sans-serif; }
+
+  /* Navigation Bar */
+  .rail { position: sticky; top: 0; z-index: 50; background: var(--sky); box-shadow: 0 4px 14px rgba(27,94,140,.25); }
+  .rail-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; gap: 8px; padding: 10px 16px; overflow-x: auto; }
+  .rail-title { color: #fff; font-family: 'Fredoka'; font-weight: 700; font-size: 1.1rem; white-space: nowrap; padding-inline-end: 10px; border-inline-end: 2px solid rgba(255,255,255,.3); margin-inline-end: 6px; }
+  .rail-btn { flex: 0 0 auto; background: rgba(255,255,255,.15); color: #fff; border: 2px solid rgba(255,255,255,.4); border-radius: 999px; padding: 6px 14px; font-family: 'Quicksand'; font-weight: 700; font-size: .82rem; cursor: pointer; white-space: nowrap; transition: .2s; }
+  .rail-btn:hover { background: rgba(255,255,255,.3); }
+  .rail-btn.done { background: var(--leaf); border-color: var(--leaf); color: #12351a; }
+
+  /* Hero Section */
+  .hero { max-width: 1000px; margin: 26px auto 10px; padding: 0 16px; }
+  .hero-card { background: linear-gradient(135deg, var(--sky) 0%, var(--sky-deep) 100%); border-radius: 28px; padding: 34px 30px; color: #fff; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+  .hero-eyebrow { display: inline-block; background: var(--sun); color: #5a3b00; font-family: 'Fredoka'; font-weight: 700; font-size: .9rem; padding: 6px 16px; border-radius: 999px; margin-bottom: 14px; }
+  .hero h1 { font-size: 2.3rem; margin: 0 0 8px; line-height: 1.25; }
+  .hero p { font-size: 1.05rem; opacity: .92; max-width: 640px; margin: 0; font-weight: 600; }
+  
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+  section.card { background: var(--paper); border: 3px solid var(--line); border-radius: 26px; margin-top: 26px; padding: 26px 24px 30px; scroll-margin-top: 80px; position: relative; }
+  .tag { display: inline-flex; align-items: center; gap: 8px; background: var(--sun); color: #5a3b00; font-family: 'Fredoka'; font-weight: 700; padding: 8px 18px; border-radius: 14px; font-size: 1.05rem; box-shadow: 0 4px 0 rgba(0,0,0,.08); margin-bottom: 16px; }
+  .tag.blue { background: var(--sky); color: #fff; }
+  .tag.green { background: var(--leaf); color: #173d1c; }
+  .tag.coral { background: var(--coral); color: #fff; }
+  .instruction { font-size: 1.05rem; margin: 0 0 18px; font-weight: 700; color: var(--ink); }
+
+  /* Interactive Elements */
+  .interactive-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 15px; }
+  .ex-box { background: #FFFBF0; border: 2px solid var(--line); border-radius: 20px; padding: 18px; text-align: center; position: relative; }
+  .ex-num { position: absolute; top: 12px; left: 16px; font-family: 'Fredoka'; font-weight: 700; color: var(--sky-deep); font-size: 1.1rem; }
+  
+  .item-display { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 16px; min-height: 120px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin: 12px 0; }
+  .tap-item { font-size: 2.2rem; cursor: pointer; user-select: none; transition: transform 0.15s; position: relative; display: inline-block; padding: 4px; }
+  .tap-item:active { transform: scale(1.2); }
+  .tap-item.counted { filter: drop-shadow(0 0 6px rgba(107, 203, 119, 0.8)); }
+  .tap-badge { position: absolute; top: -6px; right: -6px; background: var(--coral); color: #fff; font-family: 'Fredoka'; font-weight: 700; font-size: 0.75rem; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+  .answer-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+  .num-input { width: 60px; height: 50px; font-family: 'Fredoka'; font-weight: 700; font-size: 1.5rem; text-align: center; border: 3px solid var(--sky); border-radius: 14px; outline: none; background: #fff; color: var(--ink); }
+  .num-input:focus { border-color: var(--sun-deep); box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.2); }
+
+  .feedback { min-height: 34px; font-weight: 700; font-family: 'Fredoka'; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; }
+  .feedback.ok { color: var(--leaf-deep); }
+  .feedback.no { color: var(--coral); }
+  
+  .check-btn { background: var(--sky); color: #fff; border: none; border-radius: 14px; padding: 12px 24px; font-family: 'Fredoka'; font-weight: 700; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 0 var(--sky-deep); transition: .1s; }
+  .check-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--sky-deep); }
+  .check-btn:hover { filter: brightness(1.06); }
+  .reset-btn { background: #fff; color: var(--ink); border: 2px solid var(--line); border-radius: 14px; padding: 11px 20px; font-family: 'Quicksand'; font-weight: 700; font-size: .92rem; cursor: pointer; }
+  .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+
+  .mascot-bubble { display: flex; align-items: flex-start; gap: 12px; margin-top: 20px; }
+  .mascot-emoji { font-size: 2.5rem; }
+  .bubble { background: #FFFBF0; border: 2px solid var(--line); border-radius: 18px; padding: 12px 16px; font-weight: 700; flex: 1; font-size: 0.95rem; }
+
+  .demo-strip { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; background: #EAF6FF; border: 2px dashed var(--sky); border-radius: 18px; padding: 16px; margin: 15px 0; }
+  .demo-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .demo-word { font-family: 'Fredoka'; font-weight: 700; font-size: 0.85rem; color: var(--sky-deep); }
+
+  /* Ten Frame */
+  .tenframe { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); gap: 8px; background: #fff; border: 3px solid var(--line); border-radius: 16px; padding: 12px; max-width: 320px; margin: 0 auto; }
+  .tdot { aspect-ratio: 1/1; border-radius: 50%; background: #fff; border: 2px solid #D9C99A; cursor: pointer; transition: 0.15s; }
+  .tdot.on { background: var(--coral); border-color: #c94040; }
+
+  /* Train */
+  .train-wrap { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 15px 0; background: #EAF6FF; padding: 16px; border-radius: 20px; border: 2px dashed var(--sky); overflow-x: auto; }
+  .train-car { width: 52px; height: 52px; background: var(--sun); border: 3px solid var(--sun-deep); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka'; font-weight: 700; font-size: 1.3rem; color: #5a3b00; flex-shrink: 0; }
+
+  /* Scale */
+  .scale-container { display: flex; justify-content: space-around; align-items: flex-end; background: #FFFBF0; border: 2px solid var(--line); border-radius: 20px; padding: 16px; margin: 15px 0; }
+  .scale-pan { width: 110px; min-height: 70px; border-bottom: 4px solid var(--ink); border-radius: 0 0 16px 16px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px; padding: 8px; background: #fff; }
+
+  /* I-Spy */
+  .ispy-board { background: linear-gradient(#d4fc79 0%, #96e6a1 100%); border-radius: 20px; padding: 16px; min-height: 160px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+  .ispy-item { font-size: 2rem; cursor: pointer; user-select: none; transition: .2s; }
+  .ispy-item.found { transform: scale(0.7); opacity: 0.4; pointer-events: none; }
+
+  /* Number Line */
+  .number-line { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 3px solid var(--sky); border-radius: 20px; padding: 16px; margin: 15px 0; }
+  .line-node { width: 42px; height: 42px; border-radius: 50%; background: #FFFBF0; border: 2px solid var(--sky-deep); display: flex; align-items: center; justify-content: center; font-family: 'Fredoka'; font-weight: 700; font-size: 1.1rem; cursor: pointer; }
+  .line-node.active { background: var(--sun); border-color: var(--sun-deep); transform: scale(1.15); }
+
+  /* Memory Cards */
+  .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 400px; margin: 0 auto; }
+  .mem-card { aspect-ratio: 1/1; background: var(--sky); border: 3px solid var(--sky-deep); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka'; font-size: 1.5rem; color: #fff; cursor: pointer; user-select: none; transition: 0.2s; }
+  .mem-card.flipped { background: #fff; color: var(--ink); border-color: var(--sun-deep); }
+
+  .choice-btn { min-width: 50px; height: 50px; padding: 0 10px; border-radius: 14px; background: #fff; border: 3px solid var(--sky); font-family: 'Fredoka'; font-weight: 700; font-size: 1.3rem; color: var(--sky-deep); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: .12s; }
+  .choice-btn:hover { background: #EAF6FF; transform: translateY(-2px); }
+
+  .finale { text-align: center; background: linear-gradient(135deg, var(--leaf) 0%, var(--leaf-deep) 100%); color: #fff; border-color: transparent; }
+  .finale h2 { font-size: 2rem; margin: 6px 0 10px; }
+</style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="rail">
+  <div class="rail-inner">
+    <span class="rail-title">Lesson 1-6</span>
+    <button class="rail-btn" data-target="learn">Point & Learn <span class="rail-star" id="star-learn"></span></button>
+    <button class="rail-btn" data-target="ready">Get Ready! <span class="rail-star" id="star-ready"></span></button>
+    <button class="rail-btn" data-target="try">Try Time <span class="rail-star" id="star-try"></span></button>
+    <button class="rail-btn" data-target="together">Together <span class="rail-star" id="star-together"></span></button>
+    <button class="rail-btn" data-target="tenframe-game">Ten-Frame <span class="rail-star" id="star-tenframe-game"></span></button>
+    <button class="rail-btn" data-target="train-game">Train <span class="rail-star" id="star-train-game"></span></button>
+    <button class="rail-btn" data-target="balance-game">Balance <span class="rail-star" id="star-balance-game"></span></button>
+    <button class="rail-btn" data-target="ispy-game">I-Spy <span class="rail-star" id="star-ispy-game"></span></button>
+    <button class="rail-btn" data-target="hop-game">Number Hop <span class="rail-star" id="star-hop-game"></span></button>
+    <button class="rail-btn" data-target="memory-game">Memory <span class="rail-star" id="star-memory-game"></span></button>
+    <button class="rail-btn" data-target="speed-game">Speed Race <span class="rail-star" id="star-speed-game"></span></button>
+  </div>
+</div>
+
+<!-- Hero Banner -->
+<div class="hero">
+  <div class="hero-card">
+    <span class="hero-eyebrow">Unit 1 · Lesson 1-6</span>
+    <h1>1-6 Let's Count! (From 6 to 10) 🔢</h1>
+    <p>Learn the Japanese Math Method: Point at each picture with your finger as you count out loud!</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 1) Point and Learn -->
+  <section class="card" id="learn">
+    <span class="tag">📖 Point & Learn (نشير ونتعلم)</span>
+    <p class="instruction">When we count, we point to each picture with our finger and say the numbers out loud!</p>
+    <div style="text-align: center; font-family: 'Fredoka'; font-size: 1.2rem; color: var(--sky-deep); margin-bottom: 8px;">
+      Example: Tap each bird to point and count out loud! 🕊️
+    </div>
+    <div class="demo-strip" id="demo-birds"></div>
+    <div class="feedback ok" id="learn-count-status">Tap the birds one by one!</div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">👈</span>
+      <div class="bubble">Japanese Method Rule: Always touch or point to each item once so you don't miss any or count it twice!</div>
+    </div>
+  </section>
+
+  <!-- 2) Get Ready -->
+  <section class="card" id="ready">
+    <span class="tag coral">⚡ Get Ready, My Friends! (استعدوا يا أصدقائي)</span>
+    <p class="instruction">Count the items in each box by tapping them, then write the correct number!</p>
+    <div class="interactive-grid">
+      <div class="ex-box">
+        <span class="ex-num">(1)</span>
+        <div class="item-display" id="disp-ready-1"></div>
+        <div class="answer-row">
+          <span>Rabbits:</span>
+          <input type="number" class="num-input" id="ans-ready-1" min="1" max="10">
+        </div>
+      </div>
+      <div class="ex-box">
+        <span class="ex-num">(2)</span>
+        <div class="item-display" id="disp-ready-2"></div>
+        <div class="answer-row">
+          <span>Balls:</span>
+          <input type="number" class="num-input" id="ans-ready-2" min="1" max="10">
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkReady()">Check Answers ✔️</button>
+      <button class="reset-btn" onclick="buildReady()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-ready"></div>
+  </section>
+
+  <!-- 3) Try Time -->
+  <section class="card" id="try">
+    <span class="tag blue">🕐 Try Time (وقت المحاولة)</span>
+    <p class="instruction">Count the objects in each group and write the total number in the box!</p>
+    <div class="interactive-grid">
+      <div class="ex-box">
+        <span class="ex-num">(1)</span>
+        <div class="item-display" id="disp-try-1"></div>
+        <div class="answer-row">
+          <span>Butterflies:</span>
+          <input type="number" class="num-input" id="ans-try-1" min="1" max="10">
+        </div>
+      </div>
+      <div class="ex-box">
+        <span class="ex-num">(2)</span>
+        <div class="item-display" id="disp-try-2"></div>
+        <div class="answer-row">
+          <span>Ice Creams:</span>
+          <input type="number" class="num-input" id="ans-try-2" min="1" max="10">
+        </div>
+      </div>
+      <div class="ex-box">
+        <span class="ex-num">(3)</span>
+        <div class="item-display" id="disp-try-3"></div>
+        <div class="answer-row">
+          <span>Bicycles:</span>
+          <input type="number" class="num-input" id="ans-try-3" min="1" max="10">
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkTry()">Check Answers ✔️</button>
+      <button class="reset-btn" onclick="buildTry()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-try"></div>
+  </section>
+
+  <!-- 4) Let's Practice Together -->
+  <section class="card" id="together">
+    <span class="tag green">🤝 Let's Practice Together! (هيا نتدرب سوياً)</span>
+    <p class="instruction">Point, count, and enter the correct count for all 5 problems from your textbook page!</p>
+    <div class="interactive-grid">
+      <div class="ex-box"><span class="ex-num">(1)</span><div class="item-display" id="disp-tog-1"></div><div class="answer-row"><span>Buses:</span><input type="number" class="num-input" id="ans-tog-1"></div></div>
+      <div class="ex-box"><span class="ex-num">(2)</span><div class="item-display" id="disp-tog-2"></div><div class="answer-row"><span>Fish:</span><input type="number" class="num-input" id="ans-tog-2"></div></div>
+      <div class="ex-box"><span class="ex-num">(3)</span><div class="item-display" id="disp-tog-3"></div><div class="answer-row"><span>Bears:</span><input type="number" class="num-input" id="ans-tog-3"></div></div>
+      <div class="ex-box"><span class="ex-num">(4)</span><div class="item-display" id="disp-tog-4"></div><div class="answer-row"><span>Horses:</span><input type="number" class="num-input" id="ans-tog-4"></div></div>
+      <div class="ex-box"><span class="ex-num">(5)</span><div class="item-display" id="disp-tog-5"></div><div class="answer-row"><span>Ladybugs:</span><input type="number" class="num-input" id="ans-tog-5"></div></div>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkTogether()">Check All ✔️</button>
+      <button class="reset-btn" onclick="buildTogether()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-together"></div>
+  </section>
+
+  <!-- GAME 1: Ten-Frame -->
+  <section class="card" id="tenframe-game">
+    <span class="tag green">🎨 Game 1: Ten-Frame Fill</span>
+    <p class="instruction" id="tenframe-instruction">Tap the empty spots to make exactly 10 dots!</p>
+    <div class="tenframe" id="tenframe-grid"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkTenFrame()">Check Answer ✔️</button>
+      <button class="reset-btn" onclick="buildTenFrameGame()">New Round 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-tenframe"></div>
+  </section>
+
+  <!-- GAME 2: Number Train -->
+  <section class="card" id="train-game">
+    <span class="tag blue">🚂 Game 2: Number Train Sequence</span>
+    <p class="instruction">Find the missing car number to fix the sequence!</p>
+    <div class="train-wrap" id="train-cars"></div>
+    <div class="btn-row" id="train-choices"></div>
+    <div class="feedback" id="feedback-train"></div>
+  </section>
+
+  <!-- GAME 3: Scale Balance -->
+  <section class="card" id="balance-game">
+    <span class="tag coral">⚖️ Game 3: Scale Balance</span>
+    <p class="instruction">Choose the group that balances the scale to match the target number!</p>
+    <div class="scale-container">
+      <div style="text-align:center;">
+        <div style="font-family:'Fredoka'; font-weight:700;">Target</div>
+        <div class="scale-pan" id="scale-target-pan" style="font-family:'Fredoka'; font-size:2rem; color:var(--sky-deep);">?</div>
+      </div>
+      <div style="font-size:2rem; align-self:center;">⚖️</div>
+      <div style="text-align:center;">
+        <div style="font-family:'Fredoka'; font-weight:700;">Your Choice</div>
+        <div class="scale-pan" id="scale-current-pan"></div>
+      </div>
+    </div>
+    <div class="btn-row" id="balance-choices"></div>
+    <div class="feedback" id="feedback-balance"></div>
+  </section>
+
+  <!-- GAME 4: I-Spy Field Search -->
+  <section class="card" id="ispy-game">
+    <span class="tag green">🔍 Game 4: I-Spy Field Search</span>
+    <p class="instruction" id="ispy-instruction">Explore the garden and tap the requested items!</p>
+    <div class="ispy-board" id="ispy-board"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildIspyGame()">New Field 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-ispy"></div>
+  </section>
+
+  <!-- GAME 5: Frog Number Line Hop -->
+  <section class="card" id="hop-game">
+    <span class="tag blue">🐸 Game 5: Frog Number Line Hop</span>
+    <p class="instruction" id="hop-instruction">Help the frog hop step-by-step forward to reach 10!</p>
+    <div style="text-align:center; font-size:2.8rem; margin-bottom:-10px;">🐸</div>
+    <div class="number-line" id="number-line"></div>
+    <div class="feedback" id="feedback-hop"></div>
+  </section>
+
+  <!-- GAME 6: Memory Match -->
+  <section class="card" id="memory-game">
+    <span class="tag coral">🃏 Game 6: Number Memory Cards</span>
+    <p class="instruction">Flip cards to match the number with its correct picture group!</p>
+    <div class="memory-grid" id="memory-grid"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildMemoryGame()">Restart Memory Game 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-memory"></div>
+  </section>
+
+  <!-- GAME 7: Speed Race -->
+  <section class="card" id="speed-game">
+    <span class="tag green">⚡ Game 7: Speed Count Race</span>
+    <p class="instruction">Count quickly and select the right number!</p>
+    <div class="ex-box" style="max-width:500px; margin:0 auto;">
+      <div id="speed-q" style="font-family:'Fredoka'; font-weight:700; color:var(--sky-deep);">Press Start!</div>
+      <div class="item-display" id="speed-disp">⏱️</div>
+      <div id="speed-opts" style="display:flex; gap:10px; justify-content:center; margin-top:15px;"></div>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="startSpeedGame()">Start Race 🚀</button>
+    </div>
+    <div class="feedback" id="feedback-speed"></div>
+  </section>
+
+  <!-- Finale Banner -->
+  <section class="card finale" id="finale" style="display:none;">
+    <h2>🎉 Mastered Lesson 1-6! Super job!</h2>
+    <p>You completed all games and activities using the Japanese Math Method! 🌟</p>
+  </section>
+
+</div>
+
+<script>
+  const done = {};
+  function markDone(key){
+    if(done[key]) return;
+    done[key] = true;
+    const star = document.getElementById("star-" + key);
+    if(star) star.textContent = "⭐";
+    const btn = document.querySelector('.rail-btn[data-target="'+key+'"]');
+    if(btn) btn.classList.add("done");
+    const keys = ["learn","ready","try","together","tenframe-game","train-game","balance-game","ispy-game","hop-game","memory-game","speed-game"];
+    if(keys.every(k => done[k])){
+      const f = document.getElementById("finale");
+      f.style.display = "block";
+      f.scrollIntoView({behavior:"smooth"});
+    }
+  }
+
+  document.querySelectorAll(".rail-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      const target = document.getElementById(b.dataset.target);
+      if(target) target.scrollIntoView({behavior:"smooth"});
+    });
+  });
+
+  function say(id, msg, ok){
+    const el = document.getElementById("feedback-" + id);
+    if(el){
+      el.textContent = msg;
+      el.className = "feedback " + (ok ? "ok" : "no");
+    }
+  }
+
+  function createTapContainer(containerId, emoji, totalCount) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    let currentTapped = 0;
+
+    for (let i = 1; i <= totalCount; i++) {
+      const item = document.createElement("span");
+      item.className = "tap-item";
+      item.innerHTML = emoji;
+      
+      item.onclick = () => {
+        if (!item.classList.contains("counted")) {
+          currentTapped++;
+          item.classList.add("counted");
+          const badge = document.createElement("span");
+          badge.className = "tap-badge";
+          badge.textContent = currentTapped;
+          item.appendChild(badge);
+        }
+      };
+      container.appendChild(item);
+    }
+  }
+
+  /* Learn Demo */
+  function buildLearnDemo() {
+    const words = ["One", "Two", "Three", "Four", "Five", "Six", "Seven"];
+    const container = document.getElementById("demo-birds");
+    container.innerHTML = "";
+    let count = 0;
+    for (let i = 1; i <= 7; i++) {
+      const wrap = document.createElement("div");
+      wrap.className = "demo-item";
+      const bird = document.createElement("span");
+      bird.className = "tap-item";
+      bird.innerHTML = "🕊️";
+      const word = document.createElement("span");
+      word.className = "demo-word";
+      word.textContent = "(" + i + ")";
+
+      bird.onclick = () => {
+        if (!bird.classList.contains("counted")) {
+          count++;
+          bird.classList.add("counted");
+          const badge = document.createElement("span");
+          badge.className = "tap-badge";
+          badge.textContent = count;
+          bird.appendChild(badge);
+          word.textContent = words[i-1];
+          word.style.color = "var(--coral)";
+          document.getElementById("learn-count-status").textContent = "Count: " + count + " (" + words[count-1] + ") 🕊️";
+          if (count === 7) {
+            say("learn-count-status", "Great! You counted 7 birds! ⭐", true);
+            markDone("learn");
+          }
+        }
+      };
+      wrap.appendChild(bird); wrap.appendChild(word); container.appendChild(wrap);
+    }
+  }
+
+  /* Get Ready */
+  function buildReady() {
+    createTapContainer("disp-ready-1", "🐇", 9);
+    createTapContainer("disp-ready-2", "⚾", 6);
+    document.getElementById("ans-ready-1").value = "";
+    document.getElementById("ans-ready-2").value = "";
+    document.getElementById("feedback-ready").textContent = "";
+  }
+  function checkReady() {
+    const a1 = parseInt(document.getElementById("ans-ready-1").value);
+    const a2 = parseInt(document.getElementById("ans-ready-2").value);
+    if (a1 === 9 && a2 === 6) {
+      say("ready", "Awesome job! (1) 9 rabbits, (2) 6 balls. Perfect! 🎉", true);
+      markDone("ready");
+    } else say("ready", "Check your counts again carefully! 💡", false);
+  }
+
+  /* Try Time */
+  function buildTry() {
+    createTapContainer("disp-try-1", "🦋", 8);
+    createTapContainer("disp-try-2", "🍦", 10);
+    createTapContainer("disp-try-3", "🚲", 3);
+    document.getElementById("ans-try-1").value = "";
+    document.getElementById("ans-try-2").value = "";
+    document.getElementById("ans-try-3").value = "";
+    document.getElementById("feedback-try").textContent = "";
+  }
+  function checkTry() {
+    const a1 = parseInt(document.getElementById("ans-try-1").value);
+    const a2 = parseInt(document.getElementById("ans-try-2").value);
+    const a3 = parseInt(document.getElementById("ans-try-3").value);
+    if (a1 === 8 && a2 === 10 && a3 === 3) {
+      say("try", "Excellent! 8 butterflies, 10 ice creams, and 3 bicycles! ⭐", true);
+      markDone("try");
+    } else say("try", "Some numbers need fixing. Tap each picture to re-count! 💡", false);
+  }
+
+  /* Practice Together */
+  function buildTogether() {
+    createTapContainer("disp-tog-1", "🚌", 9);
+    createTapContainer("disp-tog-2", "🐠", 6);
+    createTapContainer("disp-tog-3", "🧸", 5);
+    createTapContainer("disp-tog-4", "🐎", 4);
+    createTapContainer("disp-tog-5", "🐞", 10);
+    for(let i=1; i<=5; i++) document.getElementById("ans-tog-" + i).value = "";
+    document.getElementById("feedback-together").textContent = "";
+  }
+  function checkTogether() {
+    const a1 = parseInt(document.getElementById("ans-tog-1").value);
+    const a2 = parseInt(document.getElementById("ans-tog-2").value);
+    const a3 = parseInt(document.getElementById("ans-tog-3").value);
+    const a4 = parseInt(document.getElementById("ans-tog-4").value);
+    const a5 = parseInt(document.getElementById("ans-tog-5").value);
+    if (a1 === 9 && a2 === 6 && a3 === 5 && a4 === 4 && a5 === 10) {
+      say("together", "Superb! All 5 exercises answered correctly! 🏆🎉", true);
+      markDone("together");
+    } else say("together", "Double-check your answers! 💡", false);
+  }
+
+  /* GAME 1: Ten-Frame */
+  let tenframeInitial = 7;
+  function buildTenFrameGame() {
+    tenframeInitial = 6 + Math.floor(Math.random() * 4);
+    document.getElementById("tenframe-instruction").textContent = "There are " + tenframeInitial + " dots. Add dots to make 10!";
+    const grid = document.getElementById("tenframe-grid");
+    grid.innerHTML = "";
+    for (let i = 0; i < 10; i++) {
+      const dot = document.createElement("div");
+      dot.className = "tdot" + (i < tenframeInitial ? " on" : "");
+      if (i >= tenframeInitial) dot.onclick = () => dot.classList.toggle("on");
+      grid.appendChild(dot);
+    }
+    document.getElementById("feedback-tenframe").textContent = "";
+  }
+  function checkTenFrame() {
+    const total = document.querySelectorAll("#tenframe-grid .tdot.on").length;
+    if (total === 10) {
+      say("tenframe", "Great job! You filled the frame to make 10! ⭐", true);
+      markDone("tenframe-game");
+    } else say("tenframe", "You have " + total + " dots. Adjust to make exactly 10! 💡", false);
+  }
+
+  /* GAME 2: Train */
+  function buildTrainGame() {
+    const host = document.getElementById("train-cars");
+    const choicesHost = document.getElementById("train-choices");
+    host.innerHTML = ""; choicesHost.innerHTML = "";
+    const seq = [6, 7, 8, 9, 10];
+    const missingIdx = Math.floor(Math.random() * seq.length);
+    const target = seq[missingIdx];
+
+    seq.forEach((num, idx) => {
+      const car = document.createElement("div");
+      car.className = "train-car";
+      if (idx === missingIdx) {
+        car.textContent = "?"; car.style.background = "#fff"; car.style.borderStyle = "dashed"; car.id = "missing-car";
+      } else car.textContent = num;
+      host.appendChild(car);
+    });
+
+    [6,7,8,9,10].sort(()=>Math.random()-0.5).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "choice-btn"; btn.textContent = opt;
+      btn.onclick = () => {
+        if (opt === target) {
+          document.getElementById("missing-car").textContent = opt;
+          document.getElementById("missing-car").style.background = "var(--leaf)";
+          say("train", "Choo Choo! Correct train sequence! 🚂🎉", true);
+          markDone("train-game");
+        } else say("train", "Try another number for the sequence! 💡", false);
+      };
+      choicesHost.appendChild(btn);
+    });
+  }
+
+  /* GAME 3: Scale Balance */
+  let balanceTarget = 8;
+  function buildBalanceGame() {
+    balanceTarget = 6 + Math.floor(Math.random() * 5);
+    document.getElementById("scale-target-pan").textContent = balanceTarget;
+    document.getElementById("scale-current-pan").textContent = "";
+    const host = document.getElementById("balance-choices");
+    host.innerHTML = "";
+    [6,7,8,9,10].sort(()=>Math.random()-0.5).forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "choice-btn"; btn.textContent = opt;
+      btn.onclick = () => {
+        document.getElementById("scale-current-pan").textContent = Array(opt).fill("🟡").join("");
+        if (opt === balanceTarget) {
+          say("balance", "Balanced! " + opt + " equals " + balanceTarget + "! ⚖️✅", true);
+          markDone("balance-game");
+        } else say("balance", "Not balanced yet! Find the exact count. 💡", false);
+      };
+      host.appendChild(btn);
+    });
+  }
+
+  /* GAME 4: I-Spy */
+  let ispyTarget = 7, ispyFound = 0;
+  function buildIspyGame() {
+    ispyTarget = 6 + Math.floor(Math.random() * 4);
+    ispyFound = 0;
+    document.getElementById("ispy-instruction").textContent = "Find and tap " + ispyTarget + " butterflies! 🦋";
+    const board = document.getElementById("ispy-board");
+    board.innerHTML = "";
+    let items = Array(ispyTarget).fill("🦋").concat(Array(5).fill("🌸"));
+    items.sort(()=>Math.random()-0.5).forEach(type => {
+      const el = document.createElement("span");
+      el.className = "ispy-item"; el.textContent = type;
+      el.onclick = () => {
+        if (type === "🦋" && !el.classList.contains("found")) {
+          el.classList.add("found");
+          ispyFound++;
+          if (ispyFound === ispyTarget) {
+            say("ispy", "You found all " + ispyTarget + " butterflies! 🦋🎉", true);
+            markDone("ispy-game");
+          } else say("ispy", "Found (" + ispyFound + " / " + ispyTarget + ")", true);
+        }
+      };
+      board.appendChild(el);
+    });
+  }
+
+  /* GAME 5: Frog Hop */
+  let hopPos = 6;
+  function buildHopGame() {
+    hopPos = 6;
+    const line = document.getElementById("number-line");
+    line.innerHTML = "";
+    document.getElementById("hop-instruction").textContent = "Hop step-by-step from 6 to 10!";
+    for (let i = 6; i <= 10; i++) {
+      const node = document.createElement("div");
+      node.className = "line-node" + (i === hopPos ? " active" : "");
+      node.textContent = i;
+      node.onclick = () => {
+        if (i === hopPos + 1) {
+          hopPos = i;
+          document.querySelectorAll(".line-node").forEach(n => n.classList.remove("active"));
+          node.classList.add("active");
+          if (hopPos === 10) {
+            say("hop", "Hooray! You reached number 10! 🐸⭐", true);
+            markDone("hop-game");
+          } else say("hop", "Nice hop! Next target: " + (hopPos + 1), true);
+        } else say("hop", "Hop to the very next number! 💡", false);
+      };
+      line.appendChild(node);
+    }
+  }
+
+  /* GAME 6: Memory Match */
+  let firstCard = null, matches = 0;
+  function buildMemoryGame() {
+    matches = 0; firstCard = null;
+    const host = document.getElementById("memory-grid");
+    host.innerHTML = "";
+    const pairs = [
+      { val: "6", disp: "6" }, { val: "6", disp: "🍎🍎🍎<br>🍎🍎🍎" },
+      { val: "8", disp: "8" }, { val: "8", disp: "⭐️⭐️⭐️⭐️<br>⭐️⭐️⭐️⭐️" },
+      { val: "9", disp: "9" }, { val: "9", disp: "🎈🎈🎈<br>🎈🎈🎈<br>🎈🎈🎈" },
+      { val: "10", disp: "10" }, { val: "10", disp: "🎾🎾🎾🎾🎾<br>🎾🎾🎾🎾🎾" }
+    ].sort(() => Math.random() - 0.5);
+
+    pairs.forEach(item => {
+      const c = document.createElement("div");
+      c.className = "mem-card"; c.dataset.val = item.val; c.dataset.disp = item.disp;
+      c.textContent = "❓";
+      c.onclick = () => {
+        if (c.classList.contains("flipped") || (firstCard && firstCard === c)) return;
+        c.classList.add("flipped"); c.innerHTML = c.dataset.disp;
+        if (!firstCard) firstCard = c;
+        else {
+          if (firstCard.dataset.val === c.dataset.val) {
+            matches++; firstCard = null;
+            if (matches === 4) {
+              say("memory", "Great Memory! All pairs matched! 🏆", true);
+              markDone("memory-game");
+            }
+          } else {
+            setTimeout(() => {
+              firstCard.classList.remove("flipped"); firstCard.textContent = "❓";
+              c.classList.remove("flipped"); c.textContent = "❓";
+              firstCard = null;
+            }, 800);
+          }
+        }
+      };
+      host.appendChild(c);
+    });
+  }
+
+  /* GAME 7: Speed Race */
+  const raceItems = [
+    { emoji: "🚌", count: 9, name: "Buses" },
+    { emoji: "🍦", count: 10, name: "Ice Creams" },
+    { emoji: "🦋", count: 8, name: "Butterflies" },
+    { emoji: "🐠", count: 6, name: "Clownfish" }
+  ];
+  let raceIdx = 0;
+  function startSpeedGame() { raceIdx = 0; showSpeedQ(); }
+  function showSpeedQ() {
+    if (raceIdx >= raceItems.length) {
+      document.getElementById("speed-q").textContent = "Race Completed! 🚀";
+      document.getElementById("speed-disp").innerHTML = "🏆";
+      document.getElementById("speed-opts").innerHTML = "";
+      say("speed", "Super speed counting! ⭐", true);
+      markDone("speed-game");
+      return;
+    }
+    const cur = raceItems[raceIdx];
+    document.getElementById("speed-q").textContent = "Count the " + cur.name + "!";
+    createTapContainer("speed-disp", cur.emoji, cur.count);
+    const host = document.getElementById("speed-opts"); host.innerHTML = "";
+    [cur.count, cur.count-1, cur.count+1].sort(()=>Math.random()-0.5).forEach(num => {
+      const b = document.createElement("button");
+      b.className = "check-btn"; b.textContent = num;
+      b.onclick = () => {
+        if (num === cur.count) {
+          raceIdx++; say("speed", "Correct! 🎉", true); setTimeout(showSpeedQ, 800);
+        } else say("speed", "Try again! 💡", false);
+      };
+      host.appendChild(b);
+    });
+  }
+
+  // Init
+  buildLearnDemo();
+  buildReady();
+  buildTry();
+  buildTogether();
+  buildTenFrameGame();
+  buildTrainGame();
+  buildBalanceGame();
+  buildIspyGame();
+  buildHopGame();
+  buildMemoryGame();
+</script>
+</body>
+</html>

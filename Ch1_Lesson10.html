@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1-10: Number Bonds of 9 | Japanese Math Method</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF7E4;
+    --sun: #FFC93C;
+    --sun-deep: #FF9F1C;
+    --sky: #2E86C1;
+    --sky-deep: #1B5E8C;
+    --leaf: #6BCB77;
+    --leaf-deep: #3F9950;
+    --coral: #FF6B6B;
+    --ink: #2C3E50;
+    --paper: #FFFFFF;
+    --line: #F1E4C0;
+    --shadow: 0 8px 0 rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background:
+      radial-gradient(circle at 8% 12%, #FFF1C4 0, transparent 45%),
+      radial-gradient(circle at 92% 85%, #E8F6E9 0, transparent 40%),
+      var(--cream);
+    font-family: 'Quicksand', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  h1, h2, h3, .display { font-family: 'Fredoka', sans-serif; font-weight: 700; }
+
+  /* Navigation Bar */
+  .rail { position: sticky; top: 0; z-index: 50; background: var(--sky); box-shadow: 0 4px 14px rgba(27,94,140,.25); }
+  .rail-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; gap: 8px; padding: 10px 16px; overflow-x: auto; }
+  .rail-title { color: #fff; font-weight: 800; font-size: 1.1rem; white-space: nowrap; padding-inline-end: 12px; border-inline-end: 2px solid rgba(255,255,255,.3); margin-inline-end: 6px; }
+  .rail-btn { flex: 0 0 auto; background: rgba(255,255,255,.15); color: #fff; border: 2px solid rgba(255,255,255,.4); border-radius: 999px; padding: 6px 14px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: .88rem; cursor: pointer; white-space: nowrap; transition: .2s; }
+  .rail-btn:hover { background: rgba(255,255,255,.3); }
+  .rail-btn.done { background: var(--leaf); border-color: var(--leaf); color: #12351a; }
+
+  /* Hero Section */
+  .hero { max-width: 1000px; margin: 26px auto 10px; padding: 0 16px; }
+  .hero-card { background: linear-gradient(135deg, var(--sky) 0%, var(--sky-deep) 100%); border-radius: 28px; padding: 34px 30px; color: #fff; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+  .hero-eyebrow { display: inline-block; background: var(--sun); color: #5a3b00; font-weight: 800; font-size: .95rem; padding: 6px 16px; border-radius: 999px; margin-bottom: 14px; }
+  .hero h1 { font-size: 2.2rem; margin: 0 0 10px; line-height: 1.3; }
+  .hero p { font-size: 1.1rem; opacity: .95; max-width: 680px; margin: 0; font-weight: 600; line-height: 1.6; }
+  .hero-big { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 6rem; opacity: .18; }
+
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+  section.card { background: var(--paper); border: 3px solid var(--line); border-radius: 26px; margin-top: 26px; padding: 26px 24px 30px; scroll-margin-top: 80px; position: relative; }
+  .tag { display: inline-flex; align-items: center; gap: 8px; background: var(--sun); color: #5a3b00; font-weight: 800; padding: 8px 18px; border-radius: 14px; font-size: 1.1rem; box-shadow: 0 4px 0 rgba(0,0,0,.08); margin-bottom: 16px; }
+  .tag.blue { background: var(--sky); color: #fff; }
+  .tag.green { background: var(--leaf); color: #173d1c; }
+  .tag.coral { background: var(--coral); color: #fff; }
+  .instruction { font-size: 1.1rem; margin: 0 0 18px; font-weight: 700; color: var(--ink); line-height: 1.6; }
+
+  .interactive-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 15px; }
+  .ex-box { background: #FFFBF0; border: 2px solid var(--line); border-radius: 20px; padding: 18px 14px; text-align: center; position: relative; }
+  .ex-num { position: absolute; top: 12px; left: 16px; font-family: 'Fredoka', sans-serif; font-weight: 800; color: var(--sky-deep); font-size: 1.1rem; }
+
+  /* Number Bond Tree */
+  .bond { display: flex; flex-direction: column; align-items: center; gap: 0; margin: 14px 0 6px; }
+  .bond-top { width: 62px; height: 62px; border: 3px solid var(--ink); border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.8rem; }
+  .bond-legs { width: 150px; height: 34px; }
+  .bond-legs line { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+  .bond-parts { display: flex; gap: 26px; }
+  .bond-box { width: 58px; height: 58px; border: 3px solid var(--ink); border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.6rem; }
+  .bond-box.given { background: #FFFBF0; }
+  .bond-input { width: 58px; height: 58px; border: 3px solid var(--sky); border-radius: 10px; background: #fff; text-align: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.6rem; color: var(--ink); outline: none; }
+  .bond-input:focus { border-color: var(--sun-deep); box-shadow: 0 0 0 3px rgba(255,159,28,.2); }
+  .bond-input.right { border-color: var(--leaf-deep); background: #EFFBF0; }
+  .bond-input.wrong { border-color: var(--coral); background: #FFF0F0; }
+
+  /* Circles */
+  .dots-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 12px; }
+  .dot { width: 30px; height: 30px; border-radius: 50%; border: 3px solid #C94040; background: #fff; cursor: pointer; transition: .12s; }
+  .dot.filled { background: var(--coral); }
+  .dot.blue { border-color: var(--sky-deep); }
+  .dot.blue.filled { background: var(--sky); }
+  .dot:active { transform: scale(1.15); }
+
+  .learn-table { display: flex; flex-direction: column; gap: 8px; }
+  .learn-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: #FFFBF0; border: 2px solid var(--line); border-radius: 16px; padding: 8px 14px; cursor: pointer; transition: .15s; }
+  .learn-row:hover { background: #FFF4D9; }
+  .learn-row.on { border-color: var(--leaf); background: #F1FBF2; }
+  .mini-dots { display: flex; gap: 5px; }
+  .mini { width: 18px; height: 18px; border-radius: 50%; }
+  .mini.red { background: var(--coral); }
+  .mini.blue { background: var(--sky); }
+  .learn-text { font-weight: 800; font-size: 1.05rem; margin-left: auto; }
+  .learn-text .r { color: var(--coral); }
+  .learn-text .b { color: var(--sky-deep); }
+
+  .answer-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; font-weight: 700; font-size: 1.05rem; }
+  .num-input { width: 65px; height: 50px; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.5rem; text-align: center; border: 3px solid var(--sky); border-radius: 14px; outline: none; background: #fff; color: var(--ink); }
+  .num-input:focus { border-color: var(--sun-deep); box-shadow: 0 0 0 3px rgba(255,159,28,.2); }
+
+  .feedback { min-height: 34px; font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; text-align: center; }
+  .feedback.ok { color: var(--leaf-deep); }
+  .feedback.no { color: var(--coral); }
+
+  .check-btn { background: var(--sky); color: #fff; border: none; border-radius: 14px; padding: 12px 24px; font-family: 'Quicksand', sans-serif; font-weight: 800; font-size: 1.05rem; cursor: pointer; box-shadow: 0 4px 0 var(--sky-deep); transition: .1s; }
+  .check-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--sky-deep); }
+  .check-btn:hover { filter: brightness(1.06); }
+  .reset-btn { background: #fff; color: var(--ink); border: 2px solid var(--line); border-radius: 14px; padding: 11px 20px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: .98rem; cursor: pointer; }
+  .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+
+  .mascot-bubble { display: flex; align-items: flex-start; gap: 12px; margin-top: 20px; }
+  .mascot-emoji { font-size: 2.5rem; }
+  .bubble { background: #FFFBF0; border: 2px solid var(--line); border-radius: 18px; padding: 12px 16px; font-weight: 700; flex: 1; font-size: 1rem; line-height: 1.6; }
+
+  /* Ten Frame */
+  .tenframe { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); gap: 8px; background: #fff; border: 3px solid var(--line); border-radius: 16px; padding: 12px; max-width: 330px; margin: 0 auto; }
+  .tdot { aspect-ratio: 1/1; border-radius: 50%; background: #fff; border: 2px solid #D9C99A; cursor: pointer; transition: .15s; }
+  .tdot.on { background: var(--coral); border-color: #c94040; }
+  .tdot.dis { background: #EDEDED; border-style: dashed; cursor: not-allowed; }
+
+  /* Train Game */
+  .train-wrap { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 15px 0; background: #EAF6FF; padding: 16px; border-radius: 20px; border: 2px dashed var(--sky); overflow-x: auto; }
+  .train-car { min-width: 58px; height: 58px; padding: 0 8px; background: var(--sun); border: 3px solid var(--sun-deep); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.3rem; color: #5a3b00; flex-shrink: 0; }
+  .train-car.empty { background: #fff; color: var(--sky-deep); border-color: var(--sky); border-style: dashed; }
+
+  /* Scale Game */
+  .scale-container { display: flex; justify-content: space-around; align-items: flex-end; background: #FFFBF0; border: 2px solid var(--line); border-radius: 20px; padding: 16px; margin: 15px 0; }
+  .scale-pan { width: 130px; min-height: 78px; border-bottom: 4px solid var(--ink); border-radius: 0 0 16px 16px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px; padding: 8px; background: #fff; font-size: 1.4rem; }
+  .scale-label { text-align: center; font-weight: 800; margin-top: 6px; }
+
+  /* Memory Game */
+  .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 420px; margin: 0 auto; }
+  .mem-card { aspect-ratio: 1/1; background: var(--sky); border: 3px solid var(--sky-deep); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.5rem; color: #fff; cursor: pointer; user-select: none; transition: .2s; }
+  .mem-card.flipped { background: #fff; color: var(--ink); border-color: var(--sun-deep); }
+  .mem-card.matched { background: var(--leaf); border-color: var(--leaf-deep); color: #12351a; }
+
+  .choice-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .choice-btn { min-width: 58px; height: 54px; padding: 0 14px; border-radius: 14px; background: #fff; border: 3px solid var(--sky); font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--sky-deep); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: .12s; }
+  .choice-btn:hover { background: #EAF6FF; transform: translateY(-2px); }
+
+  .big-num { font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 2.6rem; color: var(--sky-deep); text-align: center; }
+  .score-pill { display: inline-block; background: var(--leaf); color: #12351a; font-weight: 800; padding: 6px 16px; border-radius: 999px; }
+
+  /* Extra Games */
+  .house { max-width: 420px; margin: 0 auto; border: 3px solid var(--ink); border-radius: 14px; overflow: hidden; background: #fff; }
+  .house-roof { background: var(--coral); color: #fff; text-align: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.6rem; padding: 8px; }
+  .house-row { display: flex; border-top: 2px solid var(--ink); }
+  .house-cell { flex: 1; padding: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.3rem; }
+  .house-cell + .house-cell { border-left: 2px solid var(--ink); }
+  .house-cell input { width: 54px; height: 44px; text-align: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.2rem; border: 3px solid var(--sky); border-radius: 10px; outline: none; }
+  .house-cell input.right { border-color: var(--leaf-deep); background: #EFFBF0; }
+  .house-cell input.wrong { border-color: var(--coral); background: #FFF0F0; }
+
+  .flash-box { max-width: 330px; margin: 0 auto; min-height: 150px; background: #EAF6FF; border: 3px dashed var(--sky); border-radius: 20px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; padding: 14px; font-size: 1.6rem; }
+
+  .hunt-board { position: relative; height: 230px; background: linear-gradient(#d4fc79 0%, #96e6a1 100%); border-radius: 20px; overflow: hidden; }
+  .hunt-bubble { position: absolute; width: 54px; height: 54px; border-radius: 50%; background: #fff; border: 3px solid var(--sky-deep); display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--sky-deep); cursor: pointer; }
+  .hunt-bubble.gone { transform: scale(.4); opacity: .25; pointer-events: none; transition: .25s; }
+
+  .hands { display: flex; justify-content: center; gap: 26px; flex-wrap: wrap; background: #FFFBF0; border: 2px solid var(--line); border-radius: 20px; padding: 16px; }
+  .hand { display: flex; gap: 6px; align-items: flex-end; }
+  .finger { width: 26px; height: 62px; border-radius: 14px; border: 3px solid var(--sun-deep); background: #fff; cursor: pointer; transition: .12s; }
+  .finger.up { background: var(--sun); }
+
+  .bars-target { display: flex; gap: 4px; justify-content: center; margin-bottom: 10px; }
+  .bar-unit { width: 30px; height: 34px; border: 2px solid var(--sky-deep); border-radius: 6px; background: var(--sky); }
+  .bar-unit.empty { background: #fff; border-style: dashed; }
+  .bar-pick { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .bar-piece { display: flex; gap: 2px; padding: 6px; border: 3px solid var(--leaf-deep); border-radius: 10px; background: #F1FBF2; cursor: pointer; align-items: center; }
+  .bar-piece span { width: 16px; height: 24px; background: var(--leaf); border-radius: 4px; }
+
+  .story-card { background: #FFFBF0; border: 2px solid var(--line); border-radius: 20px; padding: 18px; text-align: center; }
+  .story-emojis { font-size: 2rem; letter-spacing: 6px; margin: 10px 0; }
+
+  .domino-grid { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .domino { display: flex; flex-direction: column; width: 62px; border: 3px solid var(--ink); border-radius: 10px; overflow: hidden; background: #fff; cursor: pointer; }
+  .domino-half { height: 44px; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 800; font-size: 1.2rem; }
+  .domino-half + .domino-half { border-top: 3px solid var(--ink); }
+  .domino.sel { border-color: var(--sun-deep); box-shadow: 0 0 0 3px rgba(255,159,28,.25); }
+  .domino.matched { opacity: .45; pointer-events: none; border-color: var(--leaf-deep); }
+
+  .hidden-box { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; background: #fff; border: 3px solid var(--line); border-radius: 18px; padding: 14px; min-height: 84px; }
+  .hidden-item { font-size: 1.8rem; }
+  .hidden-item.cover { filter: grayscale(1) blur(3px); opacity: .55; }
+
+  .finale { text-align: center; background: linear-gradient(135deg, var(--leaf) 0%, var(--leaf-deep) 100%); color: #fff; border-color: transparent; }
+  .finale h2 { font-size: 2.1rem; margin: 6px 0 10px; }
+  .finale p { font-size: 1.15rem; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="rail">
+  <div class="rail-inner">
+    <span class="rail-title">Lesson 1-10</span>
+    <button class="rail-btn" data-target="learn">Point & Learn <span id="star-learn"></span></button>
+    <button class="rail-btn" data-target="ready">Get Ready! <span id="star-ready"></span></button>
+    <button class="rail-btn" data-target="method">How to Solve <span id="star-method"></span></button>
+    <button class="rail-btn" data-target="try">Your Turn <span id="star-try"></span></button>
+    <button class="rail-btn" data-target="together">Practice Together <span id="star-together"></span></button>
+    <button class="rail-btn" data-target="tenframe-game">Nine-Frame <span id="star-tenframe-game"></span></button>
+    <button class="rail-btn" data-target="train-game">Bonds Train <span id="star-train-game"></span></button>
+    <button class="rail-btn" data-target="balance-game">Balance Scale <span id="star-balance-game"></span></button>
+    <button class="rail-btn" data-target="memory-game">Memory Game <span id="star-memory-game"></span></button>
+    <button class="rail-btn" data-target="speed-game">Speed Race <span id="star-speed-game"></span></button>
+    <button class="rail-btn" data-target="house-game">House of 9 <span id="star-house-game"></span></button>
+    <button class="rail-btn" data-target="flash-game">Flash Cards <span id="star-flash-game"></span></button>
+    <button class="rail-btn" data-target="hunt-game">Catcher <span id="star-hunt-game"></span></button>
+    <button class="rail-btn" data-target="fingers-game">Fingers <span id="star-fingers-game"></span></button>
+    <button class="rail-btn" data-target="bars-game">Cube Towers <span id="star-bars-game"></span></button>
+    <button class="rail-btn" data-target="story-game">Story Problems <span id="star-story-game"></span></button>
+    <button class="rail-btn" data-target="domino-game">Domino 9 <span id="star-domino-game"></span></button>
+    <button class="rail-btn" data-target="hidden-game">Who's Missing? <span id="star-hidden-game"></span></button>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="hero">
+  <div class="hero-card">
+    <span class="hero-eyebrow">Chapter 1: Numbers up to 10</span>
+    <h1>1-10 &nbsp; What are the Number Bonds of 9?</h1>
+    <p>Today we will learn how to make the number 9 from two smaller numbers. Click, color, and play until you memorize all pairs of 9! 🎈</p>
+    <div class="hero-big">9</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 1) Point & Learn -->
+  <section class="card" id="learn">
+    <span class="tag coral">Point & Learn</span>
+    <p class="instruction">Which two numbers make 9? Click on each row to hear and read the pair.</p>
+    <div class="learn-table" id="learn-table"></div>
+    <div class="feedback ok" id="feedback-learn">Click on all 8 rows!</div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐱</span>
+      <div class="bubble">Notice: as the red number goes up by 1, the blue number goes down by 1, and the total is always 9!</div>
+    </div>
+  </section>
+
+  <!-- 2) Get Ready -->
+  <section class="card" id="ready">
+    <span class="tag">Get Ready, Friends!</span>
+    <p class="instruction">Which two numbers make 9? Write the missing number in the box.</p>
+    <div class="interactive-grid" id="grid-ready"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkGroup('ready')">Check Answers ✅</button>
+      <button class="reset-btn" onclick="buildAll()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-ready"></div>
+  </section>
+
+  <!-- 3) Solution Method -->
+  <section class="card" id="method">
+    <span class="tag coral">How to Solve</span>
+    <p class="instruction">We draw 9 circles. Color the given number, then count the remaining uncolored circles and write the number.</p>
+    <div class="interactive-grid" id="grid-method"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkMethod()">Check ✅</button>
+      <button class="reset-btn" onclick="buildMethod()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-method"></div>
+  </section>
+
+  <!-- 4) Your Turn -->
+  <section class="card" id="try">
+    <span class="tag green">Your Turn</span>
+    <p class="instruction">Which two numbers make 9? Write the missing number in the box.</p>
+    <div class="interactive-grid" id="grid-try"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkGroup('try')">Check Answers ✅</button>
+      <button class="reset-btn" onclick="buildAll()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-try"></div>
+  </section>
+
+  <!-- 5) Practice Together -->
+  <section class="card" id="together">
+    <span class="tag blue">Let's Practice Together</span>
+    <p class="instruction">Which two numbers make 9? Write the missing number in the box.</p>
+    <div class="interactive-grid" id="grid-together"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkGroup('together')">Check Answers ✅</button>
+      <button class="reset-btn" onclick="buildAll()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-together"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐶</span>
+      <div class="bubble">Great job! You now know all the bonds of 9. Let's play games! 🎉</div>
+    </div>
+  </section>
+
+  <!-- Game 1: Nine-Frame -->
+  <section class="card" id="tenframe-game">
+    <span class="tag">🎮 Nine-Frame Game</span>
+    <p class="instruction" id="tenframe-instruction">There are colored dots in the frame. Click on the empty slots until you have exactly 9 dots!</p>
+    <div class="tenframe" id="tenframe-grid"></div>
+    <div class="answer-row" style="margin-top:14px">
+      <span>Current Dot Count:</span>
+      <span class="big-num" id="tenframe-count" style="font-size:1.8rem">0</span>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkTenframe()">Check ✅</button>
+      <button class="reset-btn" onclick="buildTenframe()">New Round 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-tenframe"></div>
+  </section>
+
+  <!-- Game 2: Bonds Train -->
+  <section class="card" id="train-game">
+    <span class="tag green">🚂 Bonds Train Game</span>
+    <p class="instruction">Every two adjacent cars must add up to 9. Choose the correct number for the empty train car.</p>
+    <div class="train-wrap" id="train-wrap"></div>
+    <div class="choice-row" id="train-choices"></div>
+    <div class="feedback" id="feedback-train"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildTrain()">New Round 🔄</button></div>
+  </section>
+
+  <!-- Game 3: Balance Scale -->
+  <section class="card" id="balance-game">
+    <span class="tag coral">⚖️ Balance Scale Game</span>
+    <p class="instruction">There are 9 apples on the right scale pan. How many apples should we add to the left pan so both sides balance?</p>
+    <div class="scale-container">
+      <div>
+        <div class="scale-pan" id="pan-left"></div>
+        <div class="scale-label">Left Pan</div>
+      </div>
+      <div style="font-size:2.2rem">⚖️</div>
+      <div>
+        <div class="scale-pan" id="pan-right"></div>
+        <div class="scale-label">Right Pan (9)</div>
+      </div>
+    </div>
+    <div class="choice-row" id="balance-choices"></div>
+    <div class="feedback" id="feedback-balance"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildBalance()">New Round 🔄</button></div>
+  </section>
+
+  <!-- Game 4: Memory -->
+  <section class="card" id="memory-game">
+    <span class="tag blue">🧠 Memory Game — Pairs of 9</span>
+    <p class="instruction">Flip two cards. If their sum is 9, they stay face up!</p>
+    <div class="memory-grid" id="memory-grid"></div>
+    <div class="feedback" id="feedback-memory"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildMemory()">Shuffle Cards 🔄</button></div>
+  </section>
+
+  <!-- Game 5: Speed Race -->
+  <section class="card" id="speed-game">
+    <span class="tag">⏱️ Speed Race</span>
+    <p class="instruction">Answer quickly: how much more is needed for the shown number to make 9? You have 30 seconds!</p>
+    <div class="big-num" id="speed-num">?</div>
+    <div class="choice-row" id="speed-choices"></div>
+    <div class="answer-row">
+      <span class="score-pill">Score: <span id="speed-score">0</span></span>
+      <span class="score-pill" style="background:var(--sun); color:#5a3b00">Time: <span id="speed-time">30</span></span>
+    </div>
+    <div class="btn-row"><button class="check-btn" onclick="startSpeed()">Start Race 🚀</button></div>
+    <div class="feedback" id="feedback-speed"></div>
+  </section>
+
+  <!-- Game 6: House of 9 -->
+  <section class="card" id="house-game">
+    <span class="tag green">🏠 House of 9</span>
+    <p class="instruction">On each floor, two numbers make 9. Fill in the missing number on each floor and spot the pattern.</p>
+    <div class="house" id="house"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkHouse()">Check ✅</button>
+      <button class="reset-btn" onclick="buildHouse()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-house"></div>
+  </section>
+
+  <!-- Game 7: Flash Cards -->
+  <section class="card" id="flash-game">
+    <span class="tag coral">⚡ Flash Cards</span>
+    <p class="instruction">Dots will appear for just one second! Look quickly, then choose how many more are needed to reach 9.</p>
+    <div class="flash-box" id="flash-box">Click "Show Card"</div>
+    <div class="choice-row" id="flash-choices"></div>
+    <div class="btn-row"><button class="check-btn" onclick="flashRound()">Show Card 👀</button></div>
+    <div class="feedback" id="feedback-flash"></div>
+  </section>
+
+  <!-- Game 8: Catcher -->
+  <section class="card" id="hunt-game">
+    <span class="tag blue">🎯 Number Bond Catcher</span>
+    <p class="instruction" id="hunt-instruction">Pop only the bubbles that complete the given number to make 9!</p>
+    <div class="hunt-board" id="hunt-board"></div>
+    <div class="feedback" id="feedback-hunt"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildHunt()">New Round 🔄</button></div>
+  </section>
+
+  <!-- Game 9: Fingers -->
+  <section class="card" id="fingers-game">
+    <span class="tag">✋ Hands & Fingers</span>
+    <p class="instruction" id="fingers-instruction">Raise fingers until you have 9 raised in total.</p>
+    <div class="hands">
+      <div class="hand" id="hand-right"></div>
+      <div class="hand" id="hand-left"></div>
+    </div>
+    <div class="answer-row"><span>Raised Fingers:</span><span class="big-num" id="fingers-count" style="font-size:1.8rem">0</span></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkFingers()">Check ✅</button>
+      <button class="reset-btn" onclick="buildFingers()">Reset 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-fingers"></div>
+  </section>
+
+  <!-- Game 10: Cube Towers -->
+  <section class="card" id="bars-game">
+    <span class="tag green">🧱 Cube Towers</span>
+    <p class="instruction" id="bars-instruction">Choose the correct block piece to extend the tower to 9 cubes.</p>
+    <div class="bars-target" id="bars-target"></div>
+    <div class="bar-pick" id="bars-pick"></div>
+    <div class="feedback" id="feedback-bars"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildBars()">New Round 🔄</button></div>
+  </section>
+
+  <!-- Game 11: Story Problems -->
+  <section class="card" id="story-game">
+    <span class="tag coral">📖 Story & Problem</span>
+    <p class="instruction">Read the story, then select the missing number.</p>
+    <div class="story-card">
+      <div id="story-text" style="font-weight:800; font-size:1.1rem"></div>
+      <div class="story-emojis" id="story-emojis"></div>
+    </div>
+    <div class="choice-row" id="story-choices"></div>
+    <div class="feedback" id="feedback-story"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildStory()">New Story 🔄</button></div>
+  </section>
+
+  <!-- Game 12: Domino 9 -->
+  <section class="card" id="domino-game">
+    <span class="tag blue">🁣 Domino 9</span>
+    <p class="instruction">Select two domino tiles whose total dot count equals 9.</p>
+    <div class="domino-grid" id="domino-grid"></div>
+    <div class="feedback" id="feedback-domino"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildDomino()">Shuffle Dominoes 🔄</button></div>
+  </section>
+
+  <!-- Game 13: Who's Missing? -->
+  <section class="card" id="hidden-game">
+    <span class="tag">🙈 Who's Missing?</span>
+    <p class="instruction">There are 9 items in total, but some are hidden under the cloud. How many items are hidden?</p>
+    <div class="hidden-box" id="hidden-box"></div>
+    <div class="choice-row" id="hidden-choices"></div>
+    <div class="feedback" id="feedback-hidden"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildHidden()">New Round 🔄</button></div>
+  </section>
+
+  <!-- Grand Finale -->
+  <section class="card finale" id="finale">
+    <div style="font-size:2.6rem">🏆</div>
+    <h2>Great Job, Champion!</h2>
+    <p>You have learned all number bonds of 9: 1 & 8, 2 & 7, 3 & 6, 4 & 5, 5 & 4, 6 & 3, 7 & 2, 8 & 1</p>
+    <p id="finale-progress" style="font-size:1rem">Completed 0 of 18 activities</p>
+  </section>
+
+</div>
+
+<script>
+  /* ============ Helper Functions ============ */
+  const done = new Set();
+  function markDone(id) {
+    if (done.has(id)) return;
+    done.add(id);
+    const star = document.getElementById("star-" + id);
+    if (star) star.textContent = "⭐";
+    const btn = document.querySelector('.rail-btn[data-target="' + id + '"]');
+    if (btn) btn.classList.add("done");
+    document.getElementById("finale-progress").textContent =
+      "Completed " + done.size + " of 18 activities";
+  }
+  function say(section, msg, ok) {
+    const el = document.getElementById("feedback-" + section);
+    if (el) { el.textContent = msg; el.className = "feedback " + (ok ? "ok" : "no"); }
+  }
+  document.querySelectorAll(".rail-btn").forEach(b => {
+    b.onclick = () => document.getElementById(b.dataset.target)
+      .scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  /* ============ 1) Point & Learn ============ */
+  function buildLearn() {
+    const table = document.getElementById("learn-table");
+    table.innerHTML = "";
+    let opened = 0;
+    for (let r = 1; r <= 8; r++) {
+      const b = 9 - r;
+      const row = document.createElement("div");
+      row.className = "learn-row";
+      const dots = document.createElement("div");
+      dots.className = "mini-dots";
+      for (let i = 0; i < r; i++) { const d = document.createElement("span"); d.className = "mini red"; dots.appendChild(d); }
+      for (let i = 0; i < b; i++) { const d = document.createElement("span"); d.className = "mini blue"; dots.appendChild(d); }
+      const txt = document.createElement("div");
+      txt.className = "learn-text";
+      txt.innerHTML = '<span class="r">' + r + '</span> and <span class="b">' + b + '</span> &nbsp;←&nbsp; make <b>9</b>';
+      row.appendChild(dots); row.appendChild(txt);
+      row.onclick = () => {
+        if (row.classList.contains("on")) return;
+        row.classList.add("on");
+        opened++;
+        document.getElementById("feedback-learn").textContent =
+          r + " and " + b + " make 9 ✨ (" + opened + "/8)";
+        if (opened === 8) { say("learn", "Awesome! You learned all number bonds of 9 ⭐", true); markDone("learn"); }
+      };
+      table.appendChild(row);
+    }
+  }
+
+  /* ============ Number Bond Markup ============ */
+  function bondHTML(id, given, side) {
+    const inputBox = '<input class="bond-input" id="' + id + '" type="text" inputmode="numeric">';
+    const givenBox = '<div class="bond-box given">' + given + '</div>';
+    const parts = side === "right" ? givenBox + inputBox : inputBox + givenBox;
+    return '<div class="bond">' +
+      '<div class="bond-top">9</div>' +
+      '<svg class="bond-legs" viewBox="0 0 150 34"><line x1="75" y1="2" x2="18" y2="32"/><line x1="75" y1="2" x2="132" y2="32"/></svg>' +
+      '<div class="bond-parts">' + parts + '</div></div>';
+  }
+
+  const GROUPS = {
+    ready:     [{ g: 3, side: "right" }, { g: 5, side: "left" }],
+    try:       [{ g: 1, side: "right" }, { g: 4, side: "right" }, { g: 2, side: "right" }, { g: 8, side: "left" }],
+    together:  [{ g: 6, side: "right" }, { g: 5, side: "right" }, { g: 7, side: "left" }, { g: 3, side: "left" }]
+  };
+
+  function buildGroup(name) {
+    const grid = document.getElementById("grid-" + name);
+    grid.innerHTML = "";
+    GROUPS[name].forEach((item, i) => {
+      const box = document.createElement("div");
+      box.className = "ex-box";
+      box.innerHTML = '<span class="ex-num">(' + (i + 1) + ')</span>' +
+        bondHTML("in-" + name + "-" + i, item.g, item.side);
+      grid.appendChild(box);
+    });
+    const fb = document.getElementById("feedback-" + name);
+    if (fb) { fb.textContent = ""; fb.className = "feedback"; }
+  }
+
+  function checkGroup(name) {
+    let allRight = true, filled = 0;
+    GROUPS[name].forEach((item, i) => {
+      const input = document.getElementById("in-" + name + "-" + i);
+      const val = parseInt(input.value, 10);
+      if (!isNaN(val)) filled++;
+      if (val === 9 - item.g) { input.classList.add("right"); input.classList.remove("wrong"); }
+      else { input.classList.add("wrong"); input.classList.remove("right"); allRight = false; }
+    });
+    if (filled === 0) { say(name, "Please write the missing numbers first ✍️", false); return; }
+    if (allRight) { say(name, "Excellent! All answers are correct 🎉", true); markDone(name); }
+    else say(name, "Some answers are incorrect. Remember: both numbers must add up to 9 💡", false);
+  }
+
+  /* ============ 3) Solution Method ============ */
+  const METHOD = [{ g: 3 }, { g: 4 }];
+  function buildMethod() {
+    const grid = document.getElementById("grid-method");
+    grid.innerHTML = "";
+    METHOD.forEach((item, idx) => {
+      const box = document.createElement("div");
+      box.className = "ex-box";
+      box.innerHTML = '<span class="ex-num">(' + (idx + 1) + ')</span>' +
+        bondHTML("in-method-" + idx, item.g, "right") +
+        '<div class="dots-row" id="dots-method-' + idx + '"></div>' +
+        '<p style="font-weight:700;font-size:.95rem;margin:10px 0 0">Color ' + item.g +
+        ' circles, then count the uncolored circles and write the number in the box.</p>';
+      grid.appendChild(box);
+      const row = box.querySelector("#dots-method-" + idx);
+      for (let i = 0; i < 9; i++) {
+        const d = document.createElement("span");
+        d.className = "dot";
+        d.onclick = () => d.classList.toggle("filled");
+        row.appendChild(d);
+      }
+    });
+    const fb = document.getElementById("feedback-method");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+  function checkMethod() {
+    let ok = true;
+    METHOD.forEach((item, idx) => {
+      const colored = document.querySelectorAll("#dots-method-" + idx + " .dot.filled").length;
+      const input = document.getElementById("in-method-" + idx);
+      const val = parseInt(input.value, 10);
+      const good = colored === item.g && val === 9 - item.g;
+      input.classList.toggle("right", good);
+      input.classList.toggle("wrong", !good);
+      if (!good) ok = false;
+    });
+    if (ok) { say("method", "Great job! You colored the given number and counted the rest correctly ⭐", true); markDone("method"); }
+    else say("method", "Double check the colored circles and the written number 💡", false);
+  }
+
+  /* ============ Nine-Frame Game ============ */
+  let tfStart = 0;
+  function buildTenframe() {
+    const grid = document.getElementById("tenframe-grid");
+    grid.innerHTML = "";
+    tfStart = Math.floor(Math.random() * 6) + 1; // 1..6
+    for (let i = 0; i < 10; i++) {
+      const d = document.createElement("div");
+      d.className = "tdot";
+      if (i < tfStart) d.classList.add("on");
+      if (i === 9) d.classList.add("dis"); // 10th slot disabled (target is 9)
+      d.onclick = () => {
+        if (d.classList.contains("dis")) {
+          say("tenframe", "The 10th slot is disabled! Our goal is 9 🙂", false); return;
+        }
+        d.classList.toggle("on");
+        updateTfCount();
+      };
+      grid.appendChild(d);
+    }
+    document.getElementById("tenframe-instruction").textContent =
+      "There are " + tfStart + " dots. Add missing dots to make exactly 9 (the 10th slot is closed).";
+    updateTfCount();
+    const fb = document.getElementById("feedback-tenframe");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+  function updateTfCount() {
+    document.getElementById("tenframe-count").textContent =
+      document.querySelectorAll("#tenframe-grid .tdot.on").length;
+  }
+  function checkTenframe() {
+    const n = document.querySelectorAll("#tenframe-grid .tdot.on").length;
+    if (n === 9) {
+      say("tenframe", "Excellent! " + tfStart + " and " + (9 - tfStart) + " make 9 🎉", true);
+      markDone("tenframe-game");
+    } else say("tenframe", "The count is currently " + n + ". We need exactly 9! 💡", false);
+  }
+
+  /* ============ Bonds Train Game ============ */
+  let trainAnswer = 0;
+  function buildTrain() {
+    const wrap = document.getElementById("train-wrap");
+    const choices = document.getElementById("train-choices");
+    wrap.innerHTML = ""; choices.innerHTML = "";
+    const a = Math.floor(Math.random() * 8) + 1; // 1..8
+    trainAnswer = 9 - a;
+    const cars = [a, null, a, null];
+    cars.forEach(v => {
+      const c = document.createElement("div");
+      c.className = "train-car" + (v === null ? " empty" : "");
+      c.textContent = v === null ? "?" : v;
+      wrap.appendChild(c);
+    });
+    const head = document.createElement("div");
+    head.className = "train-car"; head.style.background = "var(--coral)";
+    head.style.borderColor = "#c94040"; head.style.color = "#fff"; head.textContent = "🚂";
+    wrap.prepend(head);
+    for (let n = 1; n <= 8; n++) {
+      const b = document.createElement("button");
+      b.className = "choice-btn"; b.textContent = n;
+      b.onclick = () => {
+        if (n === trainAnswer) {
+          wrap.querySelectorAll(".train-car.empty").forEach(c => {
+            c.textContent = n; c.classList.remove("empty");
+          });
+          say("train", "Awesome! " + a + " and " + n + " make 9 🚂✨", true);
+          markDone("train-game");
+        } else say("train", "Incorrect. " + a + " + " + n + " does not equal 9 💡", false);
+      };
+      choices.appendChild(b);
+    }
+    const fb = document.getElementById("feedback-train");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ============ Balance Scale Game ============ */
+  let balNeed = 0;
+  function buildBalance() {
+    const left = document.getElementById("pan-left");
+    const right = document.getElementById("pan-right");
+    const choices = document.getElementById("balance-choices");
+    left.innerHTML = ""; right.innerHTML = ""; choices.innerHTML = "";
+    for (let i = 0; i < 9; i++) right.appendChild(apple());
+    const have = Math.floor(Math.random() * 8) + 1;
+    balNeed = 9 - have;
+    for (let i = 0; i < have; i++) left.appendChild(apple());
+    for (let n = 1; n <= 8; n++) {
+      const b = document.createElement("button");
+      b.className = "choice-btn"; b.textContent = n;
+      b.onclick = () => {
+        if (n === balNeed) {
+          for (let i = 0; i < n; i++) left.appendChild(apple());
+          say("balance", "Balanced! " + have + " and " + n + " make 9 ⚖️🎉", true);
+          markDone("balance-game");
+          choices.innerHTML = "";
+        } else say("balance", "The scale pans are not equal yet. Try again 💡", false);
+      };
+      choices.appendChild(b);
+    }
+    const fb = document.getElementById("feedback-balance");
+    fb.textContent = "There are " + have + " apples on the left pan."; fb.className = "feedback";
+  }
+  function apple() { const s = document.createElement("span"); s.textContent = "🍎"; return s; }
+
+  /* ============ Memory Game ============ */
+  let flipped = [], lockBoard = false, matched = 0;
+  function buildMemory() {
+    const grid = document.getElementById("memory-grid");
+    grid.innerHTML = ""; flipped = []; matched = 0; lockBoard = false;
+    const cards = [1, 8, 2, 7, 3, 6, 4, 5, 5, 4, 6, 3];
+    cards.sort(() => Math.random() - 0.5);
+    cards.forEach(v => {
+      const c = document.createElement("div");
+      c.className = "mem-card"; c.dataset.val = v; c.textContent = "?";
+      c.onclick = () => flipCard(c);
+      grid.appendChild(c);
+    });
+    const fb = document.getElementById("feedback-memory");
+    fb.textContent = "Find two cards that add up to 9"; fb.className = "feedback";
+  }
+  function flipCard(c) {
+    if (lockBoard || c.classList.contains("flipped") || c.classList.contains("matched")) return;
+    c.classList.add("flipped"); c.textContent = c.dataset.val;
+    flipped.push(c);
+    if (flipped.length === 2) {
+      const [a, b] = flipped;
+      const sum = parseInt(a.dataset.val) + parseInt(b.dataset.val);
+      if (sum === 9) {
+        a.classList.add("matched"); b.classList.add("matched");
+        matched += 2; flipped = [];
+        say("memory", a.dataset.val + " and " + b.dataset.val + " make 9 ✅", true);
+        if (matched === 12) { say("memory", "Wonderful! You found all pairs 🏆", true); markDone("memory-game"); }
+      } else {
+        lockBoard = true;
+        say("memory", "The sum is " + sum + ", not 9. Try again 💡", false);
+        setTimeout(() => {
+          flipped.forEach(x => { x.classList.remove("flipped"); x.textContent = "?"; });
+          flipped = []; lockBoard = false;
+        }, 900);
+      }
+    }
+  }
+
+  /* ============ Speed Race ============ */
+  let speedScore = 0, speedTime = 30, speedTimer = null, speedCurrent = 0;
+  function startSpeed() {
+    clearInterval(speedTimer);
+    speedScore = 0; speedTime = 30;
+    document.getElementById("speed-score").textContent = "0";
+    document.getElementById("speed-time").textContent = "30";
+    nextSpeed();
+    speedTimer = setInterval(() => {
+      speedTime--;
+      document.getElementById("speed-time").textContent = speedTime;
+      if (speedTime <= 0) {
+        clearInterval(speedTimer);
+        document.getElementById("speed-choices").innerHTML = "";
+        document.getElementById("speed-num").textContent = "🏁";
+        if (speedScore >= 5) { say("speed", "Champion! You earned " + speedScore + " points ⭐", true); markDone("speed-game"); }
+        else say("speed", "You earned " + speedScore + " points. Try again! 💪", false);
+      }
+    }, 1000);
+  }
+  function nextSpeed() {
+    speedCurrent = Math.floor(Math.random() * 8) + 1;
+    document.getElementById("speed-num").textContent = speedCurrent + " + ? = 9";
+    const choices = document.getElementById("speed-choices");
+    choices.innerHTML = "";
+    const correct = 9 - speedCurrent;
+    const opts = new Set([correct]);
+    while (opts.size < 4) opts.add(Math.floor(Math.random() * 9) + 1);
+    [...opts].sort(() => Math.random() - 0.5).forEach(n => {
+      const b = document.createElement("button");
+      b.className = "choice-btn"; b.textContent = n;
+      b.onclick = () => {
+        if (speedTime <= 0) return;
+        if (n === correct) {
+          speedScore++;
+          document.getElementById("speed-score").textContent = speedScore;
+          say("speed", "Correct! ✅", true);
+        } else say("speed", "Wrong ❌ The answer was " + correct, false);
+        nextSpeed();
+      };
+      choices.appendChild(b);
+    });
+  }
+
+  /* ============ House of 9 ============ */
+  const HOUSE = [1,2,3,4,5,6,7,8];
+  function buildHouse() {
+    const h = document.getElementById("house");
+    h.innerHTML = '<div class="house-roof">9</div>';
+    HOUSE.forEach((n, i) => {
+      const hideRight = i % 2 === 0;
+      const row = document.createElement("div");
+      row.className = "house-row";
+      row.innerHTML = hideRight
+        ? '<div class="house-cell">' + n + '</div><div class="house-cell"><input id="house-' + i + '" type="text" inputmode="numeric"></div>'
+        : '<div class="house-cell"><input id="house-' + i + '" type="text" inputmode="numeric"></div><div class="house-cell">' + (9 - n) + '</div>';
+      row.dataset.need = hideRight ? (9 - n) : n;
+      h.appendChild(row);
+    });
+    const fb = document.getElementById("feedback-house"); fb.textContent = ""; fb.className = "feedback";
+  }
+  function checkHouse() {
+    let ok = true, filled = 0;
+    document.querySelectorAll("#house .house-row").forEach((row, i) => {
+      const input = document.getElementById("house-" + i);
+      const v = parseInt(input.value, 10);
+      if (!isNaN(v)) filled++;
+      const good = v === parseInt(row.dataset.need);
+      input.classList.toggle("right", good);
+      input.classList.toggle("wrong", !good);
+      if (!good) ok = false;
+    });
+    if (filled === 0) { say("house", "Please fill in the missing numbers first ✍️", false); return; }
+    if (ok) { say("house", "House of 9 is complete! Notice the pattern: 1&8, 2&7, 3&6, 4&5 🏠⭐", true); markDone("house-game"); }
+    else say("house", "Check the floors marked in red 💡", false);
+  }
+
+  /* ============ Flash Cards ============ */
+  let flashN = 0;
+  function flashRound() {
+    const box = document.getElementById("flash-box");
+    const choices = document.getElementById("flash-choices");
+    choices.innerHTML = "";
+    flashN = Math.floor(Math.random() * 8) + 1;
+    box.innerHTML = "";
+    for (let i = 0; i < flashN; i++) { const s2 = document.createElement("span"); s2.textContent = "🔵"; box.appendChild(s2); }
+    say("flash", "Look closely! 👀", true);
+    setTimeout(() => {
+      box.innerHTML = '<span style="font-size:2.4rem">🙈</span>';
+      say("flash", "How many more are needed to make 9?", true);
+      const correct = 9 - flashN;
+      const opts = new Set([correct]);
+      while (opts.size < 4) opts.add(Math.floor(Math.random() * 9));
+      [...opts].sort(() => Math.random() - 0.5).forEach(n => {
+        const b = document.createElement("button");
+        b.className = "choice-btn"; b.textContent = n;
+        b.onclick = () => {
+          if (n === correct) {
+            box.innerHTML = "";
+            for (let i = 0; i < flashN; i++) { const s3 = document.createElement("span"); s3.textContent = "🔵"; box.appendChild(s3); }
+            for (let i = 0; i < correct; i++) { const s3 = document.createElement("span"); s3.textContent = "🔴"; box.appendChild(s3); }
+            say("flash", "Correct! " + flashN + " and " + correct + " make 9 ✅", true);
+            markDone("flash-game");
+            choices.innerHTML = "";
+          } else say("flash", "Not quite right, try again 💡", false);
+        };
+        choices.appendChild(b);
+      });
+    }, 1200);
+  }
+
+  /* ============ Number Bond Catcher ============ */
+  let huntBase = 0, huntFound = 0;
+  function buildHunt() {
+    const board = document.getElementById("hunt-board");
+    board.innerHTML = "";
+    huntBase = Math.floor(Math.random() * 7) + 2; // 2..8
+    const need = 9 - huntBase;
+    huntFound = 0;
+    document.getElementById("hunt-instruction").textContent =
+      "The starting number is " + huntBase + ". Pop only the bubbles containing " + need + " (the complement to 9)! Catch 3 bubbles.";
+    const values = [];
+    for (let i = 0; i < 3; i++) values.push(need);
+    while (values.length < 10) {
+      const v = Math.floor(Math.random() * 9) + 1;
+      if (v !== need) values.push(v);
+    }
+    values.sort(() => Math.random() - 0.5);
+    values.forEach(v => {
+      const b = document.createElement("div");
+      b.className = "hunt-bubble";
+      b.textContent = v;
+      b.style.top = (Math.random() * 165) + "px";
+      b.style.left = (Math.random() * 88) + "%";
+      b.onclick = () => {
+        if (v === need) {
+          b.classList.add("gone");
+          huntFound++;
+          say("hunt", "Great! " + huntBase + " and " + need + " make 9 (" + huntFound + "/3)", true);
+          if (huntFound === 3) { say("hunt", "Expert Catcher! You popped all correct bubbles 🎯⭐", true); markDone("hunt-game"); }
+        } else {
+          say("hunt", huntBase + " + " + v + " is not 9. Look for " + need + " 💡", false);
+        }
+      };
+      board.appendChild(b);
+    });
+    const fb = document.getElementById("feedback-hunt"); fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ============ Fingers ============ */
+  function buildFingers() {
+    ["hand-right", "hand-left"].forEach(id => {
+      const h = document.getElementById(id);
+      h.innerHTML = "";
+      for (let i = 0; i < 5; i++) {
+        const f = document.createElement("div");
+        f.className = "finger";
+        f.onclick = () => { f.classList.toggle("up"); updateFingers(); };
+        h.appendChild(f);
+      }
+    });
+    document.getElementById("fingers-instruction").textContent =
+      "Raise 9 fingers, then observe: one full hand (5) and 4 fingers on the other hand make 9.";
+    updateFingers();
+    const fb = document.getElementById("feedback-fingers"); fb.textContent = ""; fb.className = "feedback";
+  }
+  function updateFingers() {
+    document.getElementById("fingers-count").textContent =
+      document.querySelectorAll(".finger.up").length;
+  }
+  function checkFingers() {
+    const r = document.querySelectorAll("#hand-right .finger.up").length;
+    const l = document.querySelectorAll("#hand-left .finger.up").length;
+    if (r + l === 9) { say("fingers", "Awesome! " + r + " and " + l + " make 9 ✋🎉", true); markDone("fingers-game"); }
+    else say("fingers", "You currently have " + (r + l) + " fingers raised. We need 9 fingers 💡", false);
+  }
+
+  /* ============ Cube Towers ============ */
+  let barsNeed = 0;
+  function buildBars() {
+    const target = document.getElementById("bars-target");
+    const pick = document.getElementById("bars-pick");
+    target.innerHTML = ""; pick.innerHTML = "";
+    const have = Math.floor(Math.random() * 8) + 1;
+    barsNeed = 9 - have;
+    for (let i = 0; i < 9; i++) {
+      const u = document.createElement("div");
+      u.className = "bar-unit" + (i >= have ? " empty" : "");
+      target.appendChild(u);
+    }
+    document.getElementById("bars-instruction").textContent =
+      "The tower has " + have + " cubes out of 9. Choose the piece that completes it to 9.";
+    const lens = new Set([barsNeed]);
+    while (lens.size < 4) lens.add(Math.floor(Math.random() * 8) + 1);
+    [...lens].sort(() => Math.random() - 0.5).forEach(len => {
+      const piece = document.createElement("div");
+      piece.className = "bar-piece";
+      for (let i = 0; i < len; i++) piece.appendChild(document.createElement("span"));
+      const lbl = document.createElement("b"); lbl.textContent = len; lbl.style.marginLeft = "6px";
+      piece.appendChild(lbl);
+      piece.onclick = () => {
+        if (len === barsNeed) {
+          target.querySelectorAll(".bar-unit.empty").forEach(u => {
+            u.classList.remove("empty"); u.style.background = "var(--leaf)"; u.style.borderColor = "var(--leaf-deep)";
+          });
+          say("bars", "Excellent! " + have + " and " + len + " make 9 🧱✨", true);
+          markDone("bars-game");
+          pick.innerHTML = "";
+        } else say("bars", "This block has length " + len + " and does not make 9 💡", false);
+      };
+      pick.appendChild(piece);
+    });
+    const fb = document.getElementById("feedback-bars"); fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ============ Story Problems ============ */
+  const STORIES = [
+    { emoji: "🐟", word: "fish", verb: "in the tank" },
+    { emoji: "🍎", word: "apples", verb: "in the basket" },
+    { emoji: "🎈", word: "balloons", verb: "with Salma" },
+    { emoji: "🐦", word: "birds", verb: "on the tree" },
+    { emoji: "✏️", word: "pencils", verb: "in the case" }
+  ];
+  function buildStory() {
+    const st = STORIES[Math.floor(Math.random() * STORIES.length)];
+    const have = Math.floor(Math.random() * 8) + 1;
+    const need = 9 - have;
+    document.getElementById("story-text").textContent =
+      "There are " + have + " " + st.word + " " + st.verb + ". How many more " + st.word + " do we need to have 9?";
+    document.getElementById("story-emojis").textContent = st.emoji.repeat(have);
+    const choices = document.getElementById("story-choices");
+    choices.innerHTML = "";
+    const opts = new Set([need]);
+    while (opts.size < 4) opts.add(Math.floor(Math.random() * 9) + 1);
+    [...opts].sort(() => Math.random() - 0.5).forEach(n => {
+      const b = document.createElement("button");
+      b.className = "choice-btn"; b.textContent = n;
+      b.onclick = () => {
+        if (n === need) {
+          document.getElementById("story-emojis").textContent = st.emoji.repeat(9);
+          say("story", "Great job! " + have + " and " + need + " make 9 📖✅", true);
+          markDone("story-game");
+          choices.innerHTML = "";
+        } else say("story", "Incorrect. Count the items again 💡", false);
+      };
+      choices.appendChild(b);
+    });
+    const fb = document.getElementById("feedback-story"); fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ============ Domino 9 ============ */
+  let domSel = null, domMatched = 0;
+  function pips(n) { return "•".repeat(n) || "0"; }
+  function buildDomino() {
+    const grid = document.getElementById("domino-grid");
+    grid.innerHTML = ""; domSel = null; domMatched = 0;
+    const pieces = [];
+    [[1,2],[3,1],[2,2],[4,1]].forEach(pair => {
+      const total = pair[0] + pair[1];
+      pieces.push(pair);
+      const other = 9 - total;
+      const a = Math.max(1, Math.floor(other / 2));
+      pieces.push([a, other - a]);
+    });
+    pieces.sort(() => Math.random() - 0.5);
+    pieces.forEach(pair => {
+      const d = document.createElement("div");
+      d.className = "domino";
+      d.dataset.total = pair[0] + pair[1];
+      d.innerHTML = '<div class="domino-half">' + pips(pair[0]) + '</div><div class="domino-half">' + pips(pair[1]) + '</div>';
+      d.title = "Total " + (pair[0] + pair[1]);
+      d.onclick = () => {
+        if (!domSel) { domSel = d; d.classList.add("sel"); return; }
+        if (domSel === d) { d.classList.remove("sel"); domSel = null; return; }
+        const sum = parseInt(domSel.dataset.total) + parseInt(d.dataset.total);
+        if (sum === 9) {
+          domSel.classList.add("matched"); d.classList.add("matched");
+          domSel.classList.remove("sel"); domSel = null; domMatched += 2;
+          say("domino", "Correct pair! Total dots equal 9 🁣✅", true);
+          if (domMatched === pieces.length) { say("domino", "You completed all domino pairs! 🏆", true); markDone("domino-game"); }
+        } else {
+          say("domino", "The total is " + sum + ", not 9. Try again 💡", false);
+          domSel.classList.remove("sel"); domSel = null;
+        }
+      };
+      grid.appendChild(d);
+    });
+    const fb = document.getElementById("feedback-domino"); fb.textContent = "Goal: Choose two tiles whose dots total 9"; fb.className = "feedback";
+  }
+
+  /* ============ Who's Missing? ============ */
+  function buildHidden() {
+    const box = document.getElementById("hidden-box");
+    const choices = document.getElementById("hidden-choices");
+    box.innerHTML = ""; choices.innerHTML = "";
+    const hide = Math.floor(Math.random() * 8) + 1;
+    const shown = 9 - hide;
+    for (let i = 0; i < 9; i++) {
+      const s2 = document.createElement("span");
+      s2.className = "hidden-item" + (i >= shown ? " cover" : "");
+      s2.textContent = i >= shown ? "☁️" : "🐥";
+      box.appendChild(s2);
+    }
+    const opts = new Set([hide]);
+    while (opts.size < 4) opts.add(Math.floor(Math.random() * 9) + 1);
+    [...opts].sort(() => Math.random() - 0.5).forEach(n => {
+      const b = document.createElement("button");
+      b.className = "choice-btn"; b.textContent = n;
+      b.onclick = () => {
+        if (n === hide) {
+          box.querySelectorAll(".hidden-item.cover").forEach(x => { x.classList.remove("cover"); x.textContent = "🐥"; });
+          say("hidden", "Correct! " + shown + " visible and " + hide + " hidden, making 9 in total 🙈✅", true);
+          markDone("hidden-game");
+          choices.innerHTML = "";
+        } else say("hidden", "Incorrect. Only " + shown + " are visible 💡", false);
+      };
+      choices.appendChild(b);
+    });
+    const fb = document.getElementById("feedback-hidden"); fb.textContent = "Visible: " + shown + " chicks"; fb.className = "feedback";
+  }
+
+  /* ============ Initialization ============ */
+  function buildAll() {
+    buildLearn();
+    buildGroup("ready");
+    buildGroup("try");
+    buildGroup("together");
+    buildMethod();
+    buildTenframe();
+    buildTrain();
+    buildBalance();
+    buildMemory();
+    buildHouse();
+    buildHunt();
+    buildFingers();
+    buildBars();
+    buildStory();
+    buildDomino();
+    buildHidden();
+  }
+  buildAll();
+</script>
+</body>
+</html>

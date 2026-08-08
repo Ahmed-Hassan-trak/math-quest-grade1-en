@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let's Compare Numbers | Interactive Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Changa:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7E4;
+    --sun:#FFC93C;
+    --sun-deep:#FF9F1C;
+    --sky:#2E86C1;
+    --sky-deep:#1B5E8C;
+    --leaf:#6BCB77;
+    --leaf-deep:#3F9950;
+    --coral:#FF6B6B;
+    --ink:#3A3226;
+    --paper:#FFFFFF;
+    --line:#F1E4C0;
+    --shadow: 0 8px 0 rgba(0,0,0,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 8% 12%, #FFF1C4 0, transparent 45%),
+      radial-gradient(circle at 92% 85%, #E8F6E9 0, transparent 40%),
+      var(--cream);
+    font-family:'Cairo', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3,.display{font-family:'Changa', sans-serif;}
+
+  .rail{position:sticky; top:0; z-index:50; background:var(--sky); box-shadow:0 4px 14px rgba(27,94,140,.25);}
+  .rail-inner{max-width:980px; margin:0 auto; display:flex; align-items:center; gap:10px; padding:10px 16px; overflow-x:auto;}
+  .rail-title{color:#fff; font-family:'Changa'; font-weight:700; font-size:1.05rem; white-space:nowrap; padding-inline-end:10px; border-inline-end:2px solid rgba(255,255,255,.3); margin-inline-end:6px;}
+  .rail-btn{flex:0 0 auto; background:rgba(255,255,255,.15); color:#fff; border:2px solid rgba(255,255,255,.4); border-radius:999px; padding:7px 16px; font-family:'Cairo'; font-weight:700; font-size:.85rem; cursor:pointer; white-space:nowrap; transition:.2s;}
+  .rail-btn:hover{background:rgba(255,255,255,.3);}
+  .rail-btn.done{background:var(--leaf); border-color:var(--leaf); color:#12351a;}
+  .rail-star{margin-inline-start:4px;}
+
+  .hero{max-width:980px; margin:26px auto 10px; padding:0 16px;}
+  .hero-card{background:linear-gradient(135deg,var(--sky) 0%, var(--sky-deep) 100%); border-radius:28px; padding:34px 30px; color:#fff; position:relative; overflow:hidden; box-shadow:var(--shadow);}
+  .hero-eyebrow{display:inline-block; background:var(--sun); color:#5a3b00; font-family:'Changa'; font-weight:700; font-size:.85rem; padding:6px 16px; border-radius:999px; margin-bottom:14px;}
+  .hero h1{font-size:2.4rem; margin:0 0 8px; line-height:1.25;}
+  .hero p{font-size:1.05rem; opacity:.92; max-width:600px; margin:0;}
+  .hero-float{position:absolute; font-size:2.6rem; opacity:.5; user-select:none; animation:bob 4s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .f1{top:14px; right:26px; animation-delay:.2s;}
+  .f2{bottom:10px; right:90px; animation-delay:1.1s; font-size:2rem;}
+  .f3{top:60px; right:150px; animation-delay:.6s; font-size:1.7rem;}
+
+  .wrap{max-width:980px; margin:0 auto; padding:0 16px;}
+  section.card{background:var(--paper); border:3px solid var(--line); border-radius:26px; margin-top:26px; padding:26px 24px 30px; scroll-margin-top:80px; position:relative;}
+  .tag{display:inline-flex; align-items:center; gap:8px; background:var(--sun); color:#5a3b00; font-family:'Changa'; font-weight:700; padding:8px 18px; border-radius:14px; font-size:1.05rem; box-shadow:0 4px 0 rgba(0,0,0,.08); margin-bottom:16px;}
+  .tag.blue{background:var(--sky); color:#fff;}
+  .tag.green{background:var(--leaf); color:#173d1c;}
+  .tag.coral{background:var(--coral); color:#fff;}
+  .instruction{font-size:1.05rem; margin:0 0 18px; font-weight:600;}
+
+  .feedback{min-height:34px; font-weight:700; font-family:'Changa'; font-size:1.05rem; display:flex; align-items:center; gap:8px; margin-top:6px;}
+  .feedback.ok{color:var(--leaf-deep);}
+  .feedback.no{color:var(--coral);}
+  .check-btn{background:var(--sky); color:#fff; border:none; border-radius:14px; padding:12px 26px; font-family:'Changa'; font-weight:700; font-size:1rem; cursor:pointer; box-shadow:0 4px 0 var(--sky-deep); transition:.1s;}
+  .check-btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--sky-deep);}
+  .check-btn:hover{filter:brightness(1.06);}
+  .reset-btn{background:#fff; color:var(--ink); border:2px solid var(--line); border-radius:14px; padding:11px 20px; font-family:'Cairo'; font-weight:700; font-size:.92rem; cursor:pointer;}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+
+  /* ---------- Number Line ---------- */
+  .numline{display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:16px 0;}
+  .numline-box{width:44px; height:44px; border:3px solid var(--ink); border-radius:10px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Changa'; font-weight:700; font-size:1.2rem; cursor:pointer; transition:.15s; flex:0 0 auto;}
+  .numline-box:hover{background:#EAF6FF;}
+  .numline-box.pickA{background:var(--sky); border-color:var(--sky-deep); color:#fff;}
+  .numline-box.pickB{background:var(--coral); border-color:#c94040; color:#fff;}
+  .numline-box.counted{background:#EAF6FF; border-color:var(--sky);}
+  .numline-labels{display:flex; justify-content:space-between; max-width:560px; margin:0 auto 6px; font-family:'Changa'; font-weight:700; color:var(--sun-deep);}
+  .arrow-line{height:3px; background:var(--sun-deep); max-width:560px; margin:0 auto 10px; position:relative;}
+  .arrow-line::before{content:"▶"; position:absolute; right:-4px; top:-9px; color:var(--sun-deep);}
+
+  /* ---------- Comparison Cards (Get Ready / Try Time / Practice Together) ---------- */
+  .cmp-sub{font-family:'Changa'; font-weight:700; color:var(--sky-deep); margin:14px 0 10px; font-size:1.02rem;}
+  .cmp-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:6px;}
+  @media (max-width:680px){.cmp-grid{grid-template-columns:1fr;}}
+  .cmp-card{background:#FFFBF0; border:2px solid var(--line); border-radius:16px; padding:14px; text-align:center; position:relative;}
+  .cmp-index{position:absolute; top:8px; inset-inline-start:12px; font-family:'Changa'; font-weight:700; color:var(--sky-deep); opacity:.7; font-size:.9rem;}
+  .cmp-boxes{display:flex; justify-content:center; gap:16px; margin-top:10px;}
+  .cmp-box{width:64px; height:64px; border:3px solid var(--ink); border-radius:10px; background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Changa'; font-weight:700; font-size:1.6rem; cursor:pointer; transition:.15s;}
+  .cmp-box:hover{background:#FFF6E5;}
+  .cmp-box.circled{border:4px solid var(--sun-deep); box-shadow:0 0 0 4px rgba(255,159,28,.22); background:#FFF6E5;}
+  .cmp-box.correct{border-color:var(--leaf-deep); background:#F1FBF0; color:var(--leaf-deep);}
+  .cmp-box.incorrect{border-color:var(--coral); background:#FFF1F1; color:var(--coral);}
+
+  /* ---------- Ordering Numbers / Ordering Train ---------- */
+  .order-row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:18px 0;}
+  .order-btn{width:56px; height:56px; border-radius:14px; background:#fff; border:3px solid var(--sky); font-family:'Changa'; font-weight:700; font-size:1.3rem; color:var(--sky-deep); cursor:pointer; transition:.15s;}
+  .order-btn:hover{background:#EAF6FF;}
+  .order-btn.done{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c; cursor:default;}
+  .order-btn.wrong{background:var(--coral); border-color:#c94040; color:#fff;}
+  .order-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .order-strip b{font-family:'Changa'; color:var(--sky-deep);}
+
+  /* ---------- Card War (Biggest Wins) ---------- */
+  .cw-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .cw-strip b{font-family:'Changa'; color:var(--sky-deep);}
+  .cw-stage{background:linear-gradient(#FFE7C2 0%, #FFF7E4 70%); border:2px dashed #ffffffaa; border-radius:20px; padding:26px; margin-bottom:14px;}
+  .cw-cards{display:flex; align-items:center; justify-content:center; gap:34px; flex-wrap:wrap;}
+  .cw-card{width:110px; height:150px; background:#fff; border:4px solid var(--sky); border-radius:16px; display:flex; align-items:center; justify-content:center; font-family:'Changa'; font-weight:700; font-size:2.6rem; color:var(--sky-deep); cursor:pointer; box-shadow:0 5px 0 var(--sky-deep); transition:.15s;}
+  .cw-card:hover{transform:translateY(-4px);}
+  .cw-card.right{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c; box-shadow:0 5px 0 var(--leaf-deep);}
+  .cw-card.wrong{background:var(--coral); border-color:#c94040; color:#fff; box-shadow:0 5px 0 #c94040;}
+  .cw-vs{font-family:'Changa'; font-weight:700; font-size:1.6rem; color:var(--sun-deep);}
+
+  /* ---------- Comparing Real Objects ---------- */
+  .obj-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .obj-strip b{font-family:'Changa'; color:var(--sky-deep);}
+  .obj-stage{display:flex; align-items:flex-start; justify-content:center; gap:24px; flex-wrap:wrap; background:linear-gradient(#EAF6FF 0%, #FFF7E4 70%); border:2px dashed #ffffffaa; border-radius:20px; padding:20px; margin-bottom:14px;}
+  .obj-group{background:#fff; border:3px solid var(--line); border-radius:16px; padding:14px; min-width:200px; text-align:center; cursor:pointer; transition:.15s;}
+  .obj-group:hover{border-color:var(--sun-deep);}
+  .obj-group.correct{border-color:var(--leaf-deep); background:#F1FBF0;}
+  .obj-group.incorrect{border-color:var(--coral); background:#FFF1F1;}
+  .obj-items{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; max-width:220px; margin:0 auto 8px;}
+  .obj-items span{font-size:1.5rem;}
+  .obj-count{font-family:'Changa'; font-weight:700; color:var(--sky-deep);}
+
+  /* ---------- Comparing Fingers ---------- */
+  .cf-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .cf-strip b{font-family:'Changa'; color:var(--sky-deep);}
+  .cf-stage{background:linear-gradient(#FFE7C2 0%, #FFF7E4 70%); border:2px dashed #ffffffaa; border-radius:20px; padding:22px; text-align:center; margin-bottom:14px;}
+  .cf-pair{display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin-top:10px;}
+  .cf-child{background:#fff; border:3px solid var(--line); border-radius:16px; padding:14px 18px; text-align:center; cursor:pointer; transition:.15s;}
+  .cf-child:hover{border-color:var(--sun-deep);}
+  .cf-child.correct{border-color:var(--leaf-deep); background:#F1FBF0;}
+  .cf-child.incorrect{border-color:var(--coral); background:#FFF1F1;}
+  .cf-fingers{display:flex; gap:5px; justify-content:center; height:36px; align-items:flex-end; margin:8px 0;}
+  .cf-finger{width:13px; height:24px; border-radius:8px; background:#E4E9EF; border:2px solid #ccd3da;}
+  .cf-finger.up{background:var(--sky); border-color:var(--sky-deep); height:34px;}
+  .cf-name{font-family:'Changa'; font-weight:700; color:var(--sky-deep);}
+
+  /* ---------- Comparison Stories ---------- */
+  .story-card{background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:16px 18px; margin-bottom:14px;}
+  .story-text{font-weight:700; font-size:1.05rem; margin-bottom:12px; display:flex; gap:10px; align-items:flex-start;}
+  .story-emoji{font-size:1.8rem; flex:0 0 auto;}
+  .story-choices{display:flex; gap:8px; flex-wrap:wrap;}
+  .story-choice{padding:10px 18px; border-radius:14px; background:#fff; border:3px solid var(--sky); font-family:'Cairo'; font-weight:700; color:var(--sky-deep); cursor:pointer; transition:.15s;}
+  .story-choice:hover{background:#EAF6FF;}
+  .story-choice.right{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c;}
+  .story-choice.wrong{background:var(--coral); border-color:#c94040; color:#fff;}
+
+  /* ---------- Balance Scale ---------- */
+  .balance{display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:18px;}
+  .pan{min-width:170px; min-height:80px; border:3px solid var(--sky); border-radius:16px; background:#fff; display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; padding:10px;}
+  .pan .bead{width:20px;height:20px; border-radius:50%;}
+  .pan .bead.blue{background:var(--sky);}
+  .pan .bead.red{background:var(--coral);}
+  .stepper{display:flex; align-items:center; gap:10px; justify-content:center; margin-top:10px;}
+  .step-btn{width:44px; height:44px; border-radius:12px; border:3px solid var(--sky); background:#fff; color:var(--sky-deep); font-family:'Changa'; font-weight:700; font-size:1.4rem; cursor:pointer;}
+  .step-btn:hover{background:#EAF6FF;}
+  .balance-sum{font-family:'Changa'; font-weight:700; font-size:1.5rem; color:var(--sun-deep);}
+  .bal-challenge{background:#FFF6E5; border:2px dashed var(--sun-deep); border-radius:14px; padding:10px 16px; font-weight:700; color:#7a4a00; margin-bottom:14px; text-align:center;}
+
+  /* ---------- Balloons ---------- */
+  .balloon-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .balloon-strip b{font-family:'Changa'; color:var(--sky-deep);}
+  .balloon-field{position:relative; height:280px; background:linear-gradient(#EAF6FF 0%, #FFF7E4 100%); border:3px dashed var(--sky); border-radius:20px; overflow:hidden;}
+  .balloon{position:absolute; width:64px; height:78px; border-radius:50% 50% 50% 50%/55% 55% 45% 45%; display:flex; align-items:center; justify-content:center; font-family:'Changa'; font-weight:700; font-size:1.3rem; color:#fff; cursor:pointer; animation:floaty 3.4s ease-in-out infinite; transition:opacity .3s, transform .3s;}
+  .balloon::after{content:""; position:absolute; bottom:-16px; left:50%; width:2px; height:16px; background:#8a7a5a; transform:translateX(-50%);}
+  .balloon.pop{opacity:0; transform:scale(0);}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+  /* ---------- Fishing Game ---------- */
+  .pond{position:relative; height:330px; background:linear-gradient(#BEE7F5 0%, #8FD3E8 100%); border-radius:20px; overflow:hidden; border:3px solid var(--sky-deep);}
+  .fish{position:absolute; width:54px; height:38px; background:var(--coral); border-radius:50% 50% 50% 10%; display:flex; align-items:center; justify-content:center; font-family:'Changa'; font-weight:700; color:#fff; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,.15); animation:swim linear infinite; transition:opacity .3s, transform .3s;}
+  .fish::after{content:""; position:absolute; inset-inline-end:-13px; top:7px; width:0; height:0; border-top:11px solid transparent; border-bottom:11px solid transparent; border-inline-end:15px solid var(--coral);}
+  .fish.blue{background:var(--sky);} .fish.blue::after{border-inline-end-color:var(--sky);}
+  .fish.wrong-flash{outline:4px solid var(--coral);}
+  .fish.matched{opacity:0; transform:scale(0);}
+  @keyframes swim{0%{transform:translateX(0)}50%{transform:translateX(16px)}100%{transform:translateX(0)}}
+  .fish-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .fish-strip b{font-family:'Changa'; color:var(--sky-deep);}
+
+  /* ---------- Memory Game ---------- */
+  .memory-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:10px; max-width:620px; margin:0 auto;}
+  @media (max-width:620px){.memory-grid{grid-template-columns:repeat(4,1fr);}}
+  .mem-card{aspect-ratio:1/1; border-radius:14px; cursor:pointer; position:relative; perspective:600px;}
+  .mem-inner{width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .35s;}
+  .mem-card.flipped .mem-inner, .mem-card.matched .mem-inner{transform:rotateY(180deg);}
+  .mem-face{position:absolute; inset:0; border-radius:14px; display:flex; align-items:center; justify-content:center; backface-visibility:hidden; font-family:'Changa'; font-weight:700; font-size:1.5rem;}
+  .mem-back{background:var(--sky); color:#fff; font-size:1.5rem;}
+  .mem-front{background:#fff; border:3px solid var(--sun-deep); color:var(--sky-deep); transform:rotateY(180deg);}
+  .mem-card.matched .mem-front{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c;}
+  .mem-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .mem-strip b{font-family:'Changa'; color:var(--sky-deep);}
+
+  /* ---------- Comparison Race ---------- */
+  .race-strip{display:flex; align-items:center; justify-content:space-between; gap:12px; background:#FFFBF0; border:2px solid var(--line); border-radius:14px; padding:10px 16px; margin-bottom:16px; flex-wrap:wrap;}
+  .race-strip b{font-family:'Changa'; color:var(--sky-deep);}
+  .race-bar-track{background:#F1E4C0; border-radius:999px; height:14px; overflow:hidden; margin-bottom:16px;}
+  .race-bar-fill{background:linear-gradient(90deg,var(--sun),var(--sun-deep)); height:100%; width:100%; transition:width .3s linear;}
+  .race-stage{background:linear-gradient(#FFE7C2 0%, #FFF7E4 70%); border:2px dashed #ffffffaa; border-radius:20px; padding:26px; text-align:center; margin-bottom:14px;}
+  .race-sub{font-size:.95rem; font-weight:600; margin-top:6px;}
+  .race-nums{font-family:'Changa'; font-weight:700; font-size:2rem; color:var(--sky-deep); display:flex; gap:20px; justify-content:center; margin-top:8px;}
+  .race-choices{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:14px;}
+  .race-choice{width:66px; height:66px; border-radius:16px; background:#fff; border:3px solid var(--sky); font-family:'Changa'; font-weight:700; font-size:1.5rem; color:var(--sky-deep); cursor:pointer;}
+  .race-choice.right{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c;}
+  .race-choice.wrong{background:var(--coral); border-color:#c94040; color:#fff;}
+
+  /* ---------- Ordering Train ---------- */
+  .train-track{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:16px 0;}
+  .car{width:70px; height:80px; background:#FFFBF0; border:3px solid var(--sky); border-radius:14px 14px 6px 6px; display:flex; align-items:center; justify-content:center; font-family:'Changa'; font-weight:700; font-size:1.4rem; color:var(--sky-deep); cursor:pointer; position:relative; transition:.15s;}
+  .car::before{content:""; position:absolute; bottom:-9px; right:12px; width:14px; height:14px; border-radius:50%; background:var(--ink);}
+  .car::after{content:""; position:absolute; bottom:-9px; left:12px; width:14px; height:14px; border-radius:50%; background:var(--ink);}
+  .car.done{background:var(--leaf); border-color:var(--leaf-deep); color:#173d1c; cursor:default;}
+  .car.wrong{background:var(--coral); border-color:#c94040; color:#fff;}
+
+  /* ---------- Mascot ---------- */
+  .mascot-bubble{display:flex; align-items:flex-start; gap:12px; margin-top:20px;}
+  .mascot-emoji{font-size:2.6rem;}
+  .bubble{background:#FFFBF0; border:2px solid var(--line); border-radius:18px; padding:12px 16px; font-weight:600; position:relative; flex:1;}
+
+  .finale{text-align:center; background:linear-gradient(135deg,var(--leaf) 0%, var(--leaf-deep) 100%); color:#fff; border-color:transparent;}
+  .finale h2{font-size:2rem; margin:6px 0 10px;}
+</style>
+</head>
+<body>
+
+<div class="rail">
+  <div class="rail-inner">
+    <span class="rail-title">12-1 Let's Compare Numbers</span>
+    <button class="rail-btn" data-target="learn">Point & Learn <span class="rail-star" id="star-learn"></span></button>
+    <button class="rail-btn" data-target="ready">Get Ready Friends <span class="rail-star" id="star-ready"></span></button>
+    <button class="rail-btn" data-target="method">How to Solve <span class="rail-star" id="star-method"></span></button>
+    <button class="rail-btn" data-target="try">Try Time <span class="rail-star" id="star-try"></span></button>
+    <button class="rail-btn" data-target="together">Practice Together <span class="rail-star" id="star-together"></span></button>
+    <button class="rail-btn" data-target="order">Ordering Numbers <span class="rail-star" id="star-order"></span></button>
+    <button class="rail-btn" data-target="cardwar">Biggest Wins <span class="rail-star" id="star-cardwar"></span></button>
+    <button class="rail-btn" data-target="objects">Comparing Objects <span class="rail-star" id="star-objects"></span></button>
+    <button class="rail-btn" data-target="fingers">Comparing Fingers <span class="rail-star" id="star-fingers"></span></button>
+    <button class="rail-btn" data-target="stories">Comparison Stories <span class="rail-star" id="star-stories"></span></button>
+    <button class="rail-btn" data-target="balance">Balance Scale <span class="rail-star" id="star-balance"></span></button>
+    <button class="rail-btn" data-target="balloons">Comparison Balloons <span class="rail-star" id="star-balloons"></span></button>
+    <button class="rail-btn" data-target="fishing">Fisherman <span class="rail-star" id="star-fishing"></span></button>
+    <button class="rail-btn" data-target="train">Ordering Train <span class="rail-star" id="star-train"></span></button>
+    <button class="rail-btn" data-target="memory">Memory Game <span class="rail-star" id="star-memory"></span></button>
+    <button class="rail-btn" data-target="race">Comparison Race <span class="rail-star" id="star-race"></span></button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-card">
+    <span class="hero-float f1">🔢</span>
+    <span class="hero-float f2">⚖️</span>
+    <span class="hero-float f3">⭐</span>
+    <span class="hero-eyebrow">Chapter 1 · Numbers up to 10</span>
+    <h1>Let's Compare Numbers 🔍</h1>
+    <p>Which number is greater? Which one is smaller? Let's review numbers from 1 to 10 and learn how to compare them through coloring, games, and stories!</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 1) Point and Learn ============ -->
+  <section class="card" id="learn">
+    <span class="tag">📖 Point & Learn</span>
+    <p class="instruction">Let's review numbers from 1 to 10 together. Click on any two numbers to see which is greater and which is smaller.</p>
+    <div class="numline-labels"><span>Smaller</span><span>Greater</span></div>
+    <div class="arrow-line"></div>
+    <div class="numline" id="numline-learn"></div>
+    <div class="feedback" id="feedback-learn"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐶</span>
+      <div class="bubble">Numbers increase as we move to the right, and decrease as we move to the left. Try selecting two numbers to see the difference! 🌟</div>
+    </div>
+  </section>
+
+  <!-- ============ 2) Get Ready Friends ============ -->
+  <section class="card" id="ready">
+    <span class="tag coral">❗ Get Ready Friends</span>
+    <p class="instruction">Which one is greater? Click on the greater number to circle it.</p>
+    <div class="cmp-grid" id="cmp-ready" style="grid-template-columns:1fr; max-width:280px; margin-inline:auto;"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkCompare('ready')">Check My Answer ✔️</button>
+      <button class="reset-btn" onclick="buildCompare('ready')">Try Again 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-ready"></div>
+  </section>
+
+  <!-- ============ 3) How to Solve ============ -->
+  <section class="card" id="method">
+    <span class="tag green">🐔 How to Solve</span>
+    <p class="instruction">Let's solve step by step starting from number 1, and think: numbers increase as we move to the right. Click the numbers in order 1, 2, 3... until you reach the target numbers, then circle the greater one.</p>
+    <div class="numline" id="numline-method"></div>
+    <div class="cmp-grid" id="cmp-method" style="grid-template-columns:1fr; max-width:280px; margin-inline:auto; margin-top:16px;"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkMethod()">Check My Answer ✔️</button>
+      <button class="reset-btn" onclick="buildMethod()">Try Again 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-method"></div>
+  </section>
+
+  <!-- ============ 4) Try Time ============ -->
+  <section class="card" id="try">
+    <span class="tag blue">🕐 Try Time</span>
+    <div class="cmp-sub">Circle the greater number.</div>
+    <div class="cmp-grid" id="try-max"></div>
+    <div class="cmp-sub">Circle the smaller number.</div>
+    <div class="cmp-grid" id="try-min"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkCompare('try')">Check My Answer ✔️</button>
+      <button class="reset-btn" onclick="buildCompare('try')">Try Again 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-try"></div>
+  </section>
+
+  <!-- ============ 5) Practice Together ============ -->
+  <section class="card" id="together">
+    <span class="tag green">🤝 Let's Practice Together</span>
+    <div class="cmp-sub">Circle the greater number.</div>
+    <div class="cmp-grid" id="together-max"></div>
+    <div class="cmp-sub">Circle the smaller number.</div>
+    <div class="cmp-grid" id="together-min"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkCompare('together')">Check My Answer ✔️</button>
+      <button class="reset-btn" onclick="buildCompare('together')">Try Again 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-together"></div>
+  </section>
+
+  <!-- ============ 6) Ordering Numbers ============ -->
+  <section class="card" id="order">
+    <span class="tag">🔢 Ordering Numbers</span>
+    <div class="order-strip">
+      <span id="order-dir-label">Click the numbers in order from smallest to greatest</span>
+    </div>
+    <div class="order-row" id="order-row"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildOrder()">New Round 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-order"></div>
+  </section>
+
+  <!-- ============ 7) Biggest Wins ============ -->
+  <section class="card" id="cardwar">
+    <span class="tag coral">🃏 Biggest Wins</span>
+    <p class="instruction">Two cards are flipped in each round. Click on the card with the greater number quickly! You have 5 rounds.</p>
+    <div class="cw-strip">
+      <span>Round: <b id="cw-round">1</b> / 5</span>
+      <span>Score: <b id="cw-score">0</b> ⭐</span>
+    </div>
+    <div class="cw-stage">
+      <div class="cw-cards" id="cw-cards"></div>
+    </div>
+    <div class="feedback" id="feedback-cardwar"></div>
+  </section>
+
+  <!-- ============ 8) Comparing Objects ============ -->
+  <section class="card" id="objects">
+    <span class="tag blue">🍎 Comparing Objects</span>
+    <p class="instruction">Look at the two groups, then click on the group that contains more items. You have 4 rounds.</p>
+    <div class="obj-strip">
+      <span>Round: <b id="obj-round">1</b> / 4</span>
+      <span>Score: <b id="obj-score">0</b> ⭐</span>
+    </div>
+    <div class="obj-stage" id="obj-stage"></div>
+    <div class="feedback" id="feedback-objects"></div>
+  </section>
+
+  <!-- ============ 9) Comparing Fingers ============ -->
+  <section class="card" id="fingers">
+    <span class="tag">✋ Comparing Fingers</span>
+    <p class="instruction">Each child is holding up a number of fingers. Click on the child who has more fingers raised. You have 5 rounds.</p>
+    <div class="cf-strip">
+      <span>Round: <b id="cf-round">1</b> / 5</span>
+      <span>Score: <b id="cf-score">0</b> ⭐</span>
+    </div>
+    <div class="cf-stage">
+      <div class="cf-pair" id="cf-pair"></div>
+    </div>
+    <div class="feedback" id="feedback-fingers"></div>
+  </section>
+
+  <!-- ============ 10) Comparison Stories ============ -->
+  <section class="card" id="stories">
+    <span class="tag coral">📖 Comparison Stories</span>
+    <p class="instruction">Read each short story carefully, then click on the correct answer.</p>
+    <div id="story-list"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkStories()">Check My Answers ✔️</button>
+      <button class="reset-btn" onclick="buildStories()">New Stories 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-stories"></div>
+  </section>
+
+  <!-- ============ 11) Balance Scale ============ -->
+  <section class="card" id="balance">
+    <span class="tag green">⚖️ Balance Scale</span>
+    <div class="bal-challenge" id="bal-challenge"></div>
+    <div class="balance">
+      <div>
+        <div class="pan" id="pan-a"></div>
+        <div class="stepper">
+          <button class="step-btn" onclick="changePan('a',-1)">−</button>
+          <span class="balance-sum" id="pan-a-num">3</span>
+          <button class="step-btn" onclick="changePan('a',1)">+</button>
+        </div>
+      </div>
+      <div class="balance-sum">VS</div>
+      <div>
+        <div class="pan" id="pan-b"></div>
+        <div class="stepper">
+          <button class="step-btn" onclick="changePan('b',-1)">−</button>
+          <span class="balance-sum" id="pan-b-num">3</span>
+          <button class="step-btn" onclick="changePan('b',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkBalance()">Check My Answer ✔️</button>
+      <button class="reset-btn" onclick="newBalanceChallenge()">New Challenge 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-balance"></div>
+  </section>
+
+  <!-- ============ 12) Comparison Balloons ============ -->
+  <section class="card" id="balloons">
+    <span class="tag coral">🎈 Comparison Balloons</span>
+    <p class="instruction">Click on the balloon carrying the greatest number to make it pop! You have 5 rounds.</p>
+    <div class="balloon-strip">
+      <span>Round: <b id="bl-round">1</b> / 5</span>
+      <span>Score: <b id="bl-score">0</b> ⭐</span>
+    </div>
+    <div class="balloon-field" id="balloon-field"></div>
+    <div class="feedback" id="feedback-balloons"></div>
+  </section>
+
+  <!-- ============ 13) Fisherman ============ -->
+  <section class="card" id="fishing">
+    <span class="tag">🎣 Fisherman</span>
+    <p class="instruction">Each pair of fish is matched with the same color. Click on the fish with the greater number in each pair to catch it.</p>
+    <div class="fish-strip">
+      <span>Caught: <b id="fish-found">0</b> / 6 pairs</span>
+    </div>
+    <div class="pond" id="pond"></div>
+    <div class="feedback" id="feedback-fishing"></div>
+  </section>
+
+  <!-- ============ 14) Ordering Train ============ -->
+  <section class="card" id="train">
+    <span class="tag green">🚂 Ordering Train</span>
+    <p class="instruction">Click on the train cars in order from smallest to greatest to connect them together.</p>
+    <div class="train-track" id="train-track"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildTrain()">New Train 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-train"></div>
+  </section>
+
+  <!-- ============ 15) Memory Game ============ -->
+  <section class="card" id="memory">
+    <span class="tag blue">🧠 Memory Game</span>
+    <p class="instruction">Flip two cards at a time, and try to find a matching pair with the same number.</p>
+    <div class="mem-strip">
+      <span>Tries: <b id="mem-tries">0</b></span>
+      <span>Pairs: <b id="mem-found">0</b> / 11</span>
+    </div>
+    <div class="memory-grid" id="memory-grid"></div>
+    <div class="btn-row">
+      <button class="reset-btn" onclick="buildMemory()">New Game 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-memory"></div>
+  </section>
+
+  <!-- ============ 16) Comparison Race ============ -->
+  <section class="card" id="race">
+    <span class="tag coral">🏁 Comparison Race</span>
+    <p class="instruction">Quickly choose the greater (or smaller, depending on the question) number before time runs out! You have 8 questions.</p>
+    <div class="race-strip">
+      <span>Question: <b id="race-num">1</b> / 8</span>
+      <span>Score: <b id="race-score">0</b> ⭐</span>
+    </div>
+    <div class="race-bar-track"><div class="race-bar-fill" id="race-bar"></div></div>
+    <div class="race-stage">
+      <div class="race-sub" id="race-sub">Which number is greater?</div>
+      <div class="race-nums" id="race-nums"></div>
+    </div>
+    <div class="race-choices" id="race-choices"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="startRace()">Start Race 🏁</button>
+    </div>
+    <div class="feedback" id="feedback-race"></div>
+  </section>
+
+  <section class="card finale" id="finale" style="display:none;">
+    <h2>🎉 Well done! You are a Number Comparison Champion!</h2>
+    <p>You completed all activities successfully 🌟 Now you can easily tell which number is greater and which is smaller!</p>
+  </section>
+
+</div>
+
+<script>
+  /* ---------- Tools ---------- */
+  const ar = n => String(n);
+  const done = {};
+  function markDone(key){
+    if(done[key]) return;
+    done[key] = true;
+    const star = document.getElementById("star-" + key);
+    if(star) star.textContent = "⭐";
+    const btn = document.querySelector('.rail-btn[data-target="'+key+'"]');
+    if(btn) btn.classList.add("done");
+    const keys = ["learn","ready","method","try","together","order","cardwar","objects","fingers","stories","balance","balloons","fishing","train","memory","race"];
+    if(keys.every(k => done[k])){
+      const f = document.getElementById("finale");
+      f.style.display = "block";
+      f.scrollIntoView({behavior:"smooth"});
+    }
+  }
+  document.querySelectorAll(".rail-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      document.getElementById(b.dataset.target).scrollIntoView({behavior:"smooth"});
+    });
+  });
+  function say(id, msg, ok){
+    const el = document.getElementById("feedback-" + id);
+    el.textContent = msg;
+    el.className = "feedback " + (ok ? "ok" : "no");
+  }
+  function shuffle(a){ return a.slice().sort(() => Math.random() - 0.5); }
+  const RANGE10 = Array.from({length:10},(_,n) => n+1); // 1..10
+  const RANGE11 = Array.from({length:11},(_,n) => n);   // 0..10
+  function randDistinctPair(min, max){
+    let a = Math.floor(Math.random()*(max-min+1))+min;
+    let b = Math.floor(Math.random()*(max-min+1))+min;
+    while(b === a) b = Math.floor(Math.random()*(max-min+1))+min;
+    return [a,b];
+  }
+
+  /* ---------- 1) Point & Learn: Number Line ---------- */
+  let learnPicks = [];
+  function buildNumline(hostId, withClickCompare){
+    const host = document.getElementById(hostId);
+    host.innerHTML = "";
+    for(let n=1;n<=10;n++){
+      const box = document.createElement("div");
+      box.className = "numline-box";
+      box.textContent = ar(n);
+      box.dataset.n = n;
+      if(withClickCompare){
+        box.onclick = () => onLearnClick(box, n);
+      }
+      host.appendChild(box);
+    }
+  }
+  function onLearnClick(box, n){
+    if(learnPicks.length === 2){
+      document.querySelectorAll("#numline-learn .numline-box").forEach(b => b.classList.remove("pickA","pickB"));
+      learnPicks = [];
+    }
+    if(learnPicks.some(p => p.n === n)) return;
+    learnPicks.push({box, n});
+    box.classList.add(learnPicks.length === 1 ? "pickA" : "pickB");
+    if(learnPicks.length === 2){
+      const [p1,p2] = learnPicks;
+      const bigger = Math.max(p1.n, p2.n), smaller = Math.min(p1.n, p2.n);
+      say("learn", ar(bigger) + " is greater than " + ar(smaller) + " and " + ar(smaller) + " is smaller than " + ar(bigger) + " ✅", true);
+      markDone("learn");
+    }
+  }
+
+  /* ---------- Comparison Cards (ready / try / together) ---------- */
+  const COMPARE_SETS = {
+    ready: {single:[{a:7,b:6,mode:"max"}]},
+    try: {
+      max: [{a:3,b:1},{a:2,b:5}],
+      min: [{a:4,b:8},{a:10,b:7}]
+    },
+    together: {
+      max: [{a:10,b:2},{a:5,b:7},{a:3,b:4},{a:6,b:9}],
+      min: [{a:1,b:8},{a:5,b:3},{a:9,b:0},{a:6,b:8}]
+    }
+  };
+  const compareState = {};
+  function makeCmpCard(item, idx, mode){
+    const answer = mode === "max" ? Math.max(item.a, item.b) : Math.min(item.a, item.b);
+    const card = document.createElement("div");
+    card.className = "cmp-card";
+    card.innerHTML =
+      '<div class="cmp-index">('+ar(idx+1)+')</div>' +
+      '<div class="cmp-boxes">' +
+        '<div class="cmp-box" data-v="'+item.a+'">'+ar(item.a)+'</div>' +
+        '<div class="cmp-box" data-v="'+item.b+'">'+ar(item.b)+'</div>' +
+      '</div>';
+    const boxes = card.querySelectorAll(".cmp-box");
+    const state = {answer, picked:null};
+    boxes.forEach(box => {
+      box.onclick = () => {
+        boxes.forEach(b => b.classList.remove("circled"));
+        box.classList.add("circled");
+        state.picked = +box.dataset.v;
+      };
+    });
+    return {card, state};
+  }
+  function buildCompare(key){
+    const sets = COMPARE_SETS[key];
+    compareState[key] = [];
+    if(sets.single){
+      const host = document.getElementById("cmp-" + key);
+      host.innerHTML = "";
+      sets.single.forEach((item, i) => {
+        const {card, state} = makeCmpCard(item, i, item.mode);
+        host.appendChild(card);
+        compareState[key].push(state);
+      });
+    } else {
+      ["max","min"].forEach(mode => {
+        const host = document.getElementById(key + "-" + mode);
+        host.innerHTML = "";
+        sets[mode].forEach((item, i) => {
+          const {card, state} = makeCmpCard(item, i, mode);
+          host.appendChild(card);
+          compareState[key].push(state);
+        });
+      });
+    }
+    const fb = document.getElementById("feedback-" + key);
+    fb.textContent = ""; fb.className = "feedback";
+  }
+  function checkCompare(key){
+    const states = compareState[key];
+    let allOk = true, answered = 0;
+    let cards = [];
+    if(key === "ready"){
+      cards = [...document.querySelectorAll("#cmp-ready .cmp-card")];
+    } else {
+      cards = [...document.querySelectorAll("#" + key + "-max .cmp-card"), ...document.querySelectorAll("#" + key + "-min .cmp-card")];
+    }
+    cards.forEach((card, i) => {
+      const s = states[i];
+      const circled = card.querySelector(".cmp-box.circled");
+      const boxes = card.querySelectorAll(".cmp-box");
+      boxes.forEach(b => b.classList.remove("correct","incorrect"));
+      if(!circled){ allOk = false; return; }
+      answered++;
+      const val = +circled.dataset.v;
+      const ok = val === s.answer;
+      circled.classList.add(ok ? "correct" : "incorrect");
+      if(!ok) allOk = false;
+    });
+    if(answered < states.length){
+      say(key, "Please circle your answer for all questions first 🙂", false);
+    } else if(allOk){
+      say(key, "Great job! All answers are correct ⭐", true);
+      markDone(key);
+    } else {
+      say(key, "Review the answers highlighted in red and try again 💪", false);
+    }
+  }
+
+  /* ---------- 3) How to Solve ---------- */
+  let methodCountIdx = 0;
+  const METHOD_ITEM = {a:7, b:6, mode:"max"};
+  function buildMethod(){
+    methodCountIdx = 0;
+    buildNumline("numline-method", false);
+    document.querySelectorAll("#numline-method .numline-box").forEach(box => {
+      box.onclick = () => {
+        const n = +box.dataset.n;
+        if(n === methodCountIdx + 1){
+          box.classList.add("counted");
+          methodCountIdx = n;
+        }
+      };
+    });
+    const host = document.getElementById("cmp-method");
+    host.innerHTML = "";
+    const {card, state} = makeCmpCard(METHOD_ITEM, 0, METHOD_ITEM.mode);
+    host.appendChild(card);
+    window.__methodState = state;
+    const fb = document.getElementById("feedback-method");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+  function checkMethod(){
+    if(methodCountIdx < Math.max(METHOD_ITEM.a, METHOD_ITEM.b)){
+      say("method", "Count in order from 1 until you reach at least number 7 first 🔢", false);
+      return;
+    }
+    const card = document.querySelector("#cmp-method .cmp-card");
+    const circled = card.querySelector(".cmp-box.circled");
+    const boxes = card.querySelectorAll(".cmp-box");
+    boxes.forEach(b => b.classList.remove("correct","incorrect"));
+    if(!circled){
+      say("method", "Circle the greater number between 7 and 6 🙂", false);
+      return;
+    }
+    const val = +circled.dataset.v;
+    if(val === window.__methodState.answer){
+      circled.classList.add("correct");
+      say("method", "Correct! 7 is greater than 6 because we count it after 6 🎉", true);
+      markDone("method");
+    } else {
+      circled.classList.add("incorrect");
+      say("method", "Try again, think about counting order 💡", false);
+    }
+  }
+
+  /* ---------- 6) Ordering Numbers ---------- */
+  let orderSeq = [], orderNext = 0, orderDir = "asc";
+  function buildOrder(){
+    const nums = shuffle(RANGE11).slice(0,5);
+    orderDir = Math.random() < 0.5 ? "asc" : "desc";
+    orderSeq = orderDir === "asc" ? nums.slice().sort((a,b)=>a-b) : nums.slice().sort((a,b)=>b-a);
+    orderNext = 0;
+    document.getElementById("order-dir-label").textContent =
+      orderDir === "asc" ? "Click the numbers in order from smallest to greatest" : "Click the numbers in order from greatest to smallest";
+    const row = document.getElementById("order-row");
+    row.innerHTML = "";
+    shuffle(nums).forEach(n => {
+      const btn = document.createElement("button");
+      btn.className = "order-btn";
+      btn.textContent = ar(n);
+      btn.onclick = () => {
+        if(btn.classList.contains("done")) return;
+        if(n === orderSeq[orderNext]){
+          btn.classList.add("done");
+          orderNext++;
+          if(orderNext === orderSeq.length){
+            say("order", "Excellent! You ordered the numbers correctly 🎉", true);
+            markDone("order");
+          }
+        } else {
+          btn.classList.add("wrong");
+          say("order", "That's not the correct order, try again 💡", false);
+          setTimeout(() => btn.classList.remove("wrong"), 500);
+        }
+      };
+      row.appendChild(btn);
+    });
+    const fb = document.getElementById("feedback-order");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ---------- 7) Biggest Wins ---------- */
+  let cwRound = 0, cwScore = 0;
+  const CW_ROUNDS = 5;
+  function cwNext(){
+    if(cwRound >= CW_ROUNDS){
+      say("cardwar", "Game Over! Your score: " + ar(cwScore) + " out of " + ar(CW_ROUNDS) + " ⭐", cwScore >= 3);
+      document.getElementById("cw-cards").innerHTML = "";
+      if(cwScore >= 3) markDone("cardwar");
+      return;
+    }
+    cwRound++;
+    document.getElementById("cw-round").textContent = ar(cwRound);
+    const [a,b] = randDistinctPair(0,10);
+    const answer = Math.max(a,b);
+    const stage = document.getElementById("cw-cards");
+    stage.innerHTML = "";
+    [a,b].forEach(v => {
+      const card = document.createElement("div");
+      card.className = "cw-card";
+      card.textContent = ar(v);
+      card.dataset.v = v;
+      card.onclick = () => {
+        if(stage.dataset.locked === "1") return;
+        stage.dataset.locked = "1";
+        const cards = stage.querySelectorAll(".cw-card");
+        cards.forEach(c => {
+          if(+c.dataset.v === answer) c.classList.add("right");
+        });
+        if(v === answer){
+          cwScore++;
+          say("cardwar", ar(answer) + " is greater! ✅", true);
+        } else {
+          card.classList.add("wrong");
+          say("cardwar", "The greater number is " + ar(answer) + " 💡", false);
+        }
+        document.getElementById("cw-score").textContent = ar(cwScore);
+        setTimeout(cwNext, 1200);
+      };
+      stage.appendChild(card);
+    });
+    stage.dataset.locked = "0";
+  }
+  function startCardWar(){
+    cwRound = 0; cwScore = 0;
+    document.getElementById("cw-score").textContent = "0";
+    cwNext();
+  }
+
+  /* ---------- 8) Comparing Objects ---------- */
+  const OBJ_EMOJI_PAIRS = [["🍎","🍌"],["⭐","❤️"],["⚽","🚗"],["🐦","🐟"],["🍇","🍊"],["🎈","🌸"]];
+  let objRound = 0, objScore = 0;
+  const OBJ_ROUNDS = 4;
+  function objNext(){
+    if(objRound >= OBJ_ROUNDS){
+      say("objects", "Game Over! Your score: " + ar(objScore) + " out of " + ar(OBJ_ROUNDS) + " ⭐", objScore >= 3);
+      document.getElementById("obj-stage").innerHTML = "";
+      if(objScore >= 3) markDone("objects");
+      return;
+    }
+    objRound++;
+    document.getElementById("obj-round").textContent = ar(objRound);
+    const [emojiA, emojiB] = OBJ_EMOJI_PAIRS[Math.floor(Math.random()*OBJ_EMOJI_PAIRS.length)];
+    const [countA, countB] = randDistinctPair(1,9);
+    const stage = document.getElementById("obj-stage");
+    stage.innerHTML = "";
+    stage.dataset.locked = "0";
+    [[emojiA,countA],[emojiB,countB]].forEach(([emoji,count]) => {
+      const grp = document.createElement("div");
+      grp.className = "obj-group";
+      grp.innerHTML =
+        '<div class="obj-items">' + Array.from({length:count}).map(()=>'<span>'+emoji+'</span>').join("") + '</div>' +
+        '<div class="obj-count">'+ar(count)+'</div>';
+      grp.onclick = () => {
+        if(stage.dataset.locked === "1") return;
+        stage.dataset.locked = "1";
+        const bigger = Math.max(countA,countB);
+        if(count === bigger){
+          grp.classList.add("correct");
+          objScore++;
+          say("objects", "Correct! This group has more items ✅", true);
+        } else {
+          grp.classList.add("incorrect");
+          say("objects", "This group has fewer! The larger group had " + ar(bigger) + " items 💡", false);
+        }
+        document.getElementById("obj-score").textContent = ar(objScore);
+        setTimeout(objNext, 1400);
+      };
+      stage.appendChild(grp);
+    });
+  }
+  function startObjects(){
+    objRound = 0; objScore = 0;
+    document.getElementById("obj-score").textContent = "0";
+    objNext();
+  }
+
+  /* ---------- 9) Comparing Fingers ---------- */
+  const CF_NAMES = ["Walid","Noor","Sami","Laila","Ahmed","Mona"];
+  let cfRound = 0, cfScore = 0;
+  const CF_ROUNDS = 5;
+  function renderCfHand(count){
+    const wrap = document.createElement("div");
+    wrap.className = "cf-fingers";
+    for(let i=0;i<5;i++){
+      const f = document.createElement("span");
+      f.className = "cf-finger" + (i < count ? " up" : "");
+      wrap.appendChild(f);
+    }
+    return wrap;
+  }
+  function cfNext(){
+    if(cfRound >= CF_ROUNDS){
+      say("fingers", "Game Over! Your score: " + ar(cfScore) + " out of " + ar(CF_ROUNDS) + " ⭐", cfScore >= 3);
+      document.getElementById("cf-pair").innerHTML = "";
+      if(cfScore >= 3) markDone("fingers");
+      return;
+    }
+    cfRound++;
+    document.getElementById("cf-round").textContent = ar(cfRound);
+    const [countA,countB] = randDistinctPair(1,5);
+    const names = shuffle(CF_NAMES).slice(0,2);
+    const pair = document.getElementById("cf-pair");
+    pair.innerHTML = "";
+    pair.dataset.locked = "0";
+    [[names[0],countA],[names[1],countB]].forEach(([name,count]) => {
+      const child = document.createElement("div");
+      child.className = "cf-child";
+      const nameEl = document.createElement("div");
+      nameEl.className = "cf-name"; nameEl.textContent = name;
+      child.appendChild(nameEl);
+      child.appendChild(renderCfHand(count));
+      const cnt = document.createElement("div");
+      cnt.className = "cf-name"; cnt.textContent = ar(count);
+      child.appendChild(cnt);
+      child.onclick = () => {
+        if(pair.dataset.locked === "1") return;
+        pair.dataset.locked = "1";
+        const bigger = Math.max(countA,countB);
+        if(count === bigger){
+          child.classList.add("correct");
+          cfScore++;
+          say("fingers", name + " has more fingers raised ✅", true);
+        } else {
+          child.classList.add("incorrect");
+          say("fingers", "The child with more fingers had " + ar(bigger) + " 💡", false);
+        }
+        document.getElementById("cf-score").textContent = ar(cfScore);
+        setTimeout(cfNext, 1400);
+      };
+      pair.appendChild(child);
+    });
+  }
+  function startFingerCompare(){
+    cfRound = 0; cfScore = 0;
+    document.getElementById("cf-score").textContent = "0";
+    cfNext();
+  }
+
+  /* ---------- 10) Comparison Stories ---------- */
+  const CMP_STORY_BANK = [
+    {emoji:"⚽", text:"Ahmed has 5 balls, and Sami has 7 balls. Who has more balls?", names:["Ahmed","Sami"], vals:[5,7]},
+    {emoji:"⭐", text:"Sara collected 8 sticker stars, and Laila collected 6 stars. Who collected fewer stars?", names:["Sara","Laila"], vals:[8,6]},
+    {emoji:"🍎", text:"Mona's basket has 4 apples, and Hoda's basket has 9 apples. Which basket has more apples?", names:["Mona","Hoda"], vals:[4,9]},
+    {emoji:"📏", text:"Khaled's rope is 3 meters long, and Youssef's rope is 2 meters long. Whose rope is shorter?", names:["Khaled","Youssef"], vals:[3,2]},
+    {emoji:"🚗", text:"Mazen has 10 toy cars, and Rami has 5 cars. Who has more cars?", names:["Mazen","Rami"], vals:[10,5]},
+    {emoji:"🐦", text:"Farah saw 1 bird, and Kareem saw 6 birds. Who saw fewer birds?", names:["Farah","Kareem"], vals:[1,6]}
+  ];
+  let cmpStoryState = [];
+  function buildStories(){
+    const chosen = shuffle(CMP_STORY_BANK).slice(0,4);
+    cmpStoryState = chosen.map(s => {
+      const isMore = s.text.includes("more");
+      const answerIdx = isMore ? (s.vals[0] > s.vals[1] ? 0 : 1) : (s.vals[0] < s.vals[1] ? 0 : 1);
+      return {answerName: s.names[answerIdx], picked:null};
+    });
+    const host = document.getElementById("story-list");
+    host.innerHTML = "";
+    chosen.forEach((s, i) => {
+      const card = document.createElement("div");
+      card.className = "story-card";
+      card.innerHTML =
+        '<div class="story-text"><span class="story-emoji">'+s.emoji+'</span><span>('+ar(i+1)+') '+s.text+'</span></div>' +
+        '<div class="story-choices">' + s.names.map(nm => '<button class="story-choice" data-name="'+nm+'">'+nm+'</button>').join("") + '</div>';
+      host.appendChild(card);
+      card.querySelectorAll(".story-choice").forEach(btn => {
+        btn.onclick = () => {
+          card.querySelectorAll(".story-choice").forEach(b => b.classList.remove("right","wrong"));
+          cmpStoryState[i].picked = btn.dataset.name;
+          btn.classList.add(cmpStoryState[i].picked === cmpStoryState[i].answerName ? "right" : "wrong");
+        };
+      });
+    });
+    const fb = document.getElementById("feedback-stories");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+  function checkStories(){
+    let allOk = true, answered = 0;
+    cmpStoryState.forEach(s => {
+      if(s.picked === null) return;
+      answered++;
+      if(s.picked !== s.answerName) allOk = false;
+    });
+    if(answered < cmpStoryState.length){
+      say("stories", "Please answer all stories first 🙂", false);
+    } else if(allOk){
+      say("stories", "Excellent! You understood all the comparison stories 📖⭐", true);
+      markDone("stories");
+    } else {
+      say("stories", "Review the stories highlighted in red and try again 💪", false);
+    }
+  }
+
+  /* ---------- 11) Balance Scale ---------- */
+  const pans = {a:3, b:3};
+  let balChallenge = null;
+  const BAL_CHALLENGES = [
+    {text:"Make the blue pan (left) heavier than the red pan (right)", check:() => pans.a > pans.b},
+    {text:"Make the red pan (right) heavier than the blue pan (left)", check:() => pans.b > pans.a},
+    {text:"Make both pans exactly equal", check:() => pans.a === pans.b}
+  ];
+  let balSolved = 0;
+  function renderPans(){
+    ["a","b"].forEach(k => {
+      const pan = document.getElementById("pan-" + k);
+      pan.innerHTML = "";
+      for(let i=0;i<pans[k];i++){
+        const d = document.createElement("span");
+        d.className = "bead " + (k === "a" ? "blue" : "red");
+        pan.appendChild(d);
+      }
+      document.getElementById("pan-" + k + "-num").textContent = ar(pans[k]);
+    });
+  }
+  function newBalanceChallenge(){
+    balChallenge = BAL_CHALLENGES[Math.floor(Math.random()*BAL_CHALLENGES.length)];
+    document.getElementById("bal-challenge").textContent = "🎯 " + balChallenge.text;
+    const fb = document.getElementById("feedback-balance");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+  function changePan(k, delta){
+    pans[k] = Math.min(10, Math.max(0, pans[k] + delta));
+    renderPans();
+  }
+  function checkBalance(){
+    if(balChallenge.check()){
+      say("balance", "Correct! You completed the goal: " + ar(pans.a) + " vs " + ar(pans.b) + " ⚖️✅", true);
+      balSolved++;
+      if(balSolved >= 3){
+        markDone("balance");
+      } else {
+        setTimeout(newBalanceChallenge, 1300);
+      }
+    } else {
+      say("balance", "Condition not met yet, adjust the pans and try again 💪", false);
+    }
+  }
+
+  /* ---------- 12) Comparison Balloons ---------- */
+  let blRound = 0, blScore = 0;
+  const BL_ROUNDS = 5;
+  const BALLOON_COLORS = ["var(--sky)","var(--coral)","var(--leaf)","var(--sun-deep)"];
+  function blNext(){
+    if(blRound >= BL_ROUNDS){
+      say("balloons", "Game Over! Your score: " + ar(blScore) + " out of " + ar(BL_ROUNDS) + " ⭐", blScore >= 3);
+      document.getElementById("balloon-field").innerHTML = "";
+      if(blScore >= 3) markDone("balloons");
+      return;
+    }
+    blRound++;
+    document.getElementById("bl-round").textContent = ar(blRound);
+    const field = document.getElementById("balloon-field");
+    field.innerHTML = "";
+    field.dataset.locked = "0";
+    const vals = shuffle(RANGE11).slice(0,4);
+    const answer = Math.max(...vals);
+    const positions = shuffle([
+      {top:20,left:8},{top:60,left:32},{top:15,left:58},{top:70,left:80}
+    ]);
+    vals.forEach((v, idx) => {
+      const b = document.createElement("div");
+      b.className = "balloon";
+      b.textContent = ar(v);
+      b.style.background = BALLOON_COLORS[idx % BALLOON_COLORS.length];
+      b.style.top = positions[idx].top + "%";
+      b.style.left = positions[idx].left + "%";
+      b.style.animationDelay = (Math.random()*1.5).toFixed(1) + "s";
+      b.onclick = () => {
+        if(field.dataset.locked === "1") return;
+        field.dataset.locked = "1";
+        if(v === answer){
+          b.classList.add("pop");
+          blScore++;
+          say("balloons", ar(answer) + " was the greatest! ✅🎈", true);
+        } else {
+          say("balloons", "The greatest was " + ar(answer) + " 💡", false);
+        }
+        document.getElementById("bl-score").textContent = ar(blScore);
+        setTimeout(blNext, 1300);
+      };
+      field.appendChild(b);
+    });
+  }
+  function startBalloons(){
+    blRound = 0; blScore = 0;
+    document.getElementById("bl-score").textContent = "0";
+    blNext();
+  }
+
+  /* ---------- 13) Fisherman ---------- */
+  const FISH_COLORS = ["#FF6B6B","#2E86C1","#6BCB77","#FF9F1C","#9B59B6","#16A085"];
+  let fishFoundCount = 0;
+  function buildFish(){
+    fishFoundCount = 0;
+    document.getElementById("fish-found").textContent = "0";
+    const pond = document.getElementById("pond");
+    pond.innerHTML = "";
+    const positions = [];
+    for(let r=0;r<3;r++) for(let c=0;c<4;c++) positions.push({top: 18 + r*88, left: 4 + c*24});
+    const shuffledPos = shuffle(positions);
+    let posIdx = 0;
+    for(let pairIdx=0; pairIdx<6; pairIdx++){
+      const [a,b] = randDistinctPair(0,10);
+      const color = FISH_COLORS[pairIdx % FISH_COLORS.length];
+      const answer = Math.max(a,b);
+      [a,b].forEach(v => {
+        const f = document.createElement("div");
+        f.className = "fish";
+        f.style.background = color;
+        f.textContent = ar(v);
+        f.dataset.v = v;
+        f.dataset.pair = pairIdx;
+        const pos = shuffledPos[posIdx++];
+        f.style.top = pos.top + "px";
+        f.style.left = pos.left + "%";
+        f.style.animationDuration = (3 + Math.random()*2).toFixed(1) + "s";
+        f.style.animationDelay = (Math.random()*2).toFixed(1) + "s";
+        f.onclick = () => {
+          if(f.classList.contains("matched")) return;
+          if(+f.dataset.v === answer){
+            document.querySelectorAll('.fish[data-pair="'+pairIdx+'"]').forEach(el => el.classList.add("matched"));
+            fishFoundCount++;
+            document.getElementById("fish-found").textContent = ar(fishFoundCount);
+            say("fishing", "Well done! " + ar(answer) + " is greater 🎣✅", true);
+            if(fishFoundCount >= 6){
+              say("fishing", "Awesome! You caught all the big fish 🎉", true);
+              markDone("fishing");
+            }
+          } else {
+            f.classList.add("wrong-flash");
+            say("fishing", "That's not the greater one! Try the other fish 💡", false);
+            setTimeout(() => f.classList.remove("wrong-flash"), 500);
+          }
+        };
+        pond.appendChild(f);
+      });
+    }
+    const fb = document.getElementById("feedback-fishing");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ---------- 14) Ordering Train ---------- */
+  let trainSeq = [], trainNext = 0;
+  function buildTrain(){
+    const nums = shuffle(RANGE11).slice(0,6);
+    trainSeq = nums.slice().sort((a,b)=>a-b);
+    trainNext = 0;
+    const track = document.getElementById("train-track");
+    track.innerHTML = "";
+    shuffle(nums).forEach(n => {
+      const car = document.createElement("div");
+      car.className = "car";
+      car.textContent = ar(n);
+      car.onclick = () => {
+        if(car.classList.contains("done")) return;
+        if(n === trainSeq[trainNext]){
+          car.classList.add("done");
+          trainNext++;
+          if(trainNext === trainSeq.length){
+            say("train", "Awesome! You ordered the train cars from smallest to greatest 🚂🎉", true);
+            markDone("train");
+          }
+        } else {
+          car.classList.add("wrong");
+          say("train", "That is not the next car in order, try again 💡", false);
+          setTimeout(() => car.classList.remove("wrong"), 500);
+        }
+      };
+      track.appendChild(car);
+    });
+    const fb = document.getElementById("feedback-train");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ---------- 15) Memory Game ---------- */
+  let memFlipped = [], memFound = 0, memTries = 0, memLock = false;
+  function buildMemory(){
+    memFlipped = []; memFound = 0; memTries = 0; memLock = false;
+    document.getElementById("mem-tries").textContent = "0";
+    document.getElementById("mem-found").textContent = "0";
+    let cards = [];
+    RANGE11.forEach(n => { cards.push(n); cards.push(n); });
+    cards = shuffle(cards);
+    const grid = document.getElementById("memory-grid");
+    grid.innerHTML = "";
+    cards.forEach(n => {
+      const card = document.createElement("div");
+      card.className = "mem-card";
+      card.dataset.n = n;
+      card.innerHTML = '<div class="mem-inner"><div class="mem-face mem-back">❓</div><div class="mem-face mem-front">'+ar(n)+'</div></div>';
+      card.onclick = () => {
+        if(memLock || card.classList.contains("flipped") || card.classList.contains("matched")) return;
+        card.classList.add("flipped");
+        memFlipped.push(card);
+        if(memFlipped.length === 2){
+          memTries++;
+          document.getElementById("mem-tries").textContent = ar(memTries);
+          memLock = true;
+          const [c1,c2] = memFlipped;
+          const n1 = +c1.dataset.n, n2 = +c2.dataset.n;
+          if(n1 === n2){
+            setTimeout(() => {
+              c1.classList.add("matched"); c2.classList.add("matched");
+              memFound++;
+              document.getElementById("mem-found").textContent = ar(memFound);
+              say("memory", "You matched the number " + ar(n1) + " ✅", true);
+              memFlipped = []; memLock = false;
+              if(memFound === 11){
+                say("memory", "Excellent! You matched all memory pairs 🧠🎉", true);
+                markDone("memory");
+              }
+            }, 500);
+          } else {
+            setTimeout(() => {
+              c1.classList.remove("flipped"); c2.classList.remove("flipped");
+              say("memory", "Not a match, try again 💡", false);
+              memFlipped = []; memLock = false;
+            }, 800);
+          }
+        }
+      };
+      grid.appendChild(card);
+    });
+    const fb = document.getElementById("feedback-memory");
+    fb.textContent = ""; fb.className = "feedback";
+  }
+
+  /* ---------- 16) Comparison Race ---------- */
+  let raceQ = 0, raceScore = 0, raceTimer = null, raceTimeLeft = 0;
+  const RACE_QS = 8, RACE_TIME = 4500;
+  function raceNext(){
+    if(raceQ >= RACE_QS){
+      clearInterval(raceTimer);
+      say("race", "Race over! Your score: " + ar(raceScore) + " out of " + ar(RACE_QS) + " 🏁", raceScore >= 5);
+      document.getElementById("race-choices").innerHTML = "";
+      document.getElementById("race-nums").innerHTML = "";
+      if(raceScore >= 5) markDone("race");
+      return;
+    }
+    raceQ++;
+    document.getElementById("race-num").textContent = ar(raceQ);
+    const [a,b] = randDistinctPair(0,10);
+    const wantMax = Math.random() < 0.5;
+    document.getElementById("race-sub").textContent = wantMax ? "Which number is greater?" : "Which number is smaller?";
+    const answer = wantMax ? Math.max(a,b) : Math.min(a,b);
+    const nums = document.getElementById("race-nums");
+    nums.innerHTML = "<span>" + ar(a) + "</span><span>⚖️</span><span>" + ar(b) + "</span>";
+    const ch = document.getElementById("race-choices");
+    ch.innerHTML = "";
+    ch.dataset.locked = "0";
+    shuffle([a,b]).forEach(n => {
+      const btn = document.createElement("button");
+      btn.className = "race-choice"; btn.textContent = ar(n);
+      btn.onclick = () => {
+        if(ch.dataset.locked === "1") return;
+        ch.dataset.locked = "1";
+        clearInterval(raceTimer);
+        if(n === answer){
+          btn.classList.add("right"); raceScore++;
+          say("race", "Correct and fast answer! ⚡✅", true);
+        } else {
+          btn.classList.add("wrong");
+          say("race", "The correct answer is " + ar(answer) + " 💡", false);
+        }
+        document.getElementById("race-score").textContent = ar(raceScore);
+        setTimeout(raceNext, 900);
+      };
+      ch.appendChild(btn);
+    });
+    raceTimeLeft = RACE_TIME;
+    const bar = document.getElementById("race-bar");
+    bar.style.width = "100%";
+    const tickMs = 100;
+    raceTimer = setInterval(() => {
+      raceTimeLeft -= tickMs;
+      bar.style.width = Math.max(0, (raceTimeLeft / RACE_TIME) * 100) + "%";
+      if(raceTimeLeft <= 0){
+        clearInterval(raceTimer);
+        if(ch.dataset.locked !== "1"){
+          ch.dataset.locked = "1";
+          say("race", "Time's up! The correct answer was " + ar(answer) + " ⏰", false);
+          setTimeout(raceNext, 900);
+        }
+      }
+    }, tickMs);
+  }
+  function startRace(){
+    raceQ = 0; raceScore = 0;
+    document.getElementById("race-score").textContent = "0";
+    raceNext();
+  }
+
+  /* ---------- Init ---------- */
+  buildNumline("numline-learn", true);
+  buildCompare("ready");
+  buildMethod();
+  buildCompare("try");
+  buildCompare("together");
+  buildOrder();
+  startCardWar();
+  startObjects();
+  startFingerCompare();
+  buildStories();
+  renderPans();
+  newBalanceChallenge();
+  startBalloons();
+  buildFish();
+  buildTrain();
+  buildMemory();
+</script>
+</body>
+</html>

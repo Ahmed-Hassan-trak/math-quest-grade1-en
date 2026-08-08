@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numbers 1 to 5 | Interactive Grade 1 Maths Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7E4;
+    --sun:#FFC93C;
+    --sun-deep:#FF9F1C;
+    --sky:#2E86C1;
+    --sky-deep:#1B5E8C;
+    --leaf:#6BCB77;
+    --leaf-deep:#3F9950;
+    --coral:#FF6B6B;
+    --coral-deep:#D64545;
+    --ink:#3A3226;
+    --paper:#FFFFFF;
+    --line:#F1E4C0;
+    --shadow: 0 8px 0 rgba(0,0,0,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 8% 12%, #FFF1C4 0, transparent 45%),
+      radial-gradient(circle at 92% 85%, #E8F6E9 0, transparent 40%),
+      var(--cream);
+    font-family:'Nunito', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3,.display{font-family:'Baloo 2', sans-serif;}
+
+  /* rail */
+  .rail{position:sticky; top:0; z-index:50; background:var(--sky); box-shadow:0 4px 14px rgba(27,94,140,.25);}
+  .rail-inner{max-width:980px; margin:0 auto; display:flex; align-items:center; gap:10px; padding:10px 16px; overflow-x:auto;}
+  .rail-title{color:#fff; font-family:'Baloo 2'; font-weight:700; font-size:1.05rem; white-space:nowrap; padding-inline-end:10px; border-inline-end:2px solid rgba(255,255,255,.3); margin-inline-end:6px;}
+  .rail-btn{flex:0 0 auto; background:rgba(255,255,255,.15); color:#fff; border:2px solid rgba(255,255,255,.4); border-radius:999px; padding:7px 16px; font-family:'Nunito'; font-weight:700; font-size:.85rem; cursor:pointer; white-space:nowrap; transition:.2s;}
+  .rail-btn:hover{background:rgba(255,255,255,.3);}
+  .rail-btn.done{background:var(--leaf); border-color:var(--leaf); color:#12351a;}
+  .rail-star{margin-inline-start:4px;}
+
+  /* hero */
+  .hero{max-width:980px; margin:26px auto 10px; padding:0 16px;}
+  .hero-card{background:linear-gradient(135deg,var(--sky) 0%, var(--sky-deep) 100%); border-radius:28px; padding:34px 30px; color:#fff; position:relative; overflow:hidden; box-shadow:var(--shadow);}
+  .hero-eyebrow{display:inline-block; background:var(--sun); color:#5a3b00; font-weight:800; border-radius:999px; padding:6px 16px; font-size:.85rem;}
+  .hero-card h1{margin:14px 0 6px; font-size:2.4rem; line-height:1.2;}
+  .hero-card p{margin:0; opacity:.92; font-size:1.02rem;}
+  .hero-bubbles{position:absolute; inset-inline-start:-40px; bottom:-50px; font-size:8rem; opacity:.15;}
+
+  .wrap{max-width:980px; margin:0 auto; padding:0 16px;}
+  .card{background:var(--paper); border:3px solid var(--line); border-radius:24px; padding:24px 22px; margin:22px 0; box-shadow:var(--shadow);}
+  .tag{display:inline-block; background:var(--sun); color:#5a3b00; font-weight:800; border-radius:999px; padding:6px 16px; font-size:.9rem; margin-bottom:10px;}
+  .tag.blue{background:var(--sky); color:#fff;}
+  .tag.green{background:var(--leaf); color:#12351a;}
+  .tag.coral{background:var(--coral); color:#fff;}
+  .instruction{font-size:1.05rem; font-weight:600; margin:6px 0 18px;}
+
+  /* number cards row */
+  .num-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px;}
+  .num-card{border:3px solid var(--line); border-radius:20px; padding:14px; text-align:center; background:#FFFDF6; cursor:pointer; transition:.18s;}
+  .num-card:hover{transform:translateY(-4px); border-color:var(--sun);}
+  .num-card.active{border-color:var(--sky); background:#EAF4FB;}
+  .num-glyph{font-family:'Baloo 2'; font-size:3.4rem; font-weight:800; color:var(--sky-deep); line-height:1;}
+  .num-word{font-weight:800; color:var(--coral); font-size:1.25rem; margin-top:4px; border-bottom:3px solid var(--coral); display:inline-block; padding-bottom:2px;}
+  .num-beads{display:flex; justify-content:center; gap:6px; margin-top:10px; flex-wrap:wrap;}
+  .bead{width:18px; height:18px; border-radius:50%; border:2px solid #cfc7b2; background:#fff;}
+  .bead.on{background:var(--coral); border-color:var(--coral-deep);}
+  .num-emoji{font-size:1.5rem; margin-top:8px; letter-spacing:2px;}
+
+  /* dots interactive */
+  .dots{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:12px;}
+  .dot{width:30px; height:30px; border-radius:50%; border:3px solid #d8cfb6; background:#fff; cursor:pointer; transition:.15s;}
+  .dot:hover{transform:scale(1.12);}
+  .dot.filled{background:var(--coral); border-color:var(--coral-deep);}
+
+  /* match to number (line matching) */
+  .match2{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .pic-box{border:3px solid var(--line); border-radius:18px; background:#fff; padding:16px 8px; text-align:center; font-size:2rem; cursor:pointer; transition:.18s; min-height:96px; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:4px;}
+  .pic-box:hover{border-color:var(--sun);}
+  .pic-box.sel{border-color:var(--sky); background:#EAF4FB;}
+  .pic-box.matched{border-color:var(--leaf); background:#EDF9EE;}
+  .numbox{border:3px solid var(--line); border-radius:14px; background:#fff; text-align:center; font-family:'Baloo 2'; font-size:2rem; font-weight:800; color:var(--ink); padding:6px 0; cursor:pointer; transition:.18s;}
+  .numbox:hover{border-color:var(--sun);}
+  .numbox.sel{border-color:var(--sky); background:#EAF4FB;}
+  .numbox.matched{border-color:var(--leaf); background:#EDF9EE; color:var(--leaf-deep);}
+  .dotjoin{text-align:center; color:#bdb49c; font-size:1.6rem; line-height:.6;}
+
+  /* tracing */
+  .trace-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px;}
+  .trace-cell{border:3px solid var(--line); border-radius:18px; background:#fff; padding:10px; text-align:center;}
+  .trace-cell canvas{border-radius:12px; background:
+     linear-gradient(#F7F1DE 1px, transparent 1px) 0 0/100% 25%,
+     #fff; touch-action:none; cursor:crosshair; display:block; margin:0 auto;}
+  .trace-label{font-weight:800; margin-bottom:6px; color:var(--sky-deep);}
+
+  /* game */
+  .score-strip{display:flex; justify-content:space-between; background:#FFF4D6; border:2px dashed var(--sun-deep); border-radius:14px; padding:8px 16px; font-weight:800; margin-bottom:14px;}
+  .scene{background:#FBFFF6; border:3px dashed var(--leaf); border-radius:18px; min-height:110px; display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; font-size:2.2rem; padding:14px;}
+  .choices{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px;}
+  .choice{font-family:'Baloo 2'; font-size:1.7rem; font-weight:800; width:72px; height:64px; border-radius:16px; border:3px solid var(--line); background:#fff; cursor:pointer; transition:.15s; color:var(--ink);}
+  .choice:hover{border-color:var(--sky); transform:translateY(-3px);}
+  .choice.ok{background:var(--leaf); border-color:var(--leaf-deep); color:#0f3318;}
+  .choice.no{background:var(--coral); border-color:var(--coral-deep); color:#fff;}
+
+  /* compare */
+  .compare-wrap{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .compare-box{border:3px solid var(--line); border-radius:20px; background:#fff; padding:14px; cursor:pointer; transition:.18s; min-height:120px; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px; font-size:2rem;}
+  .compare-box:hover{border-color:var(--sun); transform:translateY(-3px);}
+  .compare-box.ok{border-color:var(--leaf); background:#EDF9EE;}
+  .compare-box.no{border-color:var(--coral); background:#FFEFEF;}
+
+  /* number line */
+  .number-line{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; padding:10px 0;}
+  .nl-node{width:62px; height:62px; border-radius:50%; border:3px solid var(--line); background:#fff; font-family:'Baloo 2'; font-size:1.6rem; font-weight:800; cursor:pointer; transition:.15s; color:var(--ink);}
+  .nl-node:hover{transform:scale(1.06); border-color:var(--sky);}
+  .nl-node.done{background:var(--leaf); border-color:var(--leaf-deep); color:#0f3318;}
+
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
+  .check-btn,.reset-btn{font-family:'Nunito'; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:11px 22px; cursor:pointer; color:#fff; background:var(--leaf); box-shadow:0 4px 0 var(--leaf-deep); transition:.12s;}
+  .reset-btn{background:var(--sun); color:#5a3b00; box-shadow:0 4px 0 var(--sun-deep);}
+  .check-btn:active,.reset-btn:active{transform:translateY(3px); box-shadow:none;}
+
+  .feedback{margin-top:14px; font-weight:800; min-height:26px;}
+  .feedback.ok{color:var(--leaf-deep);}
+  .feedback.no{color:var(--coral-deep);}
+
+  .mascot-bubble{display:flex; align-items:center; gap:12px; margin-top:18px; background:#FFF4D6; border-radius:18px; padding:12px 16px;}
+  .mascot-emoji{font-size:2.2rem;}
+  .bubble{font-weight:700;}
+
+  .pair-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .mini{border:3px solid var(--line); border-radius:20px; padding:14px; background:#FFFDF6; text-align:center;}
+  .mini-title{font-family:'Baloo 2'; font-weight:800; font-size:1.15rem; margin-bottom:6px;}
+  .mini-scene{font-size:2rem; display:flex; justify-content:center; gap:6px; flex-wrap:wrap; min-height:52px; align-items:center;}
+  .mini-dots{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:10px;}
+  .mini-feedback{font-weight:800; margin-top:8px; min-height:20px; font-size:.9rem;}
+
+  .finale{text-align:center; background:linear-gradient(135deg,#FFF6DA,#EAF7EC);}
+  .stars-row{font-size:2.4rem; letter-spacing:6px; margin:10px 0 16px;}
+
+  .confetti{position:fixed; top:-40px; font-size:1.6rem; animation:fall linear forwards; z-index:99; pointer-events:none;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(420deg); opacity:0;}}
+
+  footer{text-align:center; color:#9c917a; font-size:.85rem; margin-top:30px; padding:0 16px;}
+
+  @media(max-width:640px){
+    .pair-grid,.compare-wrap{grid-template-columns:1fr;}
+    .match2{grid-template-columns:repeat(3,1fr); gap:8px;}
+    .hero-card h1{font-size:1.7rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="rail">
+  <div class="rail-inner">
+    <span class="rail-title">🧭 Lesson Journey</span>
+    <button class="rail-btn" data-target="learn">Look &amp; Learn <span class="rail-star" id="star-learn">☆</span></button>
+    <button class="rail-btn" data-target="ready">Get Ready! <span class="rail-star" id="star-ready">☆</span></button>
+    <button class="rail-btn" data-target="trytime">Try It Out <span class="rail-star" id="star-trytime">☆</span></button>
+    <button class="rail-btn" data-target="write">Let&rsquo;s Write <span class="rail-star" id="star-write">☆</span></button>
+    <button class="rail-btn" data-target="together">Practise Together <span class="rail-star" id="star-together">☆</span></button>
+    <button class="rail-btn" data-target="game">Counting Game <span class="rail-star" id="star-game">☆</span></button>
+    <button class="rail-btn" data-target="compare">Bigger or Smaller <span class="rail-star" id="star-compare">☆</span></button>
+    <button class="rail-btn" data-target="numberline">Number Line <span class="rail-star" id="star-numberline">☆</span></button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-card">
+    <span class="hero-eyebrow">Unit 1 · Numbers up to 10</span>
+    <h1>Lesson 2-1: Numbers from 1 to 5</h1>
+    <p>Let&rsquo;s count, read and write the numbers one to five 🎈</p>
+    <div class="hero-bubbles">12345</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- section 1 -->
+  <section class="card" id="learn">
+    <span class="tag blue">👀 Look &amp; Learn</span>
+    <p class="instruction">Tap each number to hear its name and see the coloured beads.</p>
+    <div class="num-grid" id="num-grid"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐥</span>
+      <div class="bubble" id="learn-bubble">Tap all five numbers to finish this activity!</div>
+    </div>
+  </section>
+
+  <!-- section 2 -->
+  <section class="card" id="ready">
+    <span class="tag coral">✋ Get Ready, Friends!</span>
+    <p class="instruction">Match each picture to the correct number: tap a picture, then tap its number.</p>
+    <div class="match2" id="ready-pics"></div>
+    <div class="dotjoin">• • •</div>
+    <div class="match2" id="ready-nums"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildReady()">Start again 🔄</button></div>
+    <div class="feedback" id="feedback-ready"></div>
+  </section>
+
+  <!-- section 3 -->
+  <section class="card" id="trytime">
+    <span class="tag green">⏱️ Try It Out</span>
+    <p class="instruction">Match pictures to numbers again &mdash; this time with new pictures!</p>
+    <div class="match2" id="try-pics"></div>
+    <div class="dotjoin">• • •</div>
+    <div class="match2" id="try-nums"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildTry()">Start again 🔄</button></div>
+    <div class="feedback" id="feedback-trytime"></div>
+  </section>
+
+  <!-- section 4 -->
+  <section class="card" id="write">
+    <span class="tag">✏️ Let&rsquo;s Write</span>
+    <p class="instruction">Trace each number over the faint shape with your finger or mouse. Write it again and again to remember it!</p>
+    <div class="trace-grid" id="trace-grid"></div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="finishWriting()">I have finished writing ✔️</button>
+      <button class="reset-btn" onclick="clearAllTraces()">Clear all 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-write"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐔</span>
+      <div class="bubble">We write many times, and we remember!</div>
+    </div>
+  </section>
+
+  <!-- section 5 -->
+  <section class="card" id="together">
+    <span class="tag green">🤝 Let&rsquo;s Practise Together</span>
+    <p class="instruction">Look at each group, then colour (tap) the same number of dots underneath it.</p>
+    <div class="pair-grid">
+      <div class="mini" id="mini-tom">
+        <div class="mini-title">🍅 Tomatoes</div>
+        <div class="mini-scene"><span>🍅</span><span>🍅</span></div>
+        <div class="mini-dots" data-count="2"></div>
+        <div class="mini-feedback"></div>
+      </div>
+      <div class="mini" id="mini-ant">
+        <div class="mini-title">🐜 Ants</div>
+        <div class="mini-scene"><span>🐜</span><span>🐜</span><span>🐜</span><span>🐜</span></div>
+        <div class="mini-dots" data-count="4"></div>
+        <div class="mini-feedback"></div>
+      </div>
+      <div class="mini" id="mini-dolphin">
+        <div class="mini-title">🐬 Dolphins</div>
+        <div class="mini-scene"><span>🐬</span><span>🐬</span><span>🐬</span><span>🐬</span><span>🐬</span></div>
+        <div class="mini-dots" data-count="5"></div>
+        <div class="mini-feedback"></div>
+      </div>
+      <div class="mini" id="mini-flower">
+        <div class="mini-title">🌸 Flowers</div>
+        <div class="mini-scene"><span>🌸</span><span>🌸</span><span>🌸</span></div>
+        <div class="mini-dots" data-count="3"></div>
+        <div class="mini-feedback"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="check-btn" onclick="checkTogether()">Check my answers ✔️</button>
+      <button class="reset-btn" onclick="buildTogetherDots()">Try again 🔄</button>
+    </div>
+    <div class="feedback" id="feedback-together"></div>
+  </section>
+
+  <!-- section 6 -->
+  <section class="card" id="game">
+    <span class="tag">🎮 Quick Counting Game</span>
+    <p class="instruction">Look at the objects, then tap the correct number. You have 5 rounds!</p>
+    <div class="score-strip">
+      <span>Round: <b id="round-num">1</b> / 5</span>
+      <span>Score: <b id="score-num">0</b> ⭐</span>
+    </div>
+    <div class="scene" id="round-scene"></div>
+    <div class="choices" id="round-choices"></div>
+    <div class="feedback" id="feedback-game"></div>
+  </section>
+
+  <!-- section 7 -->
+  <section class="card" id="compare">
+    <span class="tag blue">⚖️ Which is Bigger?</span>
+    <p class="instruction">Look at the two groups and tap the group that has more. You have 4 rounds!</p>
+    <div class="score-strip">
+      <span>Round: <b id="compare-round-num">1</b> / 4</span>
+      <span>Score: <b id="compare-score-num">0</b> ⭐</span>
+    </div>
+    <div class="compare-wrap">
+      <div class="compare-box" id="compare-box-a" onclick="answerCompare('a')"></div>
+      <div class="compare-box" id="compare-box-b" onclick="answerCompare('b')"></div>
+    </div>
+    <div class="feedback" id="feedback-compare"></div>
+  </section>
+
+  <!-- section 8 -->
+  <section class="card" id="numberline">
+    <span class="tag green">🔢 Interactive Number Line</span>
+    <p class="instruction">Tap the numbers in the correct order from 1 to 5.</p>
+    <div class="number-line" id="number-line"></div>
+    <div class="btn-row"><button class="reset-btn" onclick="buildNumberLine()">Try again 🔄</button></div>
+    <div class="feedback" id="feedback-numberline"></div>
+    <div class="mascot-bubble">
+      <span class="mascot-emoji">🐱</span>
+      <div class="bubble">You are today&rsquo;s counting star! 🌟 Have you tried every activity?</div>
+    </div>
+  </section>
+
+  <section class="card finale" id="finale" style="display:none;">
+    <h2>🎉 Well done! You finished the &ldquo;Numbers 1 to 5&rdquo; lesson 🎉</h2>
+    <p id="final-score"></p>
+    <div class="stars-row" id="stars-row">☆☆☆☆☆</div>
+    <button class="check-btn" onclick="location.reload()" style="background:var(--sky); box-shadow:0 4px 0 var(--sky-deep);">Play again 🔄</button>
+  </section>
+
+</div>
+
+<footer>Interactive lesson &mdash; Unit 1: Numbers up to 10 &mdash; Mathematics, Primary 1 (Egyptian Experimental Schools)</footer>
+
+<script>
+/* ---------- Eastern Arabic digits ---------- */
+function toAr(v){return String(v);}
+const WORDS={1:'One',2:'Two',3:'Three',4:'Four',5:'Five'};
+const EMOJI={1:'🍦',2:'🐸',3:'🌼',4:'🍎',5:'🐱'};
+
+/* ---------- sounds (WebAudio, no files) ---------- */
+let actx=null;
+function ac(){ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); return actx; }
+function tone(freq,dur,type='sine',vol=.15,delay=0){
+  try{const c=ac();const o=c.createOscillator(),g=c.createGain();
+  o.type=type;o.frequency.value=freq;g.gain.value=vol;o.connect(g);g.connect(c.destination);
+  const t=c.currentTime+delay;o.start(t);g.gain.setValueAtTime(vol,t);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.stop(t+dur);}catch(e){}
+}
+function playCorrect(){tone(660,.15,'triangle',.16,0);tone(880,.25,'triangle',.16,.14);}
+function playWrong(){tone(220,.25,'sawtooth',.12,0);}
+function playPop(){tone(520,.09,'sine',.12,0);}
+function speak(text){
+  try{const u=new SpeechSynthesisUtterance(text);u.lang='en-GB';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}
+}
+
+/* ---------- nav & progress ---------- */
+document.querySelectorAll('.rail-btn').forEach(b=>{
+  b.addEventListener('click',()=>document.getElementById(b.dataset.target).scrollIntoView({behavior:'smooth',block:'start'}));
+});
+const doneSet=new Set();
+function markDone(id){
+  if(doneSet.has(id))return;
+  doneSet.add(id);
+  const b=document.querySelector(`.rail-btn[data-target="${id}"]`);
+  if(b){b.classList.add('done'); document.getElementById('star-'+id).textContent='✓';}
+  maybeFinale();
+}
+function maybeFinale(){
+  if(doneSet.size>=8){
+    const f=document.getElementById('finale');
+    f.style.display='block';
+    const total=score+compareScore;
+    document.getElementById('final-score').textContent=`You collected ${total} out of 9 stars in the games`;
+    const stars=Math.max(1,Math.round(total/9*5));
+    document.getElementById('stars-row').textContent='★'.repeat(stars)+'☆'.repeat(5-stars);
+    confetti(26); playCorrect();
+    f.scrollIntoView({behavior:'smooth'});
+  }
+}
+function confetti(n=18){
+  const e=['🎉','⭐','🎈','✨','🌟'];
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');d.className='confetti';
+    d.textContent=e[Math.floor(Math.random()*e.length)];
+    d.style.left=Math.random()*100+'vw';
+    d.style.animationDuration=(2+Math.random()*1.5)+'s';
+    document.body.appendChild(d);setTimeout(()=>d.remove(),3600);
+  }
+}
+function shuffle(a){return a.slice().sort(()=>Math.random()-.5);}
+
+/* ===== section 1 ===== */
+const learned=new Set();
+(function buildLearn(){
+  const g=document.getElementById('num-grid');
+  for(let n=1;n<=5;n++){
+    const c=document.createElement('div');
+    c.className='num-card';
+    c.innerHTML=`<div class="num-glyph">${toAr(n)}</div>
+      <div class="num-word">${WORDS[n]}</div>
+      <div class="num-beads">${Array.from({length:5},(_,i)=>`<span class="bead ${i<n?'on':''}"></span>`).join('')}</div>
+      <div class="num-emoji">${EMOJI[n].repeat(n)}</div>`;
+    c.addEventListener('click',()=>{
+      document.querySelectorAll('.num-card').forEach(x=>x.classList.remove('active'));
+      c.classList.add('active');
+      playPop(); speak(WORDS[n]);
+      learned.add(n);
+      document.getElementById('learn-bubble').textContent =
+        learned.size<5 ? `Great! You have learned ${learned.size} of 5 numbers.` : 'Excellent! You know all the numbers from 1 to 5 🎉';
+      if(learned.size===5){markDone('learn');confetti(10);}
+    });
+    g.appendChild(c);
+  }
+})();
+
+/* ================= matching sections ================= */
+function makeMatch(picsId,numsId,fbId,railId,items){
+  const picWrap=document.getElementById(picsId), numWrap=document.getElementById(numsId);
+  const fb=document.getElementById(fbId);
+  picWrap.innerHTML=''; numWrap.innerHTML=''; fb.textContent=''; fb.className='feedback';
+  let selPic=null, matched=0;
+  const nums=shuffle(items.map(i=>i.n));
+  items.forEach(it=>{
+    const d=document.createElement('div');
+    d.className='pic-box'; d.dataset.n=it.n;
+    d.innerHTML=Array.from({length:it.n},()=>`<span>${it.e}</span>`).join('');
+    d.addEventListener('click',()=>{
+      if(d.classList.contains('matched'))return;
+      picWrap.querySelectorAll('.pic-box').forEach(x=>x.classList.remove('sel'));
+      d.classList.add('sel'); selPic=d; playPop();
+    });
+    picWrap.appendChild(d);
+  });
+  nums.forEach(n=>{
+    const b=document.createElement('div');
+    b.className='numbox'; b.dataset.n=n; b.textContent=toAr(n);
+    b.addEventListener('click',()=>{
+      if(b.classList.contains('matched'))return;
+      if(!selPic){fb.className='feedback no';fb.textContent='Choose a picture first 👆';return;}
+      if(selPic.dataset.n===b.dataset.n){
+        selPic.classList.remove('sel'); selPic.classList.add('matched'); b.classList.add('matched');
+        selPic=null; matched++; playCorrect();
+        fb.className='feedback ok'; fb.textContent='Well done! Correct match ✅';
+        if(matched===items.length){
+          fb.textContent='👏 Excellent! You matched every picture to the right number.';
+          markDone(railId); confetti(12);
+        }
+      } else {
+        playWrong(); fb.className='feedback no'; fb.textContent='🤔 Count the picture again and try once more.';
+      }
+    });
+    numWrap.appendChild(b);
+  });
+}
+function buildReady(){ makeMatch('ready-pics','ready-nums','feedback-ready','ready',
+  shuffle([{n:2,e:'🍦'},{n:5,e:'🌸'},{n:3,e:'🐸'}])); }
+function buildTry(){ makeMatch('try-pics','try-nums','feedback-trytime','trytime',
+  shuffle([{n:1,e:'✈️'},{n:3,e:'🫑'},{n:4,e:'🐈'}])); }
+buildReady(); buildTry();
+
+/* ===== section 4 ===== */
+const canvases=[];
+(function buildTrace(){
+  const g=document.getElementById('trace-grid');
+  for(let n=1;n<=5;n++){
+    const cell=document.createElement('div');
+    cell.className='trace-cell';
+    cell.innerHTML=`<div class="trace-label">${WORDS[n]}</div>`;
+    const cv=document.createElement('canvas');
+    const W=150,H=150,S=window.devicePixelRatio||1;
+    cv.width=W*S; cv.height=H*S; cv.style.width=W+'px'; cv.style.height=H+'px';
+    const ctx=cv.getContext('2d'); ctx.scale(S,S);
+    function ghost(){
+      ctx.clearRect(0,0,W,H);
+      ctx.save();
+      ctx.font='700 110px "Baloo 2", sans-serif';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillStyle='#E8E0C9';
+      ctx.fillText(toAr(n),W/2,H/2+4);
+      ctx.restore();
+      ctx.strokeStyle='#2E86C1'; ctx.lineWidth=7; ctx.lineCap='round'; ctx.lineJoin='round';
+    }
+    ghost();
+    let drawing=false, drawn=0;
+    function pos(e){const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
+    function start(e){e.preventDefault();drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+    function move(e){if(!drawing)return;e.preventDefault();const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();drawn++;
+      if(drawn>18&&!cell.dataset.ok){cell.dataset.ok='1';checkWriting();}}
+    function end(){drawing=false;}
+    cv.addEventListener('mousedown',start);cv.addEventListener('mousemove',move);
+    window.addEventListener('mouseup',end);
+    cv.addEventListener('touchstart',start,{passive:false});
+    cv.addEventListener('touchmove',move,{passive:false});
+    cv.addEventListener('touchend',end);
+    cell.appendChild(cv);
+    g.appendChild(cell);
+    canvases.push({cell,ghost,reset(){delete cell.dataset.ok;drawn=0;ghost();}});
+  }
+})();
+function checkWriting(){
+  const ok=canvases.filter(c=>c.cell.dataset.ok).length;
+  const fb=document.getElementById('feedback-write');
+  fb.className='feedback ok';
+  fb.textContent=`You have written ${ok} of 5 numbers ✏️`;
+  if(ok===5){fb.textContent='👏 Wonderful! You wrote all the numbers from 1 to 5.';markDone('write');confetti(12);playCorrect();}
+}
+function finishWriting(){
+  const ok=canvases.filter(c=>c.cell.dataset.ok).length;
+  const fb=document.getElementById('feedback-write');
+  if(ok===5){fb.className='feedback ok';fb.textContent='👏 Wonderful! You wrote all the numbers from 1 to 5.';markDone('write');confetti(12);playCorrect();}
+  else{fb.className='feedback no';fb.textContent=`🤔 You still have ${5-ok} number(s) to write.`;playWrong();}
+}
+function clearAllTraces(){canvases.forEach(c=>c.reset());document.getElementById('feedback-write').textContent='';}
+
+/* ===== section 5 ===== */
+function buildTogetherDots(){
+  document.querySelectorAll('#together .mini-dots').forEach(c=>{
+    c.innerHTML='';
+    for(let i=0;i<5;i++){
+      const d=document.createElement('div');d.className='dot';
+      d.addEventListener('click',()=>{d.classList.toggle('filled');playPop();});
+      c.appendChild(d);
+    }
+  });
+  document.querySelectorAll('#together .mini-feedback').forEach(f=>f.textContent='');
+  const fb=document.getElementById('feedback-together'); fb.textContent=''; fb.className='feedback';
+}
+buildTogetherDots();
+function checkTogether(){
+  let all=true;
+  document.querySelectorAll('#together .mini').forEach(m=>{
+    const want=+m.querySelector('.mini-dots').dataset.count;
+    const got=m.querySelectorAll('.dot.filled').length;
+    const f=m.querySelector('.mini-feedback');
+    if(want===got){f.style.color='#3F9950';f.textContent='✔️ Correct';}
+    else{f.style.color='#D64545';f.textContent=`✖️ The correct number is ${want}`;all=false;}
+  });
+  const fb=document.getElementById('feedback-together');
+  if(all){fb.className='feedback ok';fb.textContent='🌟 Excellent! All the answers are correct.';markDone('together');confetti(12);playCorrect();}
+  else{fb.className='feedback no';fb.textContent='🤔 Check the groups and try again.';playWrong();}
+}
+
+/* ===== section 6 ===== */
+const GAME_EMOJI=['🍎','⭐','🐝','🚲','🌷','🐸','🍦','🐱','🎈','🍓'];
+let round=1,score=0,answer=0;
+function newRound(){
+  const scene=document.getElementById('round-scene'), ch=document.getElementById('round-choices');
+  const fb=document.getElementById('feedback-game');
+  fb.textContent=''; fb.className='feedback';
+  answer=1+Math.floor(Math.random()*5);
+  const e=GAME_EMOJI[Math.floor(Math.random()*GAME_EMOJI.length)];
+  scene.innerHTML=Array.from({length:answer},()=>`<span>${e}</span>`).join('');
+  const opts=new Set([answer]);
+  while(opts.size<3){opts.add(1+Math.floor(Math.random()*5));}
+  ch.innerHTML='';
+  shuffle([...opts]).forEach(v=>{
+    const b=document.createElement('button');
+    b.className='choice'; b.textContent=toAr(v);
+    b.addEventListener('click',()=>answerRound(v,b));
+    ch.appendChild(b);
+  });
+  document.getElementById('round-num').textContent=toAr(round);
+  document.getElementById('score-num').textContent=toAr(score);
+}
+function answerRound(v,btn){
+  const fb=document.getElementById('feedback-game');
+  document.querySelectorAll('#round-choices .choice').forEach(b=>b.disabled=true);
+  if(v===answer){btn.classList.add('ok');score++;fb.className='feedback ok';fb.textContent='🎉 Correct answer!';playCorrect();}
+  else{btn.classList.add('no');fb.className='feedback no';fb.textContent=`🤔 The correct number is ${answer}`;playWrong();}
+  document.getElementById('score-num').textContent=toAr(score);
+  setTimeout(()=>{
+    if(round<5){round++;newRound();}
+    else{fb.className='feedback ok';fb.textContent=`Game over! You scored ${score} out of 5 ⭐`;markDone('game');confetti(14);}
+  },1100);
+}
+newRound();
+
+/* ===== section 7 ===== */
+let cRound=1,compareScore=0,cBig='a';
+function newCompare(){
+  const a=document.getElementById('compare-box-a'),b=document.getElementById('compare-box-b');
+  a.className='compare-box'; b.className='compare-box';
+  const fb=document.getElementById('feedback-compare'); fb.textContent=''; fb.className='feedback';
+  let x=1+Math.floor(Math.random()*5), y=1+Math.floor(Math.random()*5);
+  while(y===x){y=1+Math.floor(Math.random()*5);}
+  const e1=GAME_EMOJI[Math.floor(Math.random()*GAME_EMOJI.length)];
+  const e2=GAME_EMOJI[Math.floor(Math.random()*GAME_EMOJI.length)];
+  a.innerHTML=Array.from({length:x},()=>`<span>${e1}</span>`).join('');
+  b.innerHTML=Array.from({length:y},()=>`<span>${e2}</span>`).join('');
+  cBig = x>y ? 'a' : 'b';
+  document.getElementById('compare-round-num').textContent=toAr(cRound);
+  document.getElementById('compare-score-num').textContent=toAr(compareScore);
+}
+function answerCompare(side){
+  const fb=document.getElementById('feedback-compare');
+  const box=document.getElementById('compare-box-'+side);
+  if(box.classList.contains('ok')||box.classList.contains('no'))return;
+  if(side===cBig){box.classList.add('ok');compareScore++;fb.className='feedback ok';fb.textContent='👏 Correct! This group is bigger.';playCorrect();}
+  else{box.classList.add('no');document.getElementById('compare-box-'+cBig).classList.add('ok');fb.className='feedback no';fb.textContent='🤔 The other group has more.';playWrong();}
+  document.getElementById('compare-score-num').textContent=toAr(compareScore);
+  setTimeout(()=>{
+    if(cRound<4){cRound++;newCompare();}
+    else{fb.className='feedback ok';fb.textContent=`Game over! You scored ${compareScore} out of 4 ⭐`;markDone('compare');confetti(14);}
+  },1200);
+}
+newCompare();
+
+/* ===== section 8 ===== */
+let expect=1;
+function buildNumberLine(){
+  const nl=document.getElementById('number-line'); nl.innerHTML='';
+  const fb=document.getElementById('feedback-numberline'); fb.textContent=''; fb.className='feedback';
+  expect=1;
+  shuffle([1,2,3,4,5]).forEach(n=>{
+    const b=document.createElement('button');
+    b.className='nl-node'; b.textContent=toAr(n);
+    b.addEventListener('click',()=>{
+      if(b.classList.contains('done'))return;
+      if(n===expect){
+        b.classList.add('done'); expect++; playPop();
+        fb.className='feedback ok'; fb.textContent='Great! Keep going ✅';
+        if(expect>5){fb.textContent='🌟 Well done! You put the numbers 1 to 5 in the right order.';markDone('numberline');confetti(12);playCorrect();}
+      } else {
+        fb.className='feedback no'; fb.textContent=`🤔 The next number is ${expect}`; playWrong();
+      }
+    });
+    nl.appendChild(b);
+  });
+}
+buildNumberLine();
+</script>
+</body>
+</html>
